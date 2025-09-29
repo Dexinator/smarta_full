@@ -1,0 +1,462 @@
+@import "tailwindcss";
+
+/* Configuración de modo oscuro manual para Tailwind CSS 4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Configuración de Tailwind CSS 4 */
+@theme {
+  /* Colores básicos de Tailwind */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+
+  /* Escala de grises */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+
+  /* Colores azules */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+
+  /* Colores amarillos */
+  --color-yellow-50: #fefce8;
+  --color-yellow-100: #fef3c7;
+  --color-yellow-200: #fde68a;
+  --color-yellow-300: #fcd34d;
+  --color-yellow-400: #fbbf24;
+  --color-yellow-500: #f59e0b;
+  --color-yellow-600: #d97706;
+  --color-yellow-700: #b45309;
+  --color-yellow-800: #92400e;
+  --color-yellow-900: #78350f;
+
+  /* Colores grises */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Colores personalizados del manual de identidad */
+  --color-SM-blue: #0072c0;
+  --color-SM-yellow: #f8c200;
+  --color-SM-gray: #c3c5c5;
+  --color-SM-black: #282828;
+  --color-SM-green: #008000;
+
+  /* Fuentes */
+  --font-family-nunito: "Nunito", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --font-family-sans: "Nunito", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+
+  /* Tamaños de fuente fluidos - Aumentados */
+  --font-size-fluid-xl: clamp(2.5rem, 5vw, 3.25rem);
+  --font-size-fluid-lg: clamp(2rem, 4vw, 2.75rem);
+  --font-size-fluid-base: clamp(1.375rem, 2.5vw, 1.625rem);
+  --font-size-fluid-sm: clamp(1.25rem, 2vw, 1.375rem);
+
+  /* Espaciado personalizado */
+  --spacing-18: 4.5rem;
+  --spacing-88: 22rem;
+
+  /* Border radius personalizado */
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+
+  /* Animaciones */
+  --animate-fade-in: fadeIn 0.5s ease-in-out;
+  --animate-slide-up: slideUp 0.3s ease-out;
+  --animate-pulse-gentle: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Fuentes Nunito */
+@font-face {
+  font-family: 'Nunito';
+  src: url('/fonts/Nunito-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: block; /* Cambio a block para evitar flash */
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('/fonts/Nunito-Italic-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 200 1000;
+  font-style: italic;
+  font-display: block; /* Cambio a block para evitar flash */
+}
+
+/* Keyframes para animaciones */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Configuración de fuentes responsivas fluidas - Aumentadas */
+.text-fluid-xl { font-size: clamp(2.5rem, 5vw, 3.25rem); }
+.text-fluid-lg { font-size: clamp(2rem, 4vw, 2.75rem); }
+.text-fluid-base { font-size: clamp(1.375rem, 2.5vw, 1.625rem); }
+.text-fluid-sm { font-size: clamp(1.25rem, 2vw, 1.375rem); }
+
+/* Clases de accesibilidad del manual de identidad */
+
+/* Alto contraste */
+.high-contrast {
+  /* Colores de texto */
+  --tw-text-slate-900: #000000;
+  --tw-text-slate-800: #000000;
+  --tw-text-slate-700: #000000;
+  --tw-text-slate-600: #000000;
+  --tw-text-slate-500: #000000;
+  --tw-text-slate-400: #333333;
+  --tw-text-slate-300: #ffffff;
+  --tw-text-slate-200: #ffffff;
+  --tw-text-slate-100: #ffffff;
+
+  /* Colores de fondo */
+  --tw-bg-white: #ffffff;
+  --tw-bg-slate-50: #ffffff;
+  --tw-bg-slate-100: #f0f0f0;
+  --tw-bg-slate-200: #e0e0e0;
+  --tw-bg-slate-700: #1a1a1a;
+  --tw-bg-slate-800: #000000;
+  --tw-bg-slate-900: #000000;
+
+  /* Bordes */
+  --tw-border-slate-200: #000000;
+  --tw-border-slate-300: #000000;
+  --tw-border-slate-700: #ffffff;
+
+  /* Colores de marca en alto contraste */
+  --color-SM-blue: #0056b3;
+  --color-SM-yellow: #ffcc00;
+  --color-SM-gray: #666666;
+}
+
+/* Elementos interactivos en alto contraste */
+.high-contrast button,
+.high-contrast .card,
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea,
+.high-contrast a {
+  border: 2px solid currentColor !important;
+}
+
+/* Links en alto contraste */
+.high-contrast a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+}
+
+/* Hover states en alto contraste */
+.high-contrast button:hover,
+.high-contrast a:hover {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast .dark button:hover,
+.high-contrast .dark a:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Eliminar sombras en alto contraste */
+.high-contrast * {
+  box-shadow: none !important;
+}
+
+/* Focus mejorado en alto contraste */
+.high-contrast *:focus {
+  outline: 3px solid currentColor !important;
+  outline-offset: 2px !important;
+}
+
+/* Colores de marca específicos */
+.high-contrast .text-SM-blue { color: #0056b3 !important; }
+.high-contrast .bg-SM-blue { background-color: #0056b3 !important; }
+.high-contrast .text-SM-yellow { color: #000000 !important; background-color: #ffcc00 !important; }
+.high-contrast .bg-SM-yellow { background-color: #ffcc00 !important; color: #000000 !important; }
+
+/* Gradientes azules en alto contraste - convertir a colores sólidos */
+.high-contrast .from-blue-50 { background: #ffffff !important; }
+.high-contrast .from-blue-100 { background: #ffffff !important; }
+.high-contrast .from-blue-200 { background: #ffffff !important; }
+.high-contrast .from-blue-300 { background: #ffffff !important; }
+.high-contrast .from-blue-400 { background: #0056b3 !important; }
+.high-contrast .from-blue-500 { background: #0056b3 !important; }
+.high-contrast .from-blue-600 { background: #0056b3 !important; }
+.high-contrast .from-blue-700 { background: #0056b3 !important; }
+.high-contrast .from-blue-800 { background: #000000 !important; }
+.high-contrast .from-blue-900 { background: #000000 !important; }
+
+.high-contrast .to-blue-50 { background: #ffffff !important; }
+.high-contrast .to-blue-100 { background: #ffffff !important; }
+.high-contrast .to-blue-200 { background: #ffffff !important; }
+.high-contrast .to-blue-300 { background: #ffffff !important; }
+.high-contrast .to-blue-400 { background: #0056b3 !important; }
+.high-contrast .to-blue-500 { background: #0056b3 !important; }
+.high-contrast .to-blue-600 { background: #0056b3 !important; }
+.high-contrast .to-blue-700 { background: #0056b3 !important; }
+.high-contrast .to-blue-800 { background: #000000 !important; }
+.high-contrast .to-blue-900 { background: #000000 !important; }
+
+/* Fondos azules específicos */
+.high-contrast .bg-blue-50 { background-color: #ffffff !important; color: #000000 !important; }
+.high-contrast .bg-blue-100 { background-color: #ffffff !important; color: #000000 !important; }
+.high-contrast .bg-blue-200 { background-color: #ffffff !important; color: #000000 !important; }
+.high-contrast .bg-blue-300 { background-color: #ffffff !important; color: #000000 !important; }
+.high-contrast .bg-blue-400 { background-color: #0056b3 !important; color: #ffffff !important; }
+.high-contrast .bg-blue-500 { background-color: #0056b3 !important; color: #ffffff !important; }
+.high-contrast .bg-blue-600 { background-color: #0056b3 !important; color: #ffffff !important; }
+.high-contrast .bg-blue-700 { background-color: #0056b3 !important; color: #ffffff !important; }
+.high-contrast .bg-blue-800 { background-color: #000000 !important; color: #ffffff !important; }
+.high-contrast .bg-blue-900 { background-color: #000000 !important; color: #ffffff !important; }
+
+/* Texto azul */
+.high-contrast .text-blue-50 { color: #ffffff !important; }
+.high-contrast .text-blue-100 { color: #ffffff !important; }
+.high-contrast .text-blue-200 { color: #ffffff !important; }
+.high-contrast .text-blue-300 { color: #ffffff !important; }
+.high-contrast .text-blue-400 { color: #0056b3 !important; }
+.high-contrast .text-blue-500 { color: #0056b3 !important; }
+.high-contrast .text-blue-600 { color: #0056b3 !important; }
+.high-contrast .text-blue-700 { color: #0056b3 !important; }
+.high-contrast .text-blue-800 { color: #000000 !important; }
+.high-contrast .text-blue-900 { color: #000000 !important; }
+
+/* Hover states azules */
+.high-contrast .hover\:bg-blue-50:hover { background-color: #000000 !important; color: #ffffff !important; }
+.high-contrast .hover\:bg-blue-100:hover { background-color: #000000 !important; color: #ffffff !important; }
+.high-contrast .hover\:bg-blue-200:hover { background-color: #000000 !important; color: #ffffff !important; }
+.high-contrast .hover\:bg-blue-300:hover { background-color: #000000 !important; color: #ffffff !important; }
+.high-contrast .hover\:bg-blue-400:hover { background-color: #ffffff !important; color: #000000 !important; }
+.high-contrast .hover\:bg-blue-500:hover { background-color: #ffffff !important; color: #000000 !important; }
+.high-contrast .hover\:bg-blue-600:hover { background-color: #ffffff !important; color: #000000 !important; }
+.high-contrast .hover\:bg-blue-700:hover { background-color: #ffffff !important; color: #000000 !important; }
+.high-contrast .hover\:bg-blue-800:hover { background-color: #ffffff !important; color: #000000 !important; }
+.high-contrast .hover\:bg-blue-900:hover { background-color: #ffffff !important; color: #000000 !important; }
+
+/* Estados de focus en alto contraste */
+.high-contrast .focus\:ring-SM-blue:focus {
+  --tw-ring-color: #000000 !important;
+  box-shadow: 0 0 0 3px #000000 !important;
+}
+
+.high-contrast .focus\:ring-blue-50:focus,
+.high-contrast .focus\:ring-blue-100:focus,
+.high-contrast .focus\:ring-blue-200:focus,
+.high-contrast .focus\:ring-blue-300:focus,
+.high-contrast .focus\:ring-blue-400:focus,
+.high-contrast .focus\:ring-blue-500:focus,
+.high-contrast .focus\:ring-blue-600:focus,
+.high-contrast .focus\:ring-blue-700:focus,
+.high-contrast .focus\:ring-blue-800:focus,
+.high-contrast .focus\:ring-blue-900:focus {
+  --tw-ring-color: #000000 !important;
+  box-shadow: 0 0 0 3px #000000 !important;
+}
+
+.high-contrast .focus\:ring-offset-2:focus {
+  --tw-ring-offset-width: 2px !important;
+  --tw-ring-offset-color: #ffffff !important;
+}
+
+/* Sombras azules en focus */
+.high-contrast .shadow-blue-500\/50,
+.high-contrast .shadow-blue-400\/50,
+.high-contrast .shadow-blue-600\/50 {
+  box-shadow: 0 0 0 3px #000000 !important;
+}
+
+/* Dark mode focus ring en alto contraste */
+.high-contrast .dark .focus\:ring-SM-blue:focus,
+.high-contrast .dark .focus\:ring-blue-500:focus {
+  --tw-ring-color: #ffffff !important;
+  box-shadow: 0 0 0 3px #ffffff !important;
+}
+
+.high-contrast .dark .focus\:ring-offset-2:focus {
+  --tw-ring-offset-color: #000000 !important;
+}
+
+/* Bordes azules en alto contraste */
+.high-contrast .border-blue-50,
+.high-contrast .border-blue-100,
+.high-contrast .border-blue-200,
+.high-contrast .border-blue-300 { border-color: #000000 !important; }
+
+.high-contrast .border-blue-400,
+.high-contrast .border-blue-500,
+.high-contrast .border-blue-600,
+.high-contrast .border-blue-700 { border-color: #0056b3 !important; }
+
+.high-contrast .border-blue-800,
+.high-contrast .border-blue-900 { border-color: #000000 !important; }
+
+/* Gradientes complejos - neutralizar completamente */
+.high-contrast .bg-gradient-to-br,
+.high-contrast .bg-gradient-to-r,
+.high-contrast .bg-gradient-to-l,
+.high-contrast .bg-gradient-to-t,
+.high-contrast .bg-gradient-to-b,
+.high-contrast .bg-gradient-to-tr,
+.high-contrast .bg-gradient-to-tl,
+.high-contrast .bg-gradient-to-bl {
+  background-image: none !important;
+}
+
+/* Estados hover específicos para componentes */
+.high-contrast .hover\:text-blue-700:hover { color: #0056b3 !important; }
+.high-contrast .hover\:text-blue-800:hover { color: #000000 !important; }
+.high-contrast .hover\:text-blue-900:hover { color: #000000 !important; }
+
+/* Opacidades azules en alto contraste */
+.high-contrast .bg-blue-900\/30,
+.high-contrast .bg-blue-900\/20,
+.high-contrast .bg-blue-900\/10 {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast .bg-blue-50\/30,
+.high-contrast .bg-blue-50\/20,
+.high-contrast .bg-blue-50\/10 {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+/* Colores de acento adicionales */
+.high-contrast .accent-blue-500,
+.high-contrast .accent-blue-600,
+.high-contrast .accent-blue-700 {
+  accent-color: #0056b3 !important;
+}
+
+/* Reducción de movimiento */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Focus visible mejorado */
+.focus-visible:focus {
+  outline: 2px solid var(--color-SM-blue);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(0, 114, 192, 0.1);
+}
+
+/* Skip links */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+  padding: 8px 16px;
+  background: var(--color-SM-blue);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  left: 6px;
+  top: 6px;
+}
+
+/* Estilos base para el proyecto */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Nunito', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 20px; /* Tamaño base aumentado de 18px a 20px */
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  margin: 0;
+  background-color: #f8fafc; /* slate-50 */
+  color: #0f172a; /* slate-900 */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Modo oscuro */
+.dark body {
+  background-color: #0f172a; /* slate-900 */
+  color: #f1f5f9; /* slate-100 */
+}
+
+/* Iconos del modo oscuro */
+.sun-icon {
+  display: none;
+}
+
+.moon-icon {
+  display: block;
+}
+
+.dark .sun-icon {
+  display: block;
+}
+
+.dark .moon-icon {
+  display: none;
+}
+
+/* Transiciones suaves para elementos interactivos */
+button,
+.card,
+header,
+footer {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Mejor contraste para enlaces en modo oscuro */
+.dark a {
+  color: #60a5fa; /* blue-400 */
+}
+
+.dark a:hover {
+  color: #93c5fd; /* blue-300 */
+}
+
+/* Estados de hover mejorados */
+.dark .hover\:bg-slate-100:hover {
+  background-color: #334155 !important; /* slate-700 */
+}
+
+.dark .hover\:bg-slate-200:hover {
+  background-color: #475569 !important; /* slate-600 */
+}

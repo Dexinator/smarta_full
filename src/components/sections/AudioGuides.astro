@@ -1,0 +1,188 @@
+---
+// Audio Guides Section - Sección de audioguías dividida en 2
+export interface Props {
+  lang?: string;
+}
+
+const { lang = "es" } = Astro.props;
+
+const content = {
+  es: {
+    title: "Audioguías Interactivas",
+    subtitle: "Descubre nuestras rutas con audioguías accesibles para todos",
+    guides: [
+      {
+        id: "murals",
+        title: "Ruta de los Murales",
+        description: "20 murales que cuentan historias únicas de arte urbano",
+        features: ["Audioguía normativa", "Lectura fácil", "Descriptiva", "Signoguía LSE"],
+        duration: "90 min",
+        stops: "20 paradas",
+        link: "/audioguia-murales",
+        image: "Murales"
+      },
+      {
+        id: "isla-soto",
+        title: "Isla del Soto",
+        description: "Naturaleza, historia y biodiversidad en el corazón del río Tormes",
+        features: ["Rutas naturales", "Observación de aves", "Historia local", "Accesible"],
+        duration: "60 min",
+        stops: "15 paradas",
+        link: "/audioguia-isla-soto",
+        image: "Isla+Soto"
+      }
+    ]
+  },
+  en: {
+    title: "Interactive Audio Guides",
+    subtitle: "Discover our routes with accessible audio guides for everyone",
+    guides: [
+      {
+        id: "murals",
+        title: "Murals Route",
+        description: "20 murals telling unique stories of urban art",
+        features: ["Standard audio guide", "Easy read", "Descriptive", "Sign guide"],
+        duration: "90 min",
+        stops: "20 stops",
+        link: "/en/audioguide-murals",
+        image: "Murals"
+      },
+      {
+        id: "isla-soto",
+        title: "Soto Island",
+        description: "Nature, history and biodiversity in the heart of Tormes river",
+        features: ["Nature trails", "Bird watching", "Local history", "Accessible"],
+        duration: "60 min",
+        stops: "15 stops",
+        link: "/en/audioguide-isla-soto",
+        image: "Soto+Island"
+      }
+    ]
+  }
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section
+  id="audioguides"
+  class="min-h-screen flex flex-col justify-center py-16 bg-gradient-to-br from-SM-blue/5 via-white to-SM-yellow/5 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900"
+>
+  <div class="container mx-auto px-4">
+    <!-- Título de la sección -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+        {t.title}
+      </h2>
+      <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+        {t.subtitle}
+      </p>
+    </div>
+
+    <!-- Grid de 2 audioguías -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
+      {t.guides.map((guide, index) => (
+        <a
+          href={guide.link}
+          class="group relative overflow-hidden rounded-3xl bg-white dark:bg-slate-800 shadow-xl transition-all duration-500 hover:shadow-2xl hover:scale-[1.02]"
+        >
+          <!-- Imagen de fondo -->
+          <div class="relative h-64 md:h-72 overflow-hidden">
+            <img
+              src={`https://via.placeholder.com/800x400/0072c0/ffffff?text=${guide.image}`}
+              alt={guide.title}
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <!-- Overlay con gradiente -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+
+            <!-- Badge de duración y paradas -->
+            <div class="absolute top-4 right-4 flex gap-2">
+              <span class="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-slate-800">
+                {guide.duration}
+              </span>
+              <span class="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-semibold text-slate-800">
+                {guide.stops}
+              </span>
+            </div>
+
+            <!-- Título sobre la imagen -->
+            <div class="absolute bottom-4 left-6 right-6">
+              <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">
+                {guide.title}
+              </h3>
+            </div>
+          </div>
+
+          <!-- Contenido -->
+          <div class="p-6">
+            <!-- Descripción -->
+            <p class="text-slate-600 dark:text-slate-300 mb-4">
+              {guide.description}
+            </p>
+
+            <!-- Características -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              {guide.features.map((feature) => (
+                <span class="px-3 py-1 bg-SM-blue/10 dark:bg-SM-blue/20 rounded-full text-xs font-medium text-SM-blue dark:text-blue-300">
+                  {feature}
+                </span>
+              ))}
+            </div>
+
+            <!-- Call to action -->
+            <div class="flex items-center justify-between">
+              <span class="text-SM-blue dark:text-blue-400 font-semibold group-hover:underline">
+                Explorar audioguía
+              </span>
+              <div class="w-10 h-10 rounded-full bg-SM-blue/10 dark:bg-SM-blue/20 flex items-center justify-center group-hover:bg-SM-blue group-hover:text-white transition-all duration-300">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Número decorativo -->
+          <div class="absolute top-4 left-6 text-6xl font-bold text-white/20">
+            {(index + 1).toString().padStart(2, '0')}
+          </div>
+
+          <!-- Efecto de onda en hover -->
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Información adicional -->
+    <div class="mt-12 text-center">
+      <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
+        Todas nuestras audioguías incluyen opciones de accesibilidad
+      </p>
+      <div class="flex justify-center gap-4">
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center">
+            🎧
+          </span>
+          <span class="text-sm text-slate-600 dark:text-slate-400">Audio</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center">
+            📱
+          </span>
+          <span class="text-sm text-slate-600 dark:text-slate-400">Móvil</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center">
+            ♿
+          </span>
+          <span class="text-sm text-slate-600 dark:text-slate-400">Accesible</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elementos decorativos -->
+  <div class="absolute top-20 right-10 w-24 h-24 bg-SM-yellow/10 rounded-full filter blur-2xl"></div>
+  <div class="absolute bottom-20 left-10 w-32 h-32 bg-SM-blue/10 rounded-full filter blur-3xl"></div>
+</section>

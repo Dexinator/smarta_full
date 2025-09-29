@@ -1,0 +1,175 @@
+---
+// Tourist Info Section - Información turística dividida en 4 categorías
+export interface Props {
+  lang?: string;
+}
+
+const { lang = "es" } = Astro.props;
+
+const content = {
+  es: {
+    title: "Información Turística",
+    subtitle: "Explora todo lo que Santa Marta tiene para ofrecerte",
+    categories: [
+      {
+        id: "art",
+        title: "Arte",
+        description: "Murales, galerías y expresiones culturales",
+        icon: "🎨",
+        link: "/arte"
+      },
+      {
+        id: "nature",
+        title: "Naturaleza",
+        description: "Rutas verdes, río Tormes y espacios naturales",
+        icon: "🌿",
+        link: "/naturaleza"
+      },
+      {
+        id: "motorcycles",
+        title: "Motos",
+        description: "Rutas moteras y eventos del motor",
+        icon: "🏍️",
+        link: "/motos"
+      },
+      {
+        id: "family",
+        title: "Familia",
+        description: "Actividades y planes para toda la familia",
+        icon: "👨‍👩‍👧‍👦",
+        link: "/familia"
+      }
+    ]
+  },
+  en: {
+    title: "Tourist Information",
+    subtitle: "Explore everything Santa Marta has to offer",
+    categories: [
+      {
+        id: "art",
+        title: "Art",
+        description: "Murals, galleries and cultural expressions",
+        icon: "🎨",
+        link: "/en/art"
+      },
+      {
+        id: "nature",
+        title: "Nature",
+        description: "Green routes, Tormes river and natural spaces",
+        icon: "🌿",
+        link: "/en/nature"
+      },
+      {
+        id: "motorcycles",
+        title: "Motorcycles",
+        description: "Motorcycle routes and motor events",
+        icon: "🏍️",
+        link: "/en/motorcycles"
+      },
+      {
+        id: "family",
+        title: "Family",
+        description: "Activities and plans for the whole family",
+        icon: "👨‍👩‍👧‍👦",
+        link: "/en/family"
+      }
+    ]
+  }
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section
+  id="tourist-info"
+  class="min-h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800"
+>
+  <div class="container mx-auto px-4">
+    <!-- Título de la sección -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+        {t.title}
+      </h2>
+      <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+        {t.subtitle}
+      </p>
+    </div>
+
+    <!-- Grid de 4 categorías -->
+    <div class="grid grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
+      {t.categories.map((category) => (
+        <a
+          href={category.link}
+          class="group relative overflow-hidden rounded-2xl aspect-square transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+        >
+          <!-- Imagen de fondo -->
+          <div class="absolute inset-0">
+            <img
+              src={`https://via.placeholder.com/600x600/f8c200/000000?text=${category.title}`}
+              alt={category.title}
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <!-- Overlay con gradiente -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 group-hover:from-black/90"></div>
+          </div>
+
+          <!-- Contenido -->
+          <div class="relative h-full flex flex-col justify-end p-6 text-white">
+            <!-- Icono -->
+            <div class="text-3xl md:text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-110">
+              {category.icon}
+            </div>
+
+            <!-- Título -->
+            <h3 class="text-xl md:text-2xl font-bold mb-2">
+              {category.title}
+            </h3>
+
+            <!-- Descripción (oculta en móvil pequeño) -->
+            <p class="text-sm md:text-base opacity-90 line-clamp-2">
+              {category.description}
+            </p>
+
+            <!-- Indicador de hover -->
+            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Efecto de brillo en hover -->
+          <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Decoración visual -->
+    <div class="mt-12 text-center">
+      <div class="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+        <span class="w-12 h-[1px] bg-slate-300 dark:bg-slate-600"></span>
+        <span>Selecciona una categoría para explorar</span>
+        <span class="w-12 h-[1px] bg-slate-300 dark:bg-slate-600"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Elementos decorativos de fondo -->
+  <div class="absolute top-10 left-10 w-20 h-20 bg-SM-yellow/10 rounded-full filter blur-xl"></div>
+  <div class="absolute bottom-10 right-10 w-32 h-32 bg-SM-blue/10 rounded-full filter blur-2xl"></div>
+</section>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    .grid {
+      gap: 0.75rem;
+    }
+  }
+</style>

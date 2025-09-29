@@ -1,0 +1,273 @@
+---
+// Gamified Adventures Section - Aventuras gamificadas
+export interface Props {
+  lang?: string;
+}
+
+const { lang = "es" } = Astro.props;
+
+const content = {
+  es: {
+    title: "Aventuras Gamificadas",
+    subtitle: "Vive experiencias interactivas únicas mientras exploras Santa Marta",
+    adventures: [
+      {
+        id: "detectives",
+        title: "Detectives en Acción",
+        image: "Detectives",
+        link: "/aventura-detectives"
+      },
+      {
+        id: "urban-scape",
+        title: "Urban Scape",
+        image: "Urban+Scape",
+        link: "/aventura-urban-scape"
+      },
+      {
+        id: "xplora",
+        title: "Santa Marta Xplora",
+        image: "Xplora",
+        link: "/aventura-xplora"
+      }
+    ]
+  },
+  en: {
+    title: "Gamified Adventures",
+    subtitle: "Live unique interactive experiences while exploring Santa Marta",
+    adventures: [
+      {
+        id: "detectives",
+        title: "Detectives in Action",
+        image: "Detectives",
+        link: "/en/adventure-detectives"
+      },
+      {
+        id: "urban-scape",
+        title: "Urban Scape",
+        image: "Urban+Scape",
+        link: "/en/adventure-urban-scape"
+      },
+      {
+        id: "xplora",
+        title: "Santa Marta Xplora",
+        image: "Xplora",
+        link: "/en/adventure-xplora"
+      }
+    ]
+  }
+};
+
+const t = content[lang as keyof typeof content];
+---
+
+<section
+  id="adventures"
+  class="min-h-screen flex flex-col justify-center py-16 bg-gradient-to-b from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 relative overflow-hidden"
+>
+  <div class="container mx-auto px-4 relative z-10">
+    <!-- Título de la sección -->
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+        {t.title}
+      </h2>
+      <p class="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+        {t.subtitle}
+      </p>
+    </div>
+
+    <!-- Contenedor principal con imagen de fondo -->
+    <div class="relative max-w-5xl mx-auto">
+      <!-- Imagen de fondo -->
+      <div class="relative mx-8 md:mx-12 h-[400px] md:h-[450px] rounded-3xl overflow-hidden">
+        <img
+          src="https://via.placeholder.com/1200x500/0072c0/ffffff?text=Aventuras+Background"
+          alt=""
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+      </div>
+
+      <!-- Contenedor de las 3 tarjetas -->
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="relative w-full max-w-4xl px-2 sm:px-4">
+          <div class="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6">
+
+            <!-- Tarjeta 1 - Izquierda -->
+            <a
+              href={t.adventures[0].link}
+              class="adventure-card group relative transform translate-y-4 sm:translate-y-8 md:translate-y-12 transition-all duration-300 hover:scale-110 hover:z-20"
+            >
+              <div class="bg-white dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl shadow-xl md:shadow-2xl overflow-hidden">
+                <!-- Imagen de la aventura -->
+                <div class="aspect-[3/4] relative overflow-hidden">
+                  <img
+                    src={`https://via.placeholder.com/300x400/9333ea/ffffff?text=${t.adventures[0].image}`}
+                    alt={t.adventures[0].title}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <!-- Overlay gradient -->
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                </div>
+
+                <!-- Título -->
+                <div class="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 text-white">
+                  <h3 class="text-xs sm:text-sm md:text-lg lg:text-xl font-bold text-center drop-shadow-lg">
+                    {t.adventures[0].title}
+                  </h3>
+                </div>
+              </div>
+            </a>
+
+            <!-- Tarjeta 2 - Centro (elevada) -->
+            <a
+              href={t.adventures[1].link}
+              class="adventure-card group relative transform -translate-y-2 sm:-translate-y-4 md:-translate-y-8 transition-all duration-300 hover:scale-110 hover:z-20 z-10"
+            >
+              <div class="bg-white dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl shadow-xl md:shadow-2xl overflow-hidden ring-2 sm:ring-3 md:ring-4 ring-SM-yellow/50">
+                <!-- Imagen de la aventura -->
+                <div class="aspect-[3/4] relative overflow-hidden">
+                  <img
+                    src={`https://via.placeholder.com/300x400/f97316/ffffff?text=${t.adventures[1].image}`}
+                    alt={t.adventures[1].title}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <!-- Overlay gradient -->
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+                  <!-- Badge destacado -->
+                  <div class="absolute top-1 right-1 sm:top-2 sm:right-2 md:top-4 md:right-4">
+                    <span class="px-1 py-0.5 sm:px-2 sm:py-1 md:px-3 bg-SM-yellow text-black text-[0.5rem] sm:text-[0.625rem] md:text-xs font-bold rounded-full shadow-lg">
+                      HOT
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Título -->
+                <div class="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 text-white">
+                  <h3 class="text-xs sm:text-sm md:text-lg lg:text-xl font-bold text-center drop-shadow-lg">
+                    {t.adventures[1].title}
+                  </h3>
+                </div>
+              </div>
+            </a>
+
+            <!-- Tarjeta 3 - Derecha -->
+            <a
+              href={t.adventures[2].link}
+              class="adventure-card group relative transform translate-y-4 sm:translate-y-8 md:translate-y-12 transition-all duration-300 hover:scale-110 hover:z-20"
+            >
+              <div class="bg-white dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl shadow-xl md:shadow-2xl overflow-hidden">
+                <!-- Imagen de la aventura -->
+                <div class="aspect-[3/4] relative overflow-hidden">
+                  <img
+                    src={`https://via.placeholder.com/300x400/10b981/ffffff?text=${t.adventures[2].image}`}
+                    alt={t.adventures[2].title}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <!-- Overlay gradient -->
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                </div>
+
+                <!-- Título -->
+                <div class="absolute bottom-0 left-0 right-0 p-2 sm:p-3 md:p-4 text-white">
+                  <h3 class="text-xs sm:text-sm md:text-lg lg:text-xl font-bold text-center drop-shadow-lg">
+                    {t.adventures[2].title}
+                  </h3>
+                </div>
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicador inferior -->
+    <div class="mt-20 text-center">
+      <p class="text-sm text-slate-500 dark:text-slate-400">
+        Toca o haz clic en una tarjeta para comenzar tu aventura
+      </p>
+    </div>
+  </div>
+
+  <!-- Elementos decorativos de fondo -->
+  <div class="absolute top-10 left-10 w-32 h-32 bg-SM-yellow/10 rounded-full filter blur-3xl"></div>
+  <div class="absolute bottom-10 right-10 w-40 h-40 bg-SM-blue/10 rounded-full filter blur-3xl"></div>
+</section>
+
+<style>
+  /* Efecto de hover para las tarjetas */
+  .adventure-card {
+    cursor: pointer;
+  }
+
+  .adventure-card:hover {
+    transform: scale(1.1) translateY(-10px);
+  }
+
+  /* Ajuste específico para la tarjeta central en hover */
+  .adventure-card:nth-child(2):hover {
+    transform: scale(1.1) translateY(-18px);
+  }
+
+  /* Sombras más dramáticas en hover */
+  .adventure-card:hover > div {
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.25),
+      0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Animación para dispositivos táctiles */
+  @media (hover: none) {
+    .adventure-card:active {
+      transform: scale(1.05);
+    }
+
+    .adventure-card:nth-child(2):active {
+      transform: scale(1.05) translateY(-8px);
+    }
+  }
+
+  /* Mantener la disposición escalonada en todos los tamaños */
+  .adventure-card:nth-child(1) {
+    transform: translateY(16px);
+  }
+
+  .adventure-card:nth-child(2) {
+    transform: translateY(-8px);
+  }
+
+  .adventure-card:nth-child(3) {
+    transform: translateY(16px);
+  }
+
+  /* Ajustes para pantallas pequeñas */
+  @media (min-width: 640px) {
+    .adventure-card:nth-child(1) {
+      transform: translateY(32px);
+    }
+
+    .adventure-card:nth-child(2) {
+      transform: translateY(-16px);
+    }
+
+    .adventure-card:nth-child(3) {
+      transform: translateY(32px);
+    }
+  }
+
+  /* Ajustes para pantallas medianas y grandes */
+  @media (min-width: 768px) {
+    .adventure-card:nth-child(1) {
+      transform: translateY(48px);
+    }
+
+    .adventure-card:nth-child(2) {
+      transform: translateY(-32px);
+    }
+
+    .adventure-card:nth-child(3) {
+      transform: translateY(48px);
+    }
+  }
+</style>

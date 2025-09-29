@@ -1,11 +1,53 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Página principal - Santa Marta Turismo Inteligente
+import Layout from '../components/Layout.astro';
+import Header from '../components/ui/Header.astro';
+import Footer from '../components/ui/Footer.astro';
+import HeroSection from '../components/sections/HeroSection.astro';
+import TouristInfo from '../components/sections/TouristInfo.astro';
+import AudioGuides from '../components/sections/AudioGuides.astro';
+import GamifiedAdventures from '../components/sections/GamifiedAdventures.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Santa Marta Turismo Inteligente | Descubre, Explora, Vive"
+  description="Portal de turismo inteligente de Santa Marta de Tormes. Audioguías interactivas, información turística, aventuras gamificadas y experiencias únicas."
+  lang="es"
+>
+  <Header currentPage="home" lang="es" />
+
+  <main id="main-content" class="flex-1">
+    <!-- Hero Section con navegación -->
+    <HeroSection lang="es" />
+
+    <!-- Sección de Información Turística (4 opciones) -->
+    <TouristInfo lang="es" />
+
+    <!-- Sección de Audioguías (2 opciones) -->
+    <AudioGuides lang="es" />
+
+    <!-- Sección de Aventuras Gamificadas (3 opciones) -->
+    <GamifiedAdventures lang="es" />
+  </main>
+
+  <Footer lang="es" />
 </Layout>
+
+<style>
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Ajustes para scroll snap en móviles */
+  @media (max-width: 768px) {
+    main {
+      scroll-snap-type: y mandatory;
+    }
+
+    main > section {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
+</style>
