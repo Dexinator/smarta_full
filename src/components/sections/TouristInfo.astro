@@ -21,7 +21,7 @@ const categoryImages = {
 
 const content = {
   es: {
-    title: "Información Turística",
+    title: "¿Qué ver?",
     subtitle: "Explora todo lo que Santa Marta tiene para ofrecerte",
     categories: [
       {
@@ -132,8 +132,8 @@ const t = content[lang as keyof typeof content];
 
           <!-- Contenido -->
           <div class="relative h-full flex flex-col justify-end p-6 text-white">
-            <!-- Icono -->
-            <div class="text-3xl md:text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-110">
+            <!-- Icono (oculto en móvil) -->
+            <div class="hidden md:block text-3xl md:text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-110">
               {category.icon}
             </div>
 
@@ -142,13 +142,13 @@ const t = content[lang as keyof typeof content];
               {category.title}
             </h3>
 
-            <!-- Descripción (oculta en móvil pequeño) -->
-            <p class="text-sm md:text-base opacity-90 line-clamp-2">
+            <!-- Descripción (oculta en móvil) -->
+            <p class="hidden md:block text-sm md:text-base opacity-90 line-clamp-2">
               {category.description}
             </p>
 
-            <!-- Indicador de hover -->
-            <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <!-- Indicador de hover (oculto en móvil) -->
+            <div class="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
