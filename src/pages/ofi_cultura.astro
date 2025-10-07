@@ -1,0 +1,11 @@
+---
+// Página de Oficina Virtual de Cultura
+// Ejemplo de reutilización del layout con diferente contenido
+import { getEntry } from 'astro:content';
+import VirtualOfficeLayout from '../layouts/VirtualOfficeLayout.astro';
+
+// Cargar configuración desde content collection
+const config = await getEntry('virtual-offices', 'oficina-cultura');
+---
+
+<VirtualOfficeLayout config={config.data} />

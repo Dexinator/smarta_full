@@ -1,10 +1,17 @@
 ---
 // Hero Section - Sección principal con navegación
+import { Image } from 'astro:assets';
+import heroImage1 from '../../assets/images/main_page/Sección arriba del todo (1).png';
+import heroImage2 from '../../assets/images/main_page/Sección arriba del todo (2).png';
+import heroImage3 from '../../assets/images/main_page/Sección arriba del todo (3).png';
+import heroImage4 from '../../assets/images/main_page/Sección arriba del todo (4).png';
+
 export interface Props {
   lang?: string;
 }
 
 const { lang = "es" } = Astro.props;
+const heroImages = [heroImage1, heroImage2, heroImage3, heroImage4];
 
 const content = {
   es: {
@@ -38,14 +45,61 @@ const t = content[lang as keyof typeof content];
   id="hero"
   class="relative min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-SM-blue via-blue-600 to-blue-800 overflow-hidden"
 >
-  <!-- Imagen de fondo con overlay -->
+  <!-- Imagen de fondo con overlay y carrusel -->
   <div class="absolute inset-0 z-0">
+    <!-- Carrusel de imágenes -->
+    <div class="hero-carousel absolute inset-0">
+      <div class="hero-slide active">
+        <Image
+          src={heroImage1}
+          alt="Santa Marta de Tormes"
+          loading="eager"
+          quality={90}
+          widths={[640, 768, 1024, 1280, 1920]}
+          sizes="100vw"
+          fit="cover"
+          position="center"
+        />
+      </div>
+      <div class="hero-slide">
+        <Image
+          src={heroImage2}
+          alt="Santa Marta de Tormes"
+          loading="eager"
+          quality={90}
+          widths={[640, 768, 1024, 1280, 1920]}
+          sizes="100vw"
+          fit="cover"
+          position="center"
+        />
+      </div>
+      <div class="hero-slide">
+        <Image
+          src={heroImage3}
+          alt="Santa Marta de Tormes"
+          loading="eager"
+          quality={90}
+          widths={[640, 768, 1024, 1280, 1920]}
+          sizes="100vw"
+          fit="cover"
+          position="center"
+        />
+      </div>
+      <div class="hero-slide">
+        <Image
+          src={heroImage4}
+          alt="Santa Marta de Tormes"
+          loading="eager"
+          quality={90}
+          widths={[640, 768, 1024, 1280, 1920]}
+          sizes="100vw"
+          fit="cover"
+          position="center"
+        />
+      </div>
+    </div>
+    <!-- Overlay encima de las imágenes -->
     <div class="absolute inset-0 bg-black/40 z-10"></div>
-    <img
-      src="https://via.placeholder.com/1920x1080/0072c0/ffffff?text=Santa+Marta+Hero"
-      alt=""
-      class="w-full h-full object-cover"
-    />
   </div>
 
   <!-- Contenido principal -->
@@ -147,4 +201,55 @@ const t = content[lang as keyof typeof content];
   .animate-slide-up {
     animation: slide-up 1s ease-out 0.2s both;
   }
+
+  /* Estilos para el carrusel de hero */
+  .hero-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+
+  .hero-slide.active {
+    opacity: 1;
+  }
+
+  .hero-slide img,
+  .hero-slide picture,
+  .hero-slide picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 </style>
+
+<script>
+  // Carrusel automático para hero
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.hero-slide');
+    let currentSlide = 0;
+
+    function nextSlide() {
+      // Ocultar slide actual
+      slides[currentSlide].classList.remove('active');
+
+      // Siguiente slide
+      currentSlide = (currentSlide + 1) % slides.length;
+
+      // Mostrar siguiente slide
+      slides[currentSlide].classList.add('active');
+    }
+
+    // Cambiar imagen cada 5 segundos
+    setInterval(nextSlide, 5000);
+  });
+</script>

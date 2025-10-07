@@ -1,10 +1,23 @@
 ---
 // Tourist Info Section - Información turística dividida en 4 categorías
+import { Image } from 'astro:assets';
+import arteImg from '../../assets/images/main_page/arte.png';
+import naturalezaImg from '../../assets/images/main_page/naturaleza.png';
+import motosImg from '../../assets/images/main_page/museo de la moto.png';
+import familiaImg from '../../assets/images/main_page/familia.png';
+
 export interface Props {
   lang?: string;
 }
 
 const { lang = "es" } = Astro.props;
+
+const categoryImages = {
+  art: arteImg,
+  nature: naturalezaImg,
+  motorcycles: motosImg,
+  family: familiaImg
+};
 
 const content = {
   es: {
@@ -104,10 +117,14 @@ const t = content[lang as keyof typeof content];
         >
           <!-- Imagen de fondo -->
           <div class="absolute inset-0">
-            <img
-              src={`https://via.placeholder.com/600x600/f8c200/000000?text=${category.title}`}
+            <Image
+              src={categoryImages[category.id as keyof typeof categoryImages]}
               alt={category.title}
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              widths={[300, 600, 900]}
+              sizes="(max-width: 768px) 50vw, 25vw"
+              quality={85}
+              loading="lazy"
             />
             <!-- Overlay con gradiente -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 group-hover:from-black/90"></div>

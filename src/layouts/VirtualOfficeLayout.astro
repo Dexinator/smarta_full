@@ -1,0 +1,528 @@
+---
+// Layout reutilizable para páginas de oficina virtual
+import Layout from '../components/Layout.astro';
+import Header from '../components/ui/Header.astro';
+import Footer from '../components/ui/Footer.astro';
+import MapComponent from '../components/react/MapComponent.jsx';
+
+interface Props {
+  config: any; // Configuración desde content collection
+}
+
+const { config } = Astro.props;
+const {
+  title,
+  description,
+  lang = 'es',
+  hero,
+  lecturaFacil,
+  mapa,
+  bannerCTA,
+  infoHorarios,
+  actividades,
+} = config;
+---
+
+<Layout
+  title={title}
+  description={description}
+  lang={lang}
+>
+  <Header currentPage="ofi_virtual" lang={lang} />
+
+  <main id="main-content" class="flex-1">
+    <!-- Sección 1: Video Hero -->
+    {hero?.visible && (
+      <section id="video-section" class="relative h-[100dvh] w-full overflow-hidden snap-start snap-always">
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40 z-10"></div>
+
+        <!-- Contenedor del video -->
+        <div class="absolute inset-0 flex items-center justify-center bg-slate-900">
+          <video
+            id="vertical-video"
+            class="w-full h-full object-cover md:object-contain"
+            autoplay
+            muted
+            loop
+            playsinline
+            webkit-playsinline
+            poster={hero.posterUrl || "/placeholder-video.jpg"}
+          >
+            <source src={hero.videoUrl || "/videos/oficina-virtual.mp4"} type="video/mp4">
+            <p>Tu navegador no soporta el elemento de video.</p>
+          </video>
+        </div>
+
+        <!-- Overlay con título -->
+        <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-white text-center px-4">
+          <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-3 animate-fade-in-up">
+            {hero.title}
+          </h1>
+          <p class="text-lg sm:text-xl md:text-2xl mb-6 animate-fade-in-up animation-delay-200">
+            {hero.subtitle}
+          </p>
+
+          <!-- Botón de scroll -->
+          <button
+            onclick={`document.getElementById('${lecturaFacil?.visible ? 'lectura-facil' : mapa?.visible ? 'mapa' : 'next-section'}').scrollIntoView({ behavior: 'smooth', block: 'start' })`}
+            class="absolute bottom-6 p-2 animate-bounce"
+            aria-label="Desplazarse a la siguiente sección"
+          >
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </button>
+        </div>
+      </section>
+    )}
+
+    <!-- Sección 2: Lectura Fácil -->
+    {lecturaFacil?.visible && (
+      <section id="lectura-facil" class="min-h-[100dvh] bg-white dark:bg-slate-900 pt-52 pb-8 sm:pt-36 sm:pb-16 md:pt-40 md:pb-24 snap-start snap-always flex items-center">
+        <div class="w-full px-4 sm:container sm:mx-auto sm:max-w-4xl">
+          <div class="text-center mb-8">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">
+              {lecturaFacil.title}
+            </h2>
+            <!-- Botón de descarga -->
+            {lecturaFacil.pdfUrl && (
+              <div class="mt-6 sm:mt-8 text-center">
+                <button
+                  onclick={`window.open('${lecturaFacil.pdfUrl}', '_blank')`}
+                  class="w-full sm:w-auto inline-flex items-center justify-center gap-2 sm:gap-3 bg-SM-blue hover:bg-blue-700 active:bg-blue-800 text-white px-4 sm:px-6 py-3 rounded-lg font-semibold text-base sm:text-lg transition-all transform active:scale-95 shadow-lg"
+                  aria-label="Descargar PDF de lectura fácil"
+                >
+                  {lecturaFacil.buttonText}
+                </button>
+              </div>
+            )}
+          </div>
+
+          <!-- Contenido de lectura fácil -->
+          <div class="bg-slate-50 dark:bg-slate-800 rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12 shadow-lg">
+            <div class="prose prose-base sm:prose-lg dark:prose-invert max-w-none lectura-facil-content">
+              <div class="space-y-4 sm:space-y-6 text-base sm:text-lg leading-relaxed">
+                {lecturaFacil.content.map((item: any) => (
+                  <p class="flex items-start gap-2 sm:gap-3">
+                    <span class="text-xl sm:text-2xl mt-0.5 sm:mt-1 flex-shrink-0">{item.emoji}</span>
+                    <span>{item.text}</span>
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Sección 3: Mapa -->
+    {mapa?.visible && (
+      <section id="mapa" class="min-h-[100dvh] bg-slate-50 dark:bg-slate-800 pt-52 pb-8 sm:pt-36 sm:pb-16 md:pt-40 md:pb-24 snap-start snap-always">
+        <div class="w-full px-4 sm:container sm:mx-auto sm:max-w-6xl">
+          <div class="text-center mb-6 sm:mb-12">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-4">
+              {mapa.title}
+            </h2>
+            {mapa.subtitle && (
+              <p class="text-sm sm:text-lg text-slate-600 dark:text-slate-300">
+                {mapa.subtitle}
+              </p>
+            )}
+          </div>
+
+          <!-- Componente de mapa -->
+          <div class="mb-6 sm:mb-8">
+            <MapComponent
+              client:visible
+              locations={mapa.locations}
+              language={lang}
+              className="shadow-lg sm:shadow-xl"
+            />
+          </div>
+
+          <!-- Información adicional de ubicación -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-12">
+            {mapa.direccion && (
+              <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-xl p-4 sm:p-6 shadow">
+                <h3 class="font-semibold text-lg sm:text-xl mb-3 sm:mb-4 text-SM-blue dark:text-SM-yellow flex items-center gap-2">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                  </svg>
+                  Dirección
+                </h3>
+                <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                  {mapa.direccion.calle}<br>
+                  {mapa.direccion.codigoPostal}<br>
+                  {mapa.direccion.ciudad}
+                </p>
+              </div>
+            )}
+
+            {mapa.comoLlegar && (
+              <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-xl p-4 sm:p-6 shadow">
+                <h3 class="font-semibold text-lg sm:text-xl mb-3 sm:mb-4 text-SM-blue dark:text-SM-yellow flex items-center gap-2">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                  </svg>
+                  Cómo llegar
+                </h3>
+                <div class="space-y-2 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                  {mapa.comoLlegar.map((item: any) => (
+                    <p class="flex items-center gap-2">
+                      <span class="text-lg">{item.emoji}</span>
+                      <span>{item.text}</span>
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Sección 4: Banner CTA -->
+    {bannerCTA?.visible && (
+      <section id="banner-cta" class={`min-h-[50vh] sm:min-h-[40vh] bg-gradient-to-r ${bannerCTA.bgGradient} dark:from-blue-800 dark:to-blue-900 snap-start flex items-center`}>
+        <a
+          href={bannerCTA.link}
+          class="w-full py-8 sm:py-12 px-4 hover:opacity-90 transition-opacity active:scale-[0.99] transform"
+        >
+          <div class="container mx-auto max-w-6xl">
+            <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-6 sm:gap-4 text-center sm:text-left">
+              <!-- Icono y texto -->
+              <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 flex-1">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span class="text-5xl sm:text-6xl">{bannerCTA.emoji}</span>
+                </div>
+                <div class="text-white">
+                  <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3">
+                    {bannerCTA.title}
+                  </h2>
+                  <p class="text-base sm:text-lg md:text-xl opacity-90">
+                    {bannerCTA.subtitle}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Flecha (solo visible en desktop) -->
+              <div class="hidden sm:flex flex-shrink-0">
+                <svg class="w-10 h-10 md:w-12 md:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+
+              <!-- Texto "Toca para explorar" en móvil -->
+              <div class="sm:hidden text-white/80 text-sm flex items-center gap-2">
+                <span>Toca para explorar</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </a>
+      </section>
+    )}
+
+    <!-- Sección 5: Información y Horarios -->
+    {infoHorarios?.visible && (
+      <section id="info-horarios" class="min-h-[100dvh] bg-white dark:bg-slate-900 pt-52 pb-8 sm:pt-36 sm:pb-16 md:pt-40 md:pb-24 snap-start snap-always">
+        <div class="w-full px-4 sm:container sm:mx-auto sm:max-w-6xl">
+          <div class="text-center mb-6 sm:mb-12">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-4">
+              {infoHorarios.title}
+            </h2>
+            {infoHorarios.subtitle && (
+              <p class="text-sm sm:text-lg text-slate-600 dark:text-slate-300">
+                {infoHorarios.subtitle}
+              </p>
+            )}
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
+            <!-- Horarios -->
+            {infoHorarios.horarios && (
+              <div class="bg-gradient-to-br from-SM-blue to-blue-700 text-white rounded-2xl p-8 shadow-xl">
+                <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                  </svg>
+                  Horario de Atención
+                </h3>
+
+                <div class="space-y-4">
+                  {infoHorarios.horarios.temporadaAlta && (
+                    <div class="bg-white/10 backdrop-blur rounded-lg p-4">
+                      <h4 class="font-semibold text-lg mb-2">Temporada Alta</h4>
+                      <p class="text-sm opacity-90 mb-2">{infoHorarios.horarios.temporadaAlta.periodo}</p>
+                      <div class="space-y-1">
+                        {infoHorarios.horarios.temporadaAlta.horario.map((h: string) => (
+                          <p>{h}</p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {infoHorarios.horarios.temporadaBaja && (
+                    <div class="bg-white/10 backdrop-blur rounded-lg p-4">
+                      <h4 class="font-semibold text-lg mb-2">Temporada Baja</h4>
+                      <p class="text-sm opacity-90 mb-2">{infoHorarios.horarios.temporadaBaja.periodo}</p>
+                      <div class="space-y-1">
+                        {infoHorarios.horarios.temporadaBaja.horario.map((h: string) => (
+                          <p>{h}</p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {infoHorarios.horarios.festivos && (
+                    <div class="bg-SM-yellow text-SM-black rounded-lg p-3 text-center font-semibold">
+                      Festivos: {infoHorarios.horarios.festivos}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            <!-- Servicios y Contacto -->
+            <div class="space-y-6">
+              {infoHorarios.servicios && (
+                <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 shadow-lg">
+                  <h3 class="text-2xl font-bold mb-6 text-SM-blue dark:text-SM-yellow flex items-center gap-3">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    Nuestros Servicios
+                  </h3>
+
+                  <div class="grid gap-4">
+                    {infoHorarios.servicios.map((servicio: any) => (
+                      <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 bg-SM-blue/10 dark:bg-SM-yellow/10 rounded-full flex items-center justify-center flex-shrink-0">
+                          <span class="text-xl">{servicio.emoji}</span>
+                        </div>
+                        <div>
+                          <h4 class="font-semibold text-slate-900 dark:text-white">{servicio.title}</h4>
+                          <p class="text-sm text-slate-600 dark:text-slate-400">{servicio.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <!-- Contacto -->
+              {infoHorarios.contacto && (
+                <div class="bg-gradient-to-br from-SM-yellow to-yellow-500 text-SM-black rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg">
+                  <h3 class="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Contacto</h3>
+                  <div class="space-y-2">
+                    {infoHorarios.contacto.telefono && (
+                      <p class="flex items-center gap-2 text-sm sm:text-base">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        <a href={`tel:${infoHorarios.contacto.telefono.replace(/\s/g, '')}`} class="hover:underline">{infoHorarios.contacto.telefono}</a>
+                      </p>
+                    )}
+                    {infoHorarios.contacto.email && (
+                      <p class="flex items-center gap-2 text-sm sm:text-base">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        <a href={`mailto:${infoHorarios.contacto.email}`} class="hover:underline text-xs sm:text-sm break-all">
+                          {infoHorarios.contacto.email}
+                        </a>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Sección 6: Actividades Turísticas -->
+    {actividades?.visible && (
+      <section id="actividades" class="bg-slate-50 dark:bg-slate-800 pt-52 pb-12 sm:pt-36 sm:pb-16 snap-start">
+        <div class="container mx-auto px-4 max-w-6xl">
+          <!-- Título -->
+          <div class="text-center mb-8 sm:mb-12">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-3">
+              {actividades.title}
+            </h2>
+            {actividades.subtitle && (
+              <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300">
+                {actividades.subtitle}
+              </p>
+            )}
+          </div>
+
+          <!-- Grid de actividades -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
+            {actividades.items.map((item: any) => (
+              <a
+                href={item.link}
+                class="flex flex-col items-center group"
+              >
+                <div class={`w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br ${item.gradient} shadow-lg group-hover:shadow-xl group-active:scale-95 transform transition-all overflow-hidden mb-3 sm:mb-4`}>
+                  <div class="w-full h-full flex items-center justify-center text-4xl sm:text-5xl md:text-6xl">
+                    {item.emoji}
+                  </div>
+                </div>
+                <h3 class="text-base sm:text-lg font-semibold text-slate-900 dark:text-white text-center">
+                  {item.title}
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 text-center mt-1">
+                  {item.subtitle}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+
+  <Footer lang={lang} />
+</Layout>
+
+<style>
+  /* Scroll snap para pantalla completa */
+  @supports (scroll-snap-type: y mandatory) {
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+    }
+
+    section {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
+
+  /* Animaciones */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  /* Estilos para lectura fácil */
+  .lectura-facil-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+  }
+
+  .lectura-facil-content p {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Mejoras de accesibilidad */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .animate-bounce,
+    .animate-fade-in-up {
+      animation: none;
+    }
+  }
+
+  /* Asegurar que el video sea responsive */
+  #vertical-video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* En móviles, ajustar el video para formato vertical */
+  @media (max-width: 768px) and (orientation: portrait) {
+    #vertical-video {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      background: #000;
+    }
+  }
+</style>
+
+<script>
+  // Control del video para mejorar rendimiento
+  document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('vertical-video') as HTMLVideoElement;
+
+    if (video) {
+      // Pausar el video cuando no esté visible
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            video.play();
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.25 });
+
+      observer.observe(video);
+    }
+
+    // Mejorar la navegación con teclado
+    const sections = document.querySelectorAll('section');
+    let currentSection = 0;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault();
+        if (currentSection < sections.length - 1) {
+          currentSection++;
+          sections[currentSection].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        if (currentSection > 0) {
+          currentSection--;
+          sections[currentSection].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+
+    // Actualizar sección actual basado en scroll
+    const updateCurrentSection = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+      sections.forEach((section, index) => {
+        const sectionTop = (section as HTMLElement).offsetTop;
+        const sectionHeight = (section as HTMLElement).offsetHeight;
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          currentSection = index;
+        }
+      });
+    };
+
+    window.addEventListener('scroll', updateCurrentSection);
+  });
+</script>

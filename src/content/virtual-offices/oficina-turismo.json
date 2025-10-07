@@ -1,0 +1,175 @@
+{
+  "title": "Oficina Virtual de Turismo | Santa Marta de Tormes",
+  "description": "Oficina Virtual de Turismo de Santa Marta de Tormes. Información turística, horarios, servicios y atención personalizada.",
+  "lang": "es",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "/videos/oficina-virtual.mp4",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Oficina Virtual",
+    "subtitle": "Santa Marta de Tormes"
+  },
+
+  "lecturaFacil": {
+    "visible": true,
+    "title": "Lectura Fácil",
+    "pdfUrl": "/pdfs/lectura-facil-oficina.pdf",
+    "buttonText": "Ir a lectura fácil",
+    "content": [
+      {
+        "emoji": "📍",
+        "text": "La Oficina de Turismo es un lugar donde puedes preguntar sobre qué ver y hacer en Santa Marta de Tormes."
+      },
+      {
+        "emoji": "ℹ️",
+        "text": "Te damos mapas, folletos y te explicamos los sitios más bonitos para visitar."
+      },
+      {
+        "emoji": "🎨",
+        "text": "Puedes preguntar sobre los murales, las audioguías y todas las actividades."
+      },
+      {
+        "emoji": "👥",
+        "text": "Nuestro equipo te ayudará con todo lo que necesites saber."
+      },
+      {
+        "emoji": "♿",
+        "text": "La oficina es accesible para personas con movilidad reducida."
+      }
+    ]
+  },
+
+  "mapa": {
+    "visible": true,
+    "title": "¿Dónde estamos?",
+    "subtitle": "Plaza España, Santa Marta",
+    "locations": [
+      {
+        "name": "Oficina de Turismo de Santa Marta de Tormes",
+        "description": "Plaza España s/n",
+        "coordinates": [40.9505, -5.6300]
+      }
+    ],
+    "direccion": {
+      "calle": "Plaza España, s/n",
+      "codigoPostal": "37900 Santa Marta de Tormes",
+      "ciudad": "Salamanca"
+    },
+    "comoLlegar": [
+      {
+        "emoji": "🚌",
+        "text": "Bus: Líneas 3, 4, 11"
+      },
+      {
+        "emoji": "🚗",
+        "text": "Parking cercano"
+      },
+      {
+        "emoji": "♿",
+        "text": "Acceso adaptado"
+      }
+    ]
+  },
+
+  "bannerCTA": {
+    "visible": true,
+    "link": "/",
+    "emoji": "🎧",
+    "title": "Descubre Nuestras Audioguías",
+    "subtitle": "Explora los murales con audio accesible",
+    "bgGradient": "from-SM-blue to-blue-700"
+  },
+
+  "infoHorarios": {
+    "visible": true,
+    "title": "Información y Horarios",
+    "subtitle": "Te esperamos",
+    "horarios": {
+      "temporadaAlta": {
+        "periodo": "(Julio - Septiembre)",
+        "horario": [
+          "Lunes a Viernes: 10:00 - 14:00 / 17:00 - 20:00",
+          "Sábados: 10:00 - 14:00 / 17:00 - 20:00",
+          "Domingos: 10:00 - 14:00"
+        ]
+      },
+      "temporadaBaja": {
+        "periodo": "(Octubre - Junio)",
+        "horario": [
+          "Lunes a Viernes: 10:00 - 14:00 / 16:00 - 19:00",
+          "Sábados: 10:00 - 14:00",
+          "Domingos: Cerrado"
+        ]
+      },
+      "festivos": "10:00 - 14:00"
+    },
+    "servicios": [
+      {
+        "emoji": "📱",
+        "title": "Audioguías Digitales",
+        "description": "Sistema QR para descubrir los murales"
+      },
+      {
+        "emoji": "🗺️",
+        "title": "Mapas y Folletos",
+        "description": "Material informativo gratuito"
+      },
+      {
+        "emoji": "🎯",
+        "title": "Rutas Personalizadas",
+        "description": "Itinerarios adaptados a tus intereses"
+      },
+      {
+        "emoji": "🎭",
+        "title": "Información de Eventos",
+        "description": "Agenda cultural y actividades"
+      },
+      {
+        "emoji": "♿",
+        "title": "Accesibilidad Universal",
+        "description": "Servicios adaptados para todos"
+      }
+    ],
+    "contacto": {
+      "telefono": "923 200 005",
+      "email": "info@turismosantamartadetormes.com"
+    }
+  },
+
+  "actividades": {
+    "visible": true,
+    "title": "Conoce las Actividades Turísticas",
+    "subtitle": "Descubre todo lo que puedes hacer en Santa Marta",
+    "items": [
+      {
+        "emoji": "🎨",
+        "title": "Arte",
+        "subtitle": "Murales y cultura",
+        "link": "/arte",
+        "gradient": "from-SM-blue to-blue-700"
+      },
+      {
+        "emoji": "🌿",
+        "title": "Naturaleza",
+        "subtitle": "Espacios verdes",
+        "link": "/naturaleza",
+        "gradient": "from-green-500 to-green-700"
+      },
+      {
+        "emoji": "🏍️",
+        "title": "Motos",
+        "subtitle": "Rutas moteras",
+        "link": "/motos",
+        "gradient": "from-orange-500 to-red-600"
+      },
+      {
+        "emoji": "👨‍👩‍👧‍👦",
+        "title": "Familia",
+        "subtitle": "Para todos",
+        "link": "/familia",
+        "gradient": "from-SM-yellow to-yellow-600"
+      }
+    ]
+  }
+}

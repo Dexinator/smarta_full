@@ -1,0 +1,129 @@
+{
+  "title": "Oficina Virtual de Cultura | Santa Marta de Tormes",
+  "description": "Oficina Virtual de Cultura de Santa Marta de Tormes. Información cultural, eventos y programación.",
+  "lang": "es",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "/videos/cultura-virtual.mp4",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Espacio Cultural",
+    "subtitle": "Arte y Cultura en Santa Marta"
+  },
+
+  "lecturaFacil": {
+    "visible": true,
+    "title": "¿Qué es la Oficina de Cultura?",
+    "buttonText": "Descargar información accesible",
+    "content": [
+      {
+        "emoji": "🎭",
+        "text": "La Oficina de Cultura organiza actividades culturales para todos."
+      },
+      {
+        "emoji": "📚",
+        "text": "Hay talleres, exposiciones y eventos durante todo el año."
+      },
+      {
+        "emoji": "🎨",
+        "text": "Puedes participar en actividades de arte, música y teatro."
+      },
+      {
+        "emoji": "👥",
+        "text": "Todos son bienvenidos a nuestras actividades."
+      }
+    ]
+  },
+
+  "mapa": {
+    "visible": false,
+    "locations": []
+  },
+
+  "bannerCTA": {
+    "visible": true,
+    "link": "/eventos",
+    "emoji": "🎭",
+    "title": "Próximos Eventos Culturales",
+    "subtitle": "Descubre nuestra programación mensual",
+    "bgGradient": "from-purple-600 to-pink-600"
+  },
+
+  "infoHorarios": {
+    "visible": true,
+    "title": "Horarios y Servicios",
+    "subtitle": "Visítanos",
+    "horarios": {
+      "temporadaAlta": {
+        "periodo": "Todo el año",
+        "horario": [
+          "Lunes a Viernes: 09:00 - 14:00 / 16:00 - 20:00",
+          "Sábados: 10:00 - 14:00"
+        ]
+      },
+      "festivos": "Cerrado"
+    },
+    "servicios": [
+      {
+        "emoji": "🎨",
+        "title": "Talleres de Arte",
+        "description": "Actividades creativas para todas las edades"
+      },
+      {
+        "emoji": "📚",
+        "title": "Biblioteca Cultural",
+        "description": "Acceso a material cultural y educativo"
+      },
+      {
+        "emoji": "🎭",
+        "title": "Eventos y Espectáculos",
+        "description": "Programación cultural variada"
+      },
+      {
+        "emoji": "👥",
+        "title": "Espacios de Encuentro",
+        "description": "Salas para actividades comunitarias"
+      }
+    ],
+    "contacto": {
+      "telefono": "923 200 100",
+      "email": "cultura@santamartadetormes.es"
+    }
+  },
+
+  "actividades": {
+    "visible": true,
+    "title": "Áreas Culturales",
+    "subtitle": "Explora nuestros espacios",
+    "items": [
+      {
+        "emoji": "🎭",
+        "title": "Teatro",
+        "subtitle": "Artes escénicas",
+        "link": "/cultura/teatro",
+        "gradient": "from-purple-500 to-purple-700"
+      },
+      {
+        "emoji": "🎨",
+        "title": "Artes Plásticas",
+        "subtitle": "Pintura y escultura",
+        "link": "/cultura/artes",
+        "gradient": "from-pink-500 to-red-600"
+      },
+      {
+        "emoji": "🎵",
+        "title": "Música",
+        "subtitle": "Conciertos y talleres",
+        "link": "/cultura/musica",
+        "gradient": "from-blue-500 to-indigo-600"
+      },
+      {
+        "emoji": "📚",
+        "title": "Literatura",
+        "subtitle": "Club de lectura",
+        "link": "/cultura/literatura",
+        "gradient": "from-green-500 to-teal-600"
+      }
+    ]
+  }
+}

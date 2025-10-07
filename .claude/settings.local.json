@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Read(//mnt/c/coding/murales/**)",
-      "Read(//mnt/c/coding/isla_soto2.0/src/components/react/**)"
+      "Read(//mnt/c/coding/isla_soto2.0/src/components/react/**)",
+      "Bash(mkdir:*)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

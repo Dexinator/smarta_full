@@ -20,7 +20,7 @@ const {
 <html lang={lang} class="scroll-smooth">
 <head>
   <!-- Script crítico para prevenir FOUC - debe ir antes de cualquier CSS -->
-  <script>
+  <script is:inline>
     // Aplicar tema inmediatamente para prevenir flash
     (function() {
       const theme = localStorage.getItem('theme');
@@ -85,78 +85,61 @@ const {
 
 
   <!-- Scripts de accesibilidad y modo oscuro -->
-  <script>
-    // Configuración de modo oscuro
-    function initTheme() {
-      const theme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-      if (theme === 'dark' || (!theme && prefersDark)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-
-    function toggleDarkMode() {
-      const isDark = document.documentElement.classList.contains('dark');
-
-      if (isDark) {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      } else {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-      }
-    }
-
-    function setLightMode() {
+  <script is:inline>
+    // Declarar funciones globales INMEDIATAMENTE
+    // Modo oscuro
+    window.setLightMode = function() {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
-    }
+    };
 
-    function setDarkMode() {
+    window.setDarkMode = function() {
       document.documentElement.classList.add('dark');
       localStorage.setItem('theme', 'dark');
-    }
+    };
 
-    // Configuración de alto contraste
-    function toggleHighContrast() {
+    window.toggleDarkMode = function() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        window.setLightMode();
+      } else {
+        window.setDarkMode();
+      }
+    };
+
+    // Alto contraste
+    window.toggleHighContrast = function() {
       document.body.classList.toggle('high-contrast');
       const isHighContrast = document.body.classList.contains('high-contrast');
       localStorage.setItem('high-contrast', isHighContrast ? 'true' : 'false');
-    }
+    };
 
-    // Configuración de tamaño de fuente
+    // Tamaño de fuente
     let currentFontSize = 1;
-    function adjustFontSize(delta: number) {
+    window.adjustFontSize = function(delta) {
       currentFontSize = Math.max(0.8, Math.min(1.4, currentFontSize + (delta * 0.1)));
-      document.documentElement.style.fontSize = `${currentFontSize}rem`;
+      document.documentElement.style.fontSize = currentFontSize + 'rem';
       localStorage.setItem('font-size', currentFontSize.toString());
-    }
-
-    // Configuración de reducción de movimiento
-    function initReduceMotion() {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReducedMotion) {
-        document.body.classList.add('reduce-motion');
-      }
-    }
+    };
 
     // Inicializar configuraciones al cargar la página
-    document.addEventListener('DOMContentLoaded', () => {
-      initReduceMotion();
-
+    document.addEventListener('DOMContentLoaded', function() {
       // Restaurar tamaño de fuente guardado
       const savedFontSize = localStorage.getItem('font-size');
       if (savedFontSize) {
         currentFontSize = parseFloat(savedFontSize);
-        document.documentElement.style.fontSize = `${currentFontSize}rem`;
+        document.documentElement.style.fontSize = currentFontSize + 'rem';
+      }
+
+      // Reducción de movimiento
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) {
+        document.body.classList.add('reduce-motion');
       }
     });
 
     // Escuchar cambios en preferencias del sistema
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
       if (!localStorage.getItem('theme')) {
         if (e.matches) {
           document.documentElement.classList.add('dark');
@@ -165,14 +148,6 @@ const {
         }
       }
     });
-
-    // Hacer funciones globales para uso en componentes
-    // Declarar las funciones en el objeto window
-    (window as any).toggleDarkMode = toggleDarkMode;
-    (window as any).setLightMode = setLightMode;
-    (window as any).setDarkMode = setDarkMode;
-    (window as any).toggleHighContrast = toggleHighContrast;
-    (window as any).adjustFontSize = adjustFontSize;
   </script>
 </body>
 </html>

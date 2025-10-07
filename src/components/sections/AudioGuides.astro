@@ -1,10 +1,19 @@
 ---
 // Audio Guides Section - Sección de audioguías dividida en 2
+import { Image } from 'astro:assets';
+import muralesImg from '../../assets/images/main_page/murales (audioguía).jpg';
+import sotoImg from '../../assets/images/main_page/soto (audioguia).jpg';
+
 export interface Props {
   lang?: string;
 }
 
 const { lang = "es" } = Astro.props;
+
+const guideImages = {
+  murals: muralesImg,
+  'isla-soto': sotoImg
+};
 
 const content = {
   es: {
@@ -88,10 +97,14 @@ const t = content[lang as keyof typeof content];
         >
           <!-- Imagen de fondo -->
           <div class="relative h-64 md:h-72 overflow-hidden">
-            <img
-              src={`https://via.placeholder.com/800x400/0072c0/ffffff?text=${guide.image}`}
+            <Image
+              src={guideImages[guide.id as keyof typeof guideImages]}
               alt={guide.title}
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              widths={[400, 800, 1200]}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={85}
+              loading="lazy"
             />
             <!-- Overlay con gradiente -->
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>

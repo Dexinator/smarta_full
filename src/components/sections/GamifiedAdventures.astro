@@ -1,10 +1,21 @@
 ---
 // Gamified Adventures Section - Aventuras gamificadas
+import { Image } from 'astro:assets';
+import detectivesImg from '../../assets/images/main_page/DETECTIVES EN ACCIÓN.png';
+import urbanEscapeImg from '../../assets/images/main_page/Aventura_Santa Marta Urban Escape Portada.png';
+import xploraImg from '../../assets/images/main_page/santa marta explora.png';
+
 export interface Props {
   lang?: string;
 }
 
 const { lang = "es" } = Astro.props;
+
+const adventureImages = {
+  detectives: detectivesImg,
+  'urban-scape': urbanEscapeImg,
+  xplora: xploraImg
+};
 
 const content = {
   es: {
@@ -100,10 +111,14 @@ const t = content[lang as keyof typeof content];
               <div class="bg-white dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl shadow-xl md:shadow-2xl overflow-hidden">
                 <!-- Imagen de la aventura -->
                 <div class="aspect-[3/4] relative overflow-hidden">
-                  <img
-                    src={`https://via.placeholder.com/300x400/9333ea/ffffff?text=${t.adventures[0].image}`}
+                  <Image
+                    src={adventureImages[t.adventures[0].id as keyof typeof adventureImages]}
                     alt={t.adventures[0].title}
                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    widths={[300, 400, 600]}
+                    sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 300px"
+                    quality={85}
+                    loading="lazy"
                   />
                   <!-- Overlay gradient -->
                   <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -126,10 +141,14 @@ const t = content[lang as keyof typeof content];
               <div class="bg-white dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl shadow-xl md:shadow-2xl overflow-hidden ring-2 sm:ring-3 md:ring-4 ring-SM-yellow/50">
                 <!-- Imagen de la aventura -->
                 <div class="aspect-[3/4] relative overflow-hidden">
-                  <img
-                    src={`https://via.placeholder.com/300x400/f97316/ffffff?text=${t.adventures[1].image}`}
+                  <Image
+                    src={adventureImages[t.adventures[1].id as keyof typeof adventureImages]}
                     alt={t.adventures[1].title}
                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    widths={[300, 400, 600]}
+                    sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 300px"
+                    quality={85}
+                    loading="lazy"
                   />
                   <!-- Overlay gradient -->
                   <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -159,10 +178,14 @@ const t = content[lang as keyof typeof content];
               <div class="bg-white dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl shadow-xl md:shadow-2xl overflow-hidden">
                 <!-- Imagen de la aventura -->
                 <div class="aspect-[3/4] relative overflow-hidden">
-                  <img
-                    src={`https://via.placeholder.com/300x400/10b981/ffffff?text=${t.adventures[2].image}`}
+                  <Image
+                    src={adventureImages[t.adventures[2].id as keyof typeof adventureImages]}
                     alt={t.adventures[2].title}
                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    widths={[300, 400, 600]}
+                    sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 300px"
+                    quality={85}
+                    loading="lazy"
                   />
                   <!-- Overlay gradient -->
                   <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
