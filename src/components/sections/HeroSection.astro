@@ -23,7 +23,7 @@ const t = useTranslations(lang as Locale).hero;
   <div class="absolute inset-0 z-0">
     <!-- Carrusel de imágenes -->
     <div class="hero-carousel absolute inset-0">
-      <div class="hero-slide">
+      <div class="hero-slide active">
         <Image
           src={heroImage2}
           alt="Santa Marta de Tormes"
@@ -211,7 +211,7 @@ const t = useTranslations(lang as Locale).hero;
       slides[currentSlide].classList.add('active');
     }
 
-    // Cambiar imagen cada 5 segundos
-    setInterval(nextSlide, 5000);
+    // Cambiar imagen cada 6 segundos (3 imágenes = 18s ciclo completo)
+    setInterval(nextSlide, 6000);
   });
 </script>
