@@ -3,6 +3,7 @@
 import { Image } from 'astro:assets';
 import muralesImg from '../../assets/images/main_page/murales (audioguía).jpg';
 import sotoImg from '../../assets/images/main_page/soto (audioguia).jpg';
+import { useTranslations, type Locale } from '../../i18n/utils';
 
 export interface Props {
   lang?: string;
@@ -15,62 +16,7 @@ const guideImages = {
   'isla-soto': sotoImg
 };
 
-const content = {
-  es: {
-    title: "Audioguías Interactivas",
-    subtitle: "Descubre nuestras rutas con audioguías accesibles",
-    guides: [
-      {
-        id: "murals",
-        title: "Ruta de los Murales",
-        description: "20 murales que cuentan historias únicas de arte urbano",
-        features: ["Audioguía en Inglés", "Lectura Fácil", "Descriptiva", "Signoguía LSE"],
-        duration: "90 min",
-        stops: "20 paradas",
-        link: "/audioguia-murales",
-        image: "Murales"
-      },
-      {
-        id: "isla-soto",
-        title: "Isla del Soto",
-        description: "Naturaleza, historia y biodiversidad en el corazón del río Tormes",
-        features: ["Audioguía en Inglés", "Lectura Fácil", "Descriptiva", "Signoguía LSE"],
-        duration: "60 min",
-        stops: "15 paradas",
-        link: "/audioguia-isla-soto",
-        image: "Isla+Soto"
-      }
-    ]
-  },
-  en: {
-    title: "Interactive Audio Guides",
-    subtitle: "Discover our routes with accessible audio guides for everyone",
-    guides: [
-      {
-        id: "murals",
-        title: "Murals Route",
-        description: "20 murals telling unique stories of urban art",
-        features: ["Standard audio guide", "Easy read", "Descriptive", "Sign guide"],
-        duration: "90 min",
-        stops: "20 stops",
-        link: "/en/audioguide-murals",
-        image: "Murals"
-      },
-      {
-        id: "isla-soto",
-        title: "Soto Island",
-        description: "Nature, history and biodiversity in the heart of Tormes river",
-        features: ["Nature trails", "Bird watching", "Local history", "Accessible"],
-        duration: "60 min",
-        stops: "15 stops",
-        link: "/en/audioguide-isla-soto",
-        image: "Soto+Island"
-      }
-    ]
-  }
-};
-
-const t = content[lang as keyof typeof content];
+const t = useTranslations(lang as Locale).audioGuides;
 ---
 
 <section
@@ -146,7 +92,7 @@ const t = content[lang as keyof typeof content];
             <!-- Call to action -->
             <div class="flex items-center justify-between">
               <span class="text-SM-blue dark:text-blue-400 font-semibold group-hover:underline">
-                Explorar audioguía
+                {t.cta}
               </span>
               <div class="w-10 h-10 rounded-full bg-SM-blue/10 dark:bg-SM-blue/20 flex items-center justify-center group-hover:bg-SM-blue group-hover:text-white transition-all duration-300">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,26 +116,26 @@ const t = content[lang as keyof typeof content];
     <!-- Información adicional -->
     <div class="mt-12 text-center">
       <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">
-        Todas nuestras audioguías incluyen opciones de accesibilidad
+        {t.accessibilityInfo}
       </p>
       <div class="flex justify-center gap-4">
         <div class="flex items-center gap-2">
           <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center">
             🎧
           </span>
-          <span class="text-sm text-slate-600 dark:text-slate-400">Audio</span>
+          <span class="text-sm text-slate-600 dark:text-slate-400">{t.accessibilityFeatures.audio}</span>
         </div>
         <div class="flex items-center gap-2">
           <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center">
             📱
           </span>
-          <span class="text-sm text-slate-600 dark:text-slate-400">Móvil</span>
+          <span class="text-sm text-slate-600 dark:text-slate-400">{t.accessibilityFeatures.mobile}</span>
         </div>
         <div class="flex items-center gap-2">
           <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center">
             ♿
           </span>
-          <span class="text-sm text-slate-600 dark:text-slate-400">Accesible</span>
+          <span class="text-sm text-slate-600 dark:text-slate-400">{t.accessibilityFeatures.accessible}</span>
         </div>
       </div>
     </div>

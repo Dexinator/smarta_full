@@ -1,0 +1,101 @@
+{
+  "hero": {
+    "title": "Descubre Santa Marta",
+    "subtitle": "",
+    "description": "Explora arte urbano, naturaleza, aventuras y experiencias únicas",
+    "scrollText": "Desliza para explorar",
+    "buttons": {
+      "tourism": "¿Qué visitar?",
+      "audioguides": "Audioguías",
+      "adventures": "Aventuras"
+    }
+  },
+  "touristInfo": {
+    "title": "¿Qué visitar?",
+    "subtitle": "Explora todo lo que Santa Marta tiene para ofrecerte",
+    "categories": [
+      {
+        "id": "art",
+        "title": "Arte",
+        "description": "Museos, murales y salas de exposición",
+        "icon": "🎨",
+        "link": "/arte"
+      },
+      {
+        "id": "nature",
+        "title": "Naturaleza",
+        "description": "Rutas verdes, río Tormes y espacios naturales",
+        "icon": "🌿",
+        "link": "/naturaleza"
+      },
+      {
+        "id": "motorcycles",
+        "title": "Motos",
+        "description": "Museo Histórico de la Moto",
+        "icon": "🏍️",
+        "link": "/motos"
+      },
+      {
+        "id": "family",
+        "title": "Familia",
+        "description": "Actividades y planes para toda la familia",
+        "icon": "👨‍👩‍👧‍👦",
+        "link": "/familia"
+      }
+    ],
+    "hint": "Selecciona una categoría para explorar"
+  },
+  "audioGuides": {
+    "title": "Audioguías Interactivas",
+    "subtitle": "Descubre nuestras rutas con audioguías accesibles",
+    "guides": [
+      {
+        "id": "murals",
+        "title": "Ruta de los Murales",
+        "description": "20 murales que cuentan historias únicas de arte urbano",
+        "features": ["Audioguía en Inglés", "Lectura Fácil", "Descriptiva", "Signoguía LSE"],
+        "duration": "40 min",
+        "stops": "20 audios",
+        "link": "/audioguia-murales"
+      },
+      {
+        "id": "isla-soto",
+        "title": "Isla del Soto",
+        "description": "Naturaleza, historia y biodiversidad en el corazón del río Tormes",
+        "features": ["Audioguía en Inglés", "Lectura Fácil", "Descriptiva", "Signoguía LSE"],
+        "duration": "27 min",
+        "stops": "10 audios",
+        "link": "/audioguia-isla-soto"
+      }
+    ],
+    "cta": "Explorar audioguía",
+    "accessibilityInfo": "Todas nuestras audioguías incluyen opciones de accesibilidad",
+    "accessibilityFeatures": {
+      "audio": "Audio",
+      "mobile": "Móvil",
+      "accessible": "Accesible"
+    }
+  },
+  "adventures": {
+    "title": "Aventuras Gamificadas",
+    "subtitle": "Vive experiencias interactivas únicas mientras exploras Santa Marta",
+    "adventures": [
+      {
+        "id": "detectives",
+        "title": "Detectives en Acción",
+        "link": "/aventura-detectives"
+      },
+      {
+        "id": "urban-scape",
+        "title": "Santa Marta Urban Escape",
+        "link": "/aventura-urban-scape"
+      },
+      {
+        "id": "xplora",
+        "title": "Santa MartaXplora",
+        "link": "/aventura-xplora"
+      }
+    ],
+    "hint": "Toca o haz clic en una tarjeta para comenzar tu aventura"
+  }
+}

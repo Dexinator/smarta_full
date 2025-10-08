@@ -4,6 +4,8 @@ import { Image } from 'astro:assets';
 import detectivesImg from '../../assets/images/main_page/DETECTIVES EN ACCIÓN.png';
 import urbanEscapeImg from '../../assets/images/main_page/Aventura_Santa Marta Urban Escape Portada.png';
 import xploraImg from '../../assets/images/main_page/santa marta explora.png';
+import fondoAventurasImg from '../../assets/images/main_page/fondo_aventuras_gamificadas.png';
+import { useTranslations, type Locale } from '../../i18n/utils';
 
 export interface Props {
   lang?: string;
@@ -17,58 +19,7 @@ const adventureImages = {
   xplora: xploraImg
 };
 
-const content = {
-  es: {
-    title: "Aventuras Gamificadas",
-    subtitle: "Vive experiencias interactivas únicas mientras exploras Santa Marta",
-    adventures: [
-      {
-        id: "detectives",
-        title: "Detectives en Acción",
-        image: "Detectives",
-        link: "/aventura-detectives"
-      },
-      {
-        id: "urban-scape",
-        title: "Santa Marta Urban Escape",
-        image: "Urban+Scape",
-        link: "/aventura-urban-scape"
-      },
-      {
-        id: "xplora",
-        title: "Santa MartaXplora",
-        image: "Xplora",
-        link: "/aventura-xplora"
-      }
-    ]
-  },
-  en: {
-    title: "Gamified Adventures",
-    subtitle: "Live unique interactive experiences while exploring Santa Marta",
-    adventures: [
-      {
-        id: "detectives",
-        title: "Detectives in Action",
-        image: "Detectives",
-        link: "/en/adventure-detectives"
-      },
-      {
-        id: "urban-scape",
-        title: "Urban Scape",
-        image: "Urban+Scape",
-        link: "/en/adventure-urban-scape"
-      },
-      {
-        id: "xplora",
-        title: "Santa Marta Xplora",
-        image: "Xplora",
-        link: "/en/adventure-xplora"
-      }
-    ]
-  }
-};
-
-const t = content[lang as keyof typeof content];
+const t = useTranslations(lang as Locale).adventures;
 ---
 
 <section
@@ -90,10 +41,14 @@ const t = content[lang as keyof typeof content];
     <div class="relative max-w-5xl mx-auto">
       <!-- Imagen de fondo -->
       <div class="relative mx-8 md:mx-12 h-[400px] md:h-[450px] rounded-3xl overflow-hidden">
-        <img
-          src="https://via.placeholder.com/1200x500/0072c0/ffffff?text=Aventuras+Background"
-          alt=""
+        <Image
+          src={fondoAventurasImg}
+          alt="Fondo de aventuras gamificadas"
           class="w-full h-full object-cover"
+          widths={[800, 1200, 1600]}
+          sizes="(max-width: 768px) 100vw, 80vw"
+          quality={85}
+          loading="lazy"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
       </div>
@@ -201,7 +156,7 @@ const t = content[lang as keyof typeof content];
     <!-- Indicador inferior -->
     <div class="mt-20 text-center">
       <p class="text-sm text-slate-500 dark:text-slate-400">
-        Toca o haz clic en una tarjeta para comenzar tu aventura
+        {t.hint}
       </p>
     </div>
   </div>

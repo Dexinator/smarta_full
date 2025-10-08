@@ -5,6 +5,7 @@ import arteImg from '../../assets/images/main_page/arte.png';
 import naturalezaImg from '../../assets/images/main_page/naturaleza.png';
 import motosImg from '../../assets/images/main_page/museo de la moto.png';
 import familiaImg from '../../assets/images/main_page/familia.png';
+import { useTranslations, type Locale } from '../../i18n/utils';
 
 export interface Props {
   lang?: string;
@@ -19,78 +20,7 @@ const categoryImages = {
   family: familiaImg
 };
 
-const content = {
-  es: {
-    title: "¿Qué visitar?",
-    subtitle: "Explora todo lo que Santa Marta tiene para ofrecerte",
-    categories: [
-      {
-        id: "art",
-        title: "Arte",
-        description: "Museos, murales y salas de exposición",
-        icon: "🎨",
-        link: "/arte"
-      },
-      {
-        id: "nature",
-        title: "Naturaleza",
-        description: "Rutas verdes, río Tormes y espacios naturales",
-        icon: "🌿",
-        link: "/naturaleza"
-      },
-      {
-        id: "motorcycles",
-        title: "Motos",
-        description: "Museo Histórico de la Moto",
-        icon: "🏍️",
-        link: "/motos"
-      },
-      {
-        id: "family",
-        title: "Familia",
-        description: "Actividades y planes para toda la familia",
-        icon: "👨‍👩‍👧‍👦",
-        link: "/familia"
-      }
-    ]
-  },
-  en: {
-    title: "Tourist Information",
-    subtitle: "Explore everything Santa Marta has to offer",
-    categories: [
-      {
-        id: "art",
-        title: "Art",
-        description: "Murals, galleries and cultural expressions",
-        icon: "🎨",
-        link: "/en/art"
-      },
-      {
-        id: "nature",
-        title: "Nature",
-        description: "Green routes, Tormes river and natural spaces",
-        icon: "🌿",
-        link: "/en/nature"
-      },
-      {
-        id: "motorcycles",
-        title: "Motorcycles",
-        description: "Motorcycle routes and motor events",
-        icon: "🏍️",
-        link: "/en/motorcycles"
-      },
-      {
-        id: "family",
-        title: "Family",
-        description: "Activities and plans for the whole family",
-        icon: "👨‍👩‍👧‍👦",
-        link: "/en/family"
-      }
-    ]
-  }
-};
-
-const t = content[lang as keyof typeof content];
+const t = useTranslations(lang as Locale).touristInfo;
 ---
 
 <section
@@ -165,7 +95,7 @@ const t = content[lang as keyof typeof content];
     <div class="mt-12 text-center">
       <div class="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
         <span class="w-12 h-[1px] bg-slate-300 dark:bg-slate-600"></span>
-        <span>Selecciona una categoría para explorar</span>
+        <span>{t.hint}</span>
         <span class="w-12 h-[1px] bg-slate-300 dark:bg-slate-600"></span>
       </div>
     </div>

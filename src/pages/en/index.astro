@@ -1,0 +1,53 @@
+---
+// English Main Page - Santa Marta Smart Tourism
+import Layout from '../../components/Layout.astro';
+import Header from '../../components/ui/Header.astro';
+import Footer from '../../components/ui/Footer.astro';
+import HeroSection from '../../components/sections/HeroSection.astro';
+import TouristInfo from '../../components/sections/TouristInfo.astro';
+import AudioGuides from '../../components/sections/AudioGuides.astro';
+import GamifiedAdventures from '../../components/sections/GamifiedAdventures.astro';
+---
+
+<Layout
+  title="Santa Marta Smart Tourism | Discover, Explore, Experience"
+  description="Smart tourism portal for Santa Marta de Tormes. Interactive audio guides, tourist information, gamified adventures and unique experiences."
+  lang="en"
+>
+  <Header currentPage="home" lang="en" />
+
+  <main id="main-content" class="flex-1">
+    <!-- Hero Section with navigation -->
+    <HeroSection lang="en" />
+
+    <!-- Tourist Information Section (4 options) -->
+    <TouristInfo lang="en" />
+
+    <!-- Audio Guides Section (2 options) -->
+    <AudioGuides lang="en" />
+
+    <!-- Gamified Adventures Section (3 options) -->
+    <GamifiedAdventures lang="en" />
+  </main>
+
+  <Footer lang="en" />
+</Layout>
+
+<style>
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Scroll snap adjustments for mobile */
+  @media (max-width: 768px) {
+    main {
+      scroll-snap-type: y mandatory;
+    }
+
+    main > section {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
+</style>
