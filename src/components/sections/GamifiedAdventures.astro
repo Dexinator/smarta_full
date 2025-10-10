@@ -39,8 +39,8 @@ const t = useTranslations(lang as Locale).adventures;
 
     <!-- Contenedor principal con imagen de fondo -->
     <div class="relative max-w-5xl mx-auto">
-      <!-- Imagen de fondo -->
-      <div class="relative mx-8 md:mx-12 h-[400px] md:h-[450px] rounded-3xl overflow-hidden">
+      <!-- Imagen de fondo (solo visible en desktop) -->
+      <div class="hidden md:block relative mx-8 md:mx-12 h-[400px] md:h-[450px] rounded-3xl overflow-hidden">
         <Image
           src={fondoAventurasImg}
           alt="Fondo de aventuras gamificadas"
@@ -53,8 +53,8 @@ const t = useTranslations(lang as Locale).adventures;
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
       </div>
 
-      <!-- Contenedor de las 3 tarjetas -->
-      <div class="absolute inset-0 flex items-center justify-center">
+      <!-- Contenedor de las 3 tarjetas - Desktop (3 columnas con fondo) -->
+      <div class="hidden md:flex absolute inset-0 items-center justify-center">
         <div class="relative w-full max-w-4xl px-2 sm:px-4">
           <div class="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6">
 
@@ -151,11 +151,114 @@ const t = useTranslations(lang as Locale).adventures;
           </div>
         </div>
       </div>
+
+      <!-- Carrusel móvil (solo visible en móvil/tablet) -->
+      <div class="md:hidden relative">
+        <div class="adventures-carousel overflow-x-auto">
+          <div class="adventures-track flex gap-3 px-4 py-6">
+
+            <!-- Tarjeta 1 -->
+            <div class="adventure-slide flex-shrink-0 w-[75vw] max-w-[320px]">
+              <a href={t.adventures[0].link} class="block h-full">
+                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden h-full">
+                  <div class="aspect-[3/4] relative">
+                    <Image
+                      src={adventureImages[t.adventures[0].id as keyof typeof adventureImages]}
+                      alt={t.adventures[0].title}
+                      class="w-full h-full object-cover"
+                      widths={[400, 600]}
+                      sizes="75vw"
+                      quality={90}
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 class="text-lg font-bold text-center text-white drop-shadow-lg">
+                        {t.adventures[0].title}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Tarjeta 2 -->
+            <div class="adventure-slide flex-shrink-0 w-[75vw] max-w-[320px]">
+              <a href={t.adventures[1].link} class="block h-full">
+                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden h-full ring-4 ring-SM-yellow/50">
+                  <div class="aspect-[3/4] relative">
+                    <Image
+                      src={adventureImages[t.adventures[1].id as keyof typeof adventureImages]}
+                      alt={t.adventures[1].title}
+                      class="w-full h-full object-cover"
+                      widths={[400, 600]}
+                      sizes="75vw"
+                      quality={90}
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 class="text-lg font-bold text-center text-white drop-shadow-lg">
+                        {t.adventures[1].title}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Tarjeta 3 -->
+            <div class="adventure-slide flex-shrink-0 w-[75vw] max-w-[320px]">
+              <a href={t.adventures[2].link} class="block h-full">
+                <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden h-full">
+                  <div class="aspect-[3/4] relative">
+                    <Image
+                      src={adventureImages[t.adventures[2].id as keyof typeof adventureImages]}
+                      alt={t.adventures[2].title}
+                      class="w-full h-full object-cover"
+                      widths={[400, 600]}
+                      sizes="75vw"
+                      quality={90}
+                      loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 class="text-lg font-bold text-center text-white drop-shadow-lg">
+                        {t.adventures[2].title}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Indicadores de navegación (dots) -->
+        <div class="flex justify-center gap-2 mt-6">
+          <button
+            class="carousel-dot w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 transition-all duration-300 active"
+            data-slide="0"
+            aria-label="Ir a aventura 1"
+          ></button>
+          <button
+            class="carousel-dot w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 transition-all duration-300"
+            data-slide="1"
+            aria-label="Ir a aventura 2"
+          ></button>
+          <button
+            class="carousel-dot w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 transition-all duration-300"
+            data-slide="2"
+            aria-label="Ir a aventura 3"
+          ></button>
+        </div>
+      </div>
     </div>
 
     <!-- Indicador inferior -->
     <div class="mt-20 text-center">
-      <p class="text-sm text-slate-500 dark:text-slate-400">
+      <p class="text-base md:text-lg text-slate-500 dark:text-slate-400">
         {t.hint}
       </p>
     </div>
@@ -167,68 +270,61 @@ const t = useTranslations(lang as Locale).adventures;
 </section>
 
 <style>
-  /* Efecto de hover para las tarjetas */
-  .adventure-card {
+  /* ===== ESTILOS PARA CARRUSEL MÓVIL ===== */
+  .adventures-carousel {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+
+  .adventures-carousel::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .adventures-track {
+    scroll-padding: 1rem;
+  }
+
+  .adventure-slide {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Indicadores (dots) */
+  .carousel-dot {
     cursor: pointer;
   }
 
-  .adventure-card:hover {
-    transform: scale(1.1) translateY(-10px);
+  .carousel-dot.active {
+    background-color: rgb(251, 191, 36); /* SM-yellow */
+    width: 2rem; /* Más ancho cuando está activo */
   }
 
-  /* Ajuste específico para la tarjeta central en hover */
-  .adventure-card:nth-child(2):hover {
-    transform: scale(1.1) translateY(-18px);
-  }
-
-  /* Sombras más dramáticas en hover */
-  .adventure-card:hover > div {
-    box-shadow:
-      0 25px 50px -12px rgba(0, 0, 0, 0.25),
-      0 10px 20px -5px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Animación para dispositivos táctiles */
-  @media (hover: none) {
-    .adventure-card:active {
-      transform: scale(1.05);
-    }
-
-    .adventure-card:nth-child(2):active {
-      transform: scale(1.05) translateY(-8px);
-    }
-  }
-
-  /* Mantener la disposición escalonada en todos los tamaños */
-  .adventure-card:nth-child(1) {
-    transform: translateY(16px);
-  }
-
-  .adventure-card:nth-child(2) {
-    transform: translateY(-8px);
-  }
-
-  .adventure-card:nth-child(3) {
-    transform: translateY(16px);
-  }
-
-  /* Ajustes para pantallas pequeñas */
-  @media (min-width: 640px) {
-    .adventure-card:nth-child(1) {
-      transform: translateY(32px);
-    }
-
-    .adventure-card:nth-child(2) {
-      transform: translateY(-16px);
-    }
-
-    .adventure-card:nth-child(3) {
-      transform: translateY(32px);
-    }
-  }
-
-  /* Ajustes para pantallas medianas y grandes */
+  /* ===== ESTILOS PARA DESKTOP (mantener diseño original) ===== */
   @media (min-width: 768px) {
+    /* Efecto de hover para las tarjetas en desktop */
+    .adventure-card {
+      cursor: pointer;
+    }
+
+    .adventure-card:hover {
+      transform: scale(1.1) translateY(-10px);
+    }
+
+    /* Ajuste específico para la tarjeta central en hover */
+    .adventure-card:nth-child(2):hover {
+      transform: scale(1.1) translateY(-18px);
+    }
+
+    /* Sombras más dramáticas en hover */
+    .adventure-card:hover > div {
+      box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 10px 20px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Mantener la disposición escalonada */
     .adventure-card:nth-child(1) {
       transform: translateY(48px);
     }
@@ -242,3 +338,86 @@ const t = useTranslations(lang as Locale).adventures;
     }
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.querySelector('.adventures-carousel');
+    const slides = document.querySelectorAll('.adventure-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+
+    if (!carousel || slides.length === 0 || dots.length === 0) return;
+
+    let currentSlide = 0;
+    let isScrolling = false;
+
+    // Función para actualizar los indicadores
+    function updateDots(index: number) {
+      dots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    // Función para ir a un slide específico
+    function goToSlide(index: number) {
+      if (index < 0 || index >= slides.length) return;
+
+      const slide = slides[index] as HTMLElement;
+      const carouselRect = carousel.getBoundingClientRect();
+      const slideRect = slide.getBoundingClientRect();
+
+      // Calcular la posición de scroll necesaria
+      const scrollLeft = carousel.scrollLeft + (slideRect.left - carouselRect.left) - 16; // 16px = 1rem padding
+
+      carousel.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth'
+      });
+
+      currentSlide = index;
+      updateDots(index);
+    }
+
+    // Detectar scroll para actualizar dots
+    carousel.addEventListener('scroll', () => {
+      if (isScrolling) return;
+
+      isScrolling = true;
+      setTimeout(() => {
+        const carouselCenter = carousel.scrollLeft + carousel.clientWidth / 2;
+
+        // Encontrar qué slide está más cerca del centro
+        let closestSlide = 0;
+        let closestDistance = Infinity;
+
+        slides.forEach((slide, index) => {
+          const slideElement = slide as HTMLElement;
+          const slideCenter = slideElement.offsetLeft + slideElement.offsetWidth / 2;
+          const distance = Math.abs(carouselCenter - slideCenter);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestSlide = index;
+          }
+        });
+
+        if (closestSlide !== currentSlide) {
+          currentSlide = closestSlide;
+          updateDots(currentSlide);
+        }
+
+        isScrolling = false;
+      }, 150);
+    });
+
+    // Click en dots para navegar
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        goToSlide(index);
+      });
+    });
+  });
+</script>

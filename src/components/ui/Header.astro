@@ -16,8 +16,10 @@ const { currentPage = "", lang = "es" } = Astro.props;
 // Contenido bilingüe
 const content = {
   es: {
-    home: "Inicio",
+    thingsToDo: "¿Qué visitar?",
     audioguides: "Audioguías",
+    adventures: "Aventuras",
+    languageSwitch: "Inglés",
     normative: "Audioguía",
     descriptive: "Audioguía Descriptiva",
     easy: "Audioguía Lectura Fácil",
@@ -35,8 +37,10 @@ const content = {
     language: "Cambiar idioma"
   },
   en: {
-    home: "Home",
-    audioguides: "Audio Guides",
+    thingsToDo: "Things to do",
+    audioguides: "Audio guides",
+    adventures: "Adventures",
+    languageSwitch: "Spanish",
     normative: "Spanish",
     descriptive: "Descriptive",
     easy: "Easy Read",
@@ -91,40 +95,38 @@ const t = content[lang as keyof typeof content];
       <!-- Navegación Desktop -->
       <div class="hidden lg:flex items-center space-x-6">
         <a
-          href="/"
+          href={lang === "es" ? "/#tourist-info" : "/en#tourist-info"}
           class={`text-base md:text-lg font-medium transition-colors hover:text-SM-blue focus-visible ${
-            currentPage === "home" ? "text-SM-blue" : "text-slate-600 dark:text-slate-300"
+            currentPage === "tourism" ? "text-SM-blue" : "text-slate-600 dark:text-slate-300"
           }`}
         >
-          {t.home}
+          {t.thingsToDo}
         </a>
 
-        <div class="relative group">
-          <button class="text-base md:text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-SM-blue transition-colors focus-visible flex items-center">
-            {t.audioguides}
-            <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z" fill="#0F0F0F"/>
-              </svg>
-          </button>
+        <a
+          href={lang === "es" ? "/#audioguides" : "/en#audioguides"}
+          class={`text-base md:text-lg font-medium transition-colors hover:text-SM-blue focus-visible ${
+            currentPage === "audioguides" ? "text-SM-blue" : "text-slate-600 dark:text-slate-300"
+          }`}
+        >
+          {t.audioguides}
+        </a>
 
-          <!-- Dropdown menu -->
-          <div class="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-            <div class="py-2">
-              <a href="/audioguia-normativa" class="block px-4 py-3 text-base text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-SM-blue transition-colors">
-                {t.normative}
-              </a>
-              <a href="/audioguia-descriptiva" class="block px-4 py-3 text-base text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-SM-blue transition-colors">
-                {t.descriptive}
-              </a>
-              <a href="/audioguia-facil" class="block px-4 py-3 text-base text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-SM-blue transition-colors">
-                {t.easy}
-              </a>
-              <a href="/signoguia" class="block px-4 py-3 text-base text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-SM-blue transition-colors">
-                {t.sign}
-              </a>
-            </div>
-          </div>
-        </div>
+        <a
+          href={lang === "es" ? "/#adventures" : "/en#adventures"}
+          class={`text-base md:text-lg font-medium transition-colors hover:text-SM-blue focus-visible ${
+            currentPage === "adventures" ? "text-SM-blue" : "text-slate-600 dark:text-slate-300"
+          }`}
+        >
+          {t.adventures}
+        </a>
+
+        <a
+          href={lang === "es" ? "/en" : "/"}
+          class="text-base md:text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-SM-blue transition-colors focus-visible"
+        >
+          {t.languageSwitch}
+        </a>
       </div>
 
 
@@ -146,29 +148,32 @@ const t = content[lang as keyof typeof content];
     <div id="mobile-menu" class="lg:hidden hidden mt-4 pb-4 border-t border-slate-200 dark:border-slate-700">
       <div class="pt-4 space-y-2">
         <a
-          href={lang === "es" ? "/" : "/en"}
+          href={lang === "es" ? "/#tourist-info" : "/en#tourist-info"}
           class="block px-3 py-3 text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-SM-blue hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
         >
-          {t.home}
+          {t.thingsToDo}
         </a>
 
-        <div class="px-3 py-2">
-          <div class="text-base font-medium text-slate-400 dark:text-slate-500 mb-2">{t.audioguides}</div>
-          <div class="space-y-1 ml-4">
-            <a href="/audioguia-normativa" class="block py-2 text-base text-slate-600 dark:text-slate-300 hover:text-SM-blue transition-colors">
-              {t.normative}
-            </a>
-            <a href="/audioguia-descriptiva" class="block py-2 text-base text-slate-600 dark:text-slate-300 hover:text-SM-blue transition-colors">
-              {t.descriptive}
-            </a>
-            <a href="/audioguia-facil" class="block py-2 text-base text-slate-600 dark:text-slate-300 hover:text-SM-blue transition-colors">
-              {t.easy}
-            </a>
-            <a href="/signoguia" class="block py-2 text-base text-slate-600 dark:text-slate-300 hover:text-SM-blue transition-colors">
-              {t.sign}
-            </a>
-          </div>
-        </div>
+        <a
+          href={lang === "es" ? "/#audioguides" : "/en#audioguides"}
+          class="block px-3 py-3 text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-SM-blue hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+        >
+          {t.audioguides}
+        </a>
+
+        <a
+          href={lang === "es" ? "/#adventures" : "/en#adventures"}
+          class="block px-3 py-3 text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-SM-blue hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+        >
+          {t.adventures}
+        </a>
+
+        <a
+          href={lang === "es" ? "/en" : "/"}
+          class="block px-3 py-3 text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-SM-blue hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+        >
+          {t.languageSwitch}
+        </a>
       </div>
     </div>
 
@@ -182,7 +187,7 @@ const t = content[lang as keyof typeof content];
             class="flex-1 px-2 py-2 rounded-lg bg-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 focus-visible text-sm font-medium shadow-sm text-center h-10 flex items-center justify-center"
             aria-label={t.language}
           >
-            <span class="text-base leading-none">{lang === "es" ? "EN" : "ES"}</span>
+            <span class="text-sm leading-none">{t.languageSwitch}</span>
           </a>
 
           <!-- Modo claro -->

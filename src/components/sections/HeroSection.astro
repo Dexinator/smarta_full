@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import heroImage2 from '../../assets/images/main_page/Sección arriba del todo (2).png';
 import heroImage3 from '../../assets/images/main_page/Sección arriba del todo (3).png';
 import heroImage4 from '../../assets/images/main_page/Sección arriba del todo (4).png';
+import turismoSantaMarta from '../../assets/images/turismo-santa-marta.png';
 import { useTranslations, type Locale } from '../../i18n/utils';
 
 export interface Props {
@@ -68,10 +69,12 @@ const t = useTranslations(lang as Locale).hero;
   <div class="relative z-20 container mx-auto px-4 text-center text-white">
     <!-- Logo animado -->
     <div class="mb-8 animate-fade-in">
-      <img
-        src="/logo_santamarta.png"
-        alt="Santa Marta de Tormes"
-        class="h-24 md:h-32 mx-auto drop-shadow-2xl"
+      <Image
+        src={turismoSantaMarta}
+        alt="Turismo Santa Marta de Tormes"
+        class="h-24 md:h-32 w-auto mx-auto drop-shadow-2xl object-contain"
+        loading="eager"
+        quality={90}
       />
     </div>
 
@@ -121,7 +124,7 @@ const t = useTranslations(lang as Locale).hero;
   <!-- Indicador de scroll -->
   <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
     <div class="flex flex-col items-center">
-      <span class="text-sm mb-2 opacity-75">{t.scrollText}</span>
+      <span class="text-base md:text-lg mb-2 opacity-75">{t.scrollText}</span>
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
       </svg>

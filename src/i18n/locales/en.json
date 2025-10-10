@@ -7,7 +7,7 @@
     "buttons": {
       "tourism": "Things to do",
       "audioguides": "Audio Guides",
-      "adventures": "Adventure Games"
+      "adventures": "Adventures"
     }
   },
   "touristInfo": {
@@ -52,17 +52,17 @@
       {
         "id": "murals",
         "title": "Mural Route",
-        "description": "20 murals telling unique stories of urban art",
-        "features": ["English audio guide", "Easy Read", "Descriptive", "LSE Sign Guide"],
+        "description": "15 murals telling unique stories of urban art",
+        "features": ["English audio guide", "Easy Read", "Descriptive", "LSE Sign Language"],
         "duration": "40 min",
         "stops": "20 audios",
         "link": "/en/audioguide-murals"
       },
       {
         "id": "isla-soto",
-        "title": "Isla del Soto",
+        "title": "Soto Island",
         "description": "Nature, history, and biodiversity at the heart of the River Tormes",
-        "features": ["English audio guide", "Easy Read", "Descriptive", "LSE Sign Guide"],
+        "features": ["English audio guide", "Easy Read", "Descriptive", "LSE Sign Language"],
         "duration": "27 min",
         "stops": "10 audios",
         "link": "/en/audioguide-isla-soto"
