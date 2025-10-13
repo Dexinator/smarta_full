@@ -271,9 +271,9 @@ const MapComponent = ({
         )}
         <div
           ref={mapRef}
-          className="h-48 sm:h-64 md:h-96 w-full map-container"
+          className="h-64 sm:h-80 md:h-[32rem] lg:h-[36rem] w-full map-container"
           style={{
-            minHeight: '192px',
+            minHeight: '256px',
             position: 'relative',
             zIndex: 1
           }}
