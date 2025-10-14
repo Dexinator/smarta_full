@@ -1,0 +1,11 @@
+---
+// Página de Oficina Virtual Motera
+// Santa Marta Motera - Museo de la Moto Histórica
+import { getEntry } from 'astro:content';
+import VirtualOfficeLayout from '../layouts/VirtualOfficeLayout.astro';
+
+// Cargar configuración desde content collection
+const config = await getEntry('virtual-offices', 'oficina-motera');
+---
+
+<VirtualOfficeLayout config={config.data} />

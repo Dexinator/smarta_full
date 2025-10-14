@@ -4,6 +4,7 @@ import Layout from '../components/Layout.astro';
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
 import MapComponent from '../components/react/MapComponent.jsx';
+import VimeoHeroPlayer from '../components/react/VimeoHeroPlayer.jsx';
 
 // Importar imágenes de burbujas optimizadas
 import imgMacJoseFuentes from '../assets/images/burbujas/JFmac.png';
@@ -40,29 +41,35 @@ const {
   bannerCTA,
   infoHorarios,
   actividades,
+  burbujas: burbujasFiltradas,
 } = config;
 
-// Definir burbujas de información con imágenes
-const burbujas = [
-  { title: 'MAC José Fuentes', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-arte-contemporaneo', img: imgMacJoseFuentes },
-  { title: 'Museo del Grabado', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-grabado', img: imgMuseoGrabado },
-  { title: 'Espacio Serzo', link: 'https://www.turismosantamartadetormes.com/museo/espacio-serzo', img: imgEspacioSerzo },
-  { title: 'Espacio Agustín Casillas', link: 'https://www.turismosantamartadetormes.com/museo/espacio-agustin-casillas-escultura', img: imgEspacioAgustin },
-  { title: 'Sala Tragaluz', link: 'https://www.turismosantamartadetormes.com/museo/sala-tragaluz', img: imgSalaTragaluz },
-  { title: 'Sala Miguel Delibes', link: 'https://www.turismosantamartadetormes.com/museo/sala-miguel-delibes', img: imgSalaMiguelDelibes },
-  { title: 'Sala Protagonistas', link: 'https://www.turismosantamartadetormes.com/museo/sala-protagonistas', img: imgSalaProtagonistas },
-  { title: 'Ruta Murales', link: 'https://www.turismosantamartadetormes.com/ruta-murales', img: imgRutaMurales },
-  { title: 'Arte Emboscado', link: 'https://www.turismosantamartadetormes.com/arte-emboscado', img: imgArteEmboscado },
-  { title: 'Audioguía Murales', link: 'https://www.murales.santamartaccesible.com', img: imgAudioguiaMurales },
-  { title: 'Isla del Soto', link: 'https://www.turismosantamartadetormes.com/isla-del-soto', img: imgIslaSoto },
-  { title: 'Centro de Interpretación', link: 'https://www.turismosantamartadetormes.com/museo/centro-de-interpretacion-isla-del-soto', img: imgCentroInterpretacion },
-  { title: 'Audioguía Isla del Soto', link: 'https://www.isla.santamartaccesible.com', img: imgAudioguiaIsla },
-  { title: 'Museo de la Moto Histórica', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-la-moto-historica', img: imgMuseoMoto },
-  { title: 'Ruta Lápices', link: 'https://www.turismosantamartadetormes.com/ruta-lapices', img: imgRutaLapices },
-  { title: 'Ruta Bichos', link: 'https://www.turismosantamartadetormes.com/ruta-bichos-soto', img: imgRutaBichos },
-  { title: 'Isla del Soto Encantada', link: 'https://www.turismosantamartadetormes.com/museo/espacio-isla-encantada', img: imgIslaEncantada },
-  { title: 'Aventuras', link: '/#aventuras', img: imgAventuras },
-];
+// Definir todas las burbujas disponibles con imágenes
+const todasBurbujas = {
+  'MAC José Fuentes': { title: 'MAC José Fuentes', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-arte-contemporaneo', img: imgMacJoseFuentes },
+  'Museo del Grabado': { title: 'Museo del Grabado', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-grabado', img: imgMuseoGrabado },
+  'Espacio Serzo': { title: 'Espacio Serzo', link: 'https://www.turismosantamartadetormes.com/museo/espacio-serzo', img: imgEspacioSerzo },
+  'Espacio Agustín Casillas': { title: 'Espacio Agustín Casillas', link: 'https://www.turismosantamartadetormes.com/museo/espacio-agustin-casillas-escultura', img: imgEspacioAgustin },
+  'Sala Tragaluz': { title: 'Sala Tragaluz', link: 'https://www.turismosantamartadetormes.com/museo/sala-tragaluz', img: imgSalaTragaluz },
+  'Sala Miguel Delibes': { title: 'Sala Miguel Delibes', link: 'https://www.turismosantamartadetormes.com/museo/sala-miguel-delibes', img: imgSalaMiguelDelibes },
+  'Sala Protagonistas': { title: 'Sala Protagonistas', link: 'https://www.turismosantamartadetormes.com/museo/sala-protagonistas', img: imgSalaProtagonistas },
+  'Ruta Murales': { title: 'Ruta Murales', link: 'https://www.turismosantamartadetormes.com/ruta-murales', img: imgRutaMurales },
+  'Arte Emboscado': { title: 'Arte Emboscado', link: 'https://www.turismosantamartadetormes.com/arte-emboscado', img: imgArteEmboscado },
+  'Audioguía Murales': { title: 'Audioguía Murales', link: 'https://www.murales.santamartaccesible.com', img: imgAudioguiaMurales },
+  'Isla del Soto': { title: 'Isla del Soto', link: 'https://www.turismosantamartadetormes.com/isla-del-soto', img: imgIslaSoto },
+  'Centro de Interpretación': { title: 'Centro de Interpretación', link: 'https://www.turismosantamartadetormes.com/museo/centro-de-interpretacion-isla-del-soto', img: imgCentroInterpretacion },
+  'Audioguía Isla del Soto': { title: 'Audioguía Isla del Soto', link: 'https://www.isla.santamartaccesible.com', img: imgAudioguiaIsla },
+  'Museo de la Moto Histórica': { title: 'Museo de la Moto Histórica', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-la-moto-historica', img: imgMuseoMoto },
+  'Ruta Lápices': { title: 'Ruta Lápices', link: 'https://www.turismosantamartadetormes.com/ruta-lapices', img: imgRutaLapices },
+  'Ruta Bichos': { title: 'Ruta Bichos', link: 'https://www.turismosantamartadetormes.com/ruta-bichos-soto', img: imgRutaBichos },
+  'Isla del Soto Encantada': { title: 'Isla del Soto Encantada', link: 'https://www.turismosantamartadetormes.com/museo/espacio-isla-encantada', img: imgIslaEncantada },
+  'Aventuras': { title: 'Aventuras', link: '/#aventuras', img: imgAventuras },
+};
+
+// Filtrar burbujas según configuración (o usar todas si no hay filtro)
+const burbujas = burbujasFiltradas
+  ? burbujasFiltradas.map((nombre: string) => todasBurbujas[nombre]).filter(Boolean)
+  : Object.values(todasBurbujas);
 ---
 
 <Layout
@@ -78,21 +85,17 @@ const burbujas = [
       <section id="video-section" class="relative h-[100dvh] w-full overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40 z-10"></div>
 
-        <!-- Contenedor del video -->
+        <!-- Contenedor del video Vimeo -->
         <div class="absolute inset-0 flex items-center justify-center bg-slate-900">
-          <video
-            id="vertical-video"
-            class="w-full h-full object-cover md:object-contain"
-            autoplay
-            muted
-            loop
-            playsinline
-            webkit-playsinline
-            poster={hero.posterUrl || "/placeholder-video.jpg"}
-          >
-            <source src={hero.videoUrl || "/videos/oficina-virtual.mp4"} type="video/mp4">
-            <p>Tu navegador no soporta el elemento de video.</p>
-          </video>
+          <VimeoHeroPlayer
+            vimeoId={hero.videoUrl}
+            posterUrl={hero.posterUrl || "/placeholder-video.jpg"}
+            autoplay={true}
+            muted={true}
+            loop={true}
+            client:load
+            className="w-full h-full"
+          />
         </div>
 
         <!-- Overlay con título -->
@@ -233,6 +236,7 @@ const burbujas = [
     )}
 
     <!-- Sección 5: Más información y horarios -->
+    {burbujas && burbujas.length > 0 && (
     <section id="mas-info-horarios" class="bg-slate-50 dark:bg-slate-800 pt-24 pb-12 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20">
       <div class="container mx-auto px-4 max-w-6xl">
         <!-- Título -->
@@ -268,6 +272,7 @@ const burbujas = [
         </div>
       </div>
     </section>
+    )}
 
     <!-- Sección 6: Lectura Fácil -->
     {lecturaFacil?.visible && (
@@ -277,6 +282,11 @@ const burbujas = [
             <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
               Lectura Fácil
             </h2>
+            {lecturaFacil.subtitleLecturaFacil && (
+              <p class="text-xl sm:text-2xl md:text-3xl text-slate-600 dark:text-slate-300 mb-6">
+                {lecturaFacil.subtitleLecturaFacil}
+              </p>
+            )}
             <button
               id="toggle-lectura-facil"
               class="text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-300 hover:text-SM-blue dark:hover:text-SM-yellow transition-colors cursor-pointer inline-flex items-center gap-2 sm:gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
@@ -384,25 +394,7 @@ const burbujas = [
 </style>
 
 <script>
-  // Control del video para mejorar rendimiento
   document.addEventListener('DOMContentLoaded', () => {
-    const video = document.getElementById('vertical-video') as HTMLVideoElement;
-
-    if (video) {
-      // Pausar el video cuando no esté visible
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            video.play();
-          } else {
-            video.pause();
-          }
-        });
-      }, { threshold: 0.25 });
-
-      observer.observe(video);
-    }
-
     // Scroll snap del video a la segunda sección
     let isSnapping = false;
     const videoSection = document.getElementById('video-section');

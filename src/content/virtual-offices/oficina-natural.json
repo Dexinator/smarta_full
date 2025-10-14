@@ -1,0 +1,96 @@
+{
+  "title": "Santa Marta Natural | Santa Marta de Tormes",
+  "description": "Descubre la naturaleza de Santa Marta de Tormes. Isla del Soto, rutas verdes, el río Tormes y audioguías accesibles.",
+  "lang": "es",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "1123863144",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Santa Marta Natural",
+    "subtitle": "Naturaleza, Rutas Verdes y Río Tormes"
+  },
+
+  "lecturaFacil": {
+    "visible": true,
+    "title": "Lectura Fácil",
+    "subtitle": "Información accesible sobre Santa Marta Natural",
+    "subtitleLecturaFacil": "🌿 ¡Santa Marta Natural! Disfruta sus rutas verdes, del río Tormes y sus espacios naturales.",
+    "pdfUrl": "/docs/Adaptación a Lectura Fácil - Santa Marta Natural.pdf",
+    "buttonText": "Ir a lectura fácil",
+    "content": [
+      {
+        "emoji": "🌳",
+        "text": "La Isla del Soto es un parque natural muy bonito donde puedes pasear, hacer deporte y disfrutar de la naturaleza."
+      },
+      {
+        "emoji": "🚶",
+        "text": "Hay caminos para pasear, carriles bici, y zonas para sentarse y relajarte junto al río Tormes."
+      },
+      {
+        "emoji": "🦆",
+        "text": "En la isla viven muchos pájaros y animales. Puedes ver patos, garzas y otras aves."
+      },
+      {
+        "emoji": "🏛️",
+        "text": "El Centro de Interpretación te explica la historia y la naturaleza de la Isla del Soto."
+      },
+      {
+        "emoji": "🎧",
+        "text": "Puedes usar la audioguía de la Isla del Soto para conocer más sobre la naturaleza mientras paseas."
+      },
+      {
+        "emoji": "♿",
+        "text": "Los caminos son accesibles y hay pasarelas para cruzar el río desde diferentes puntos del pueblo."
+      }
+    ]
+  },
+
+  "mapa": {
+    "visible": true,
+    "title": "¿Dónde están los espacios naturales?",
+    "subtitle": "Ubicaciones en Santa Marta",
+    "locations": [
+      {
+        "name": "Isla del Soto",
+        "description": "Parque natural junto al río Tormes",
+        "coordinates": [40.95264807709702, -5.636532175503943]
+      },
+      {
+        "name": "Centro de Interpretación",
+        "description": "Centro de Interpretación de la Isla del Soto",
+        "coordinates": [40.952270516013584, -5.632678987163401]
+      },
+      {
+        "name": "Pasarela desde La Aldehuela",
+        "description": "Acceso a la Isla del Soto",
+        "coordinates": [40.95301270973846, -5.635148155783474]
+      },
+      {
+        "name": "Pasarela desde Al Fontana",
+        "description": "Acceso a la Isla del Soto",
+        "coordinates": [40.953214853347895, -5.638477865332619]
+      },
+      {
+        "name": "Pasarela desde Plaza Iglesia",
+        "description": "Acceso a la Isla del Soto",
+        "coordinates": [40.95188025018759, -5.6310139627174065]
+      }
+    ]
+  },
+
+  "bannerCTA": {
+    "visible": true,
+    "link": "https://www.isla.santamartaccesible.com",
+    "emoji": "🎧",
+    "title": "Descubre Nuestras Audioguías",
+    "subtitle": "Disfruta la Isla del Soto con audio accesible",
+    "bgGradient": "from-green-500 to-green-700"
+  },
+
+  "burbujas": [
+    "Isla del Soto",
+    "Centro de Interpretación",
+    "Audioguía Isla del Soto"
+  ]
+}

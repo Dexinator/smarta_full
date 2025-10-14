@@ -1,0 +1,113 @@
+{
+  "title": "Santa Marta Artística | Santa Marta de Tormes",
+  "description": "Descubre el arte de Santa Marta de Tormes. Museos, murales, salas de exposición y audioguías accesibles.",
+  "lang": "es",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "1123859116",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Santa Marta Artística",
+    "subtitle": "Museos, Murales y Arte Urbano"
+  },
+
+  "lecturaFacil": {
+    "visible": true,
+    "title": "Lectura Fácil",
+    "subtitle": "Información accesible sobre Santa Marta Artística",
+    "subtitleLecturaFacil": "🎨 ¡Santa Marta Artística! No te pierdas sus museos, sus murales y sus salas de exposición.",
+    "pdfUrl": "/docs/Adaptación a Lectura Fácil - Santa Marta Artística.pdf",
+    "buttonText": "Ir a lectura fácil",
+    "content": [
+      {
+        "emoji": "🎨",
+        "text": "Santa Marta de Tormes tiene muchos museos y espacios de arte donde puedes ver cuadros, esculturas y exposiciones."
+      },
+      {
+        "emoji": "🖼️",
+        "text": "Puedes visitar el MAC José Fuentes, el Museo del Grabado, y los espacios Serzo y Agustín Casillas."
+      },
+      {
+        "emoji": "🏛️",
+        "text": "Hay salas de exposiciones como Tragaluz, Miguel Delibes y Protagonistas con exposiciones temporales."
+      },
+      {
+        "emoji": "🎧",
+        "text": "También puedes hacer la Ruta de los Murales con audioguías que te explican cada mural."
+      },
+      {
+        "emoji": "🌳",
+        "text": "El Arte Emboscado son esculturas de metal que encuentras paseando por los parques y calles."
+      },
+      {
+        "emoji": "📱",
+        "text": "Las audioguías son gratuitas y accesibles para todos. Puedes escucharlas desde tu móvil."
+      }
+    ]
+  },
+
+  "mapa": {
+    "visible": true,
+    "title": "¿Dónde están los espacios de arte?",
+    "subtitle": "Ubicaciones en Santa Marta",
+    "locations": [
+      {
+        "name": "MAC José Fuentes",
+        "description": "Museo de Arte Contemporáneo",
+        "coordinates": [40.94903821068262, -5.630767828997082]
+      },
+      {
+        "name": "Museo del Grabado",
+        "description": "Museo del Grabado y Obra Múltiple",
+        "coordinates": [40.950715570966466, -5.631181309935234]
+      },
+      {
+        "name": "Espacio Serzo",
+        "description": "Espacio de exposiciones",
+        "coordinates": [40.94916213387142, -5.630791420405776]
+      },
+      {
+        "name": "Espacio Agustín Casillas",
+        "description": "Espacio de escultura",
+        "coordinates": [40.949733420918456, -5.629289383399149]
+      },
+      {
+        "name": "Sala Tragaluz",
+        "description": "Sala de Exposiciones",
+        "coordinates": [40.94862730746121, -5.627921456776943]
+      },
+      {
+        "name": "Sala Miguel Delibes",
+        "description": "Sala de Exposiciones",
+        "coordinates": [40.95225375214037, -5.632879158521092]
+      },
+      {
+        "name": "Sala Protagonistas",
+        "description": "Sala de Exposiciones",
+        "coordinates": [40.9491150877696, -5.630794930957536]
+      }
+    ]
+  },
+
+  "bannerCTA": {
+    "visible": true,
+    "link": "https://www.murales.santamartaccesible.com",
+    "emoji": "🎧",
+    "title": "Descubre Nuestras Audioguías",
+    "subtitle": "Disfruta los murales con audio accesible",
+    "bgGradient": "from-SM-blue to-blue-700"
+  },
+
+  "burbujas": [
+    "MAC José Fuentes",
+    "Museo del Grabado",
+    "Espacio Serzo",
+    "Espacio Agustín Casillas",
+    "Sala Tragaluz",
+    "Sala Miguel Delibes",
+    "Sala Protagonistas",
+    "Ruta Murales",
+    "Arte Emboscado",
+    "Audioguía Murales"
+  ]
+}

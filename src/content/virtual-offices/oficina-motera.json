@@ -1,0 +1,69 @@
+{
+  "title": "Santa Marta Motera | Santa Marta de Tormes",
+  "description": "Descubre el Museo de la Moto Histórica en Santa Marta de Tormes. Piezas únicas y colecciones de motos clásicas.",
+  "lang": "es",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "1123861502",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Santa Marta Motera",
+    "subtitle": "Museo de la Moto Histórica"
+  },
+
+  "lecturaFacil": {
+    "visible": true,
+    "title": "Lectura Fácil",
+    "subtitle": "Información accesible sobre Santa Marta Motera",
+    "subtitleLecturaFacil": "🏍️ ¡Santa Marta Motera! Descubre piezas únicas en el Museo de la Moto Histórica.",
+    "pdfUrl": "/docs/Adaptación a Lectura Fácil - Santa Marta Motera.pdf",
+    "buttonText": "Ir a lectura fácil",
+    "content": [
+      {
+        "emoji": "🏍️",
+        "text": "El Museo de la Moto Histórica tiene una colección de motos antiguas y clásicas muy especiales."
+      },
+      {
+        "emoji": "🏆",
+        "text": "Puedes ver motos que participaron en carreras famosas y motos que usaban las personas hace muchos años."
+      },
+      {
+        "emoji": "📸",
+        "text": "Hay motos de diferentes países y épocas. Algunas tienen más de 100 años."
+      },
+      {
+        "emoji": "👨‍🏫",
+        "text": "El museo te explica la historia de cada moto y cómo funcionaban las motos antiguas."
+      },
+      {
+        "emoji": "♿",
+        "text": "El museo es accesible y todos pueden visitarlo. La entrada es gratuita."
+      },
+      {
+        "emoji": "📅",
+        "text": "Puedes consultar los horarios de apertura y organizar tu visita."
+      }
+    ]
+  },
+
+  "mapa": {
+    "visible": true,
+    "title": "¿Dónde está el Museo de la Moto?",
+    "subtitle": "Ubicación en Santa Marta",
+    "locations": [
+      {
+        "name": "Museo de la Moto Histórica",
+        "description": "Museo con colección de motos clásicas",
+        "coordinates": [40.94911306191609, -5.627337563607579]
+      }
+    ]
+  },
+
+  "bannerCTA": {
+    "visible": false
+  },
+
+  "burbujas": [
+    "Museo de la Moto Histórica"
+  ]
+}

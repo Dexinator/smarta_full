@@ -1,0 +1,100 @@
+{
+  "title": "Santa Marta Familiar | Santa Marta de Tormes",
+  "description": "Descubre Santa Marta en familia. Rutas, aventuras y actividades para disfrutar todos juntos.",
+  "lang": "es",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "1123861502",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Santa Marta Familiar",
+    "subtitle": "Aventuras y Actividades para Toda la Familia"
+  },
+
+  "lecturaFacil": {
+    "visible": true,
+    "title": "Lectura Fácil",
+    "subtitle": "Información accesible sobre Santa Marta Familiar",
+    "subtitleLecturaFacil": "👨‍👩‍👧‍👦 ¡Santa Marta Familiar! Vive actividades y aventuras en familia.",
+    "pdfUrl": "/docs/Adaptación a Lectura Fácil - Santa Marta Familiar.pdf",
+    "buttonText": "Ir a lectura fácil",
+    "content": [
+      {
+        "emoji": "✏️",
+        "text": "La Ruta de los Lápices es un juego para encontrar lápices gigantes de colores por las calles del pueblo."
+      },
+      {
+        "emoji": "🐛",
+        "text": "La Ruta de los Bichos es para buscar esculturas de insectos y aprender sobre ellos mientras juegas."
+      },
+      {
+        "emoji": "🎨",
+        "text": "También puedes hacer la Ruta de los Murales y descubrir las pinturas en las paredes del pueblo."
+      },
+      {
+        "emoji": "🧚",
+        "text": "La Isla del Soto Encantada es un espacio con historias de hadas y duendes para los más pequeños."
+      },
+      {
+        "emoji": "🌳",
+        "text": "La Isla del Soto tiene zonas de juegos, merenderos y espacios para pasar el día en familia."
+      },
+      {
+        "emoji": "🎮",
+        "text": "Hay muchas aventuras interactivas y experiencias para que toda la familia se divierta junta."
+      }
+    ]
+  },
+
+  "mapa": {
+    "visible": true,
+    "title": "¿Dónde están las actividades familiares?",
+    "subtitle": "Ubicaciones en Santa Marta",
+    "locations": [
+      {
+        "name": "Isla del Soto",
+        "description": "Parque natural con zonas de juego y merenderos",
+        "coordinates": [40.95264807709702, -5.636532175503943]
+      },
+      {
+        "name": "Centro de Interpretación",
+        "description": "Centro de Interpretación de la Isla del Soto",
+        "coordinates": [40.952270516013584, -5.632678987163401]
+      },
+      {
+        "name": "Isla del Soto Encantada",
+        "description": "Espacio de cuentos y leyendas",
+        "coordinates": [40.94928204234335, -5.629937204019709]
+      },
+      {
+        "name": "Ruta de los Lápices - Punto 1",
+        "description": "Inicio de la Ruta de los Lápices",
+        "coordinates": [40.95322338759185, -5.637900680365301]
+      },
+      {
+        "name": "Ruta de los Bichos - Punto 1",
+        "description": "Inicio de la Ruta de los Bichos",
+        "coordinates": [40.949947057698786, -5.632746121861494]
+      }
+    ]
+  },
+
+  "bannerCTA": {
+    "visible": true,
+    "link": "/#aventuras",
+    "emoji": "🎮",
+    "title": "Descubre Nuestras Aventuras",
+    "subtitle": "Vive experiencias interactivas únicas mientras exploras Santa Marta",
+    "bgGradient": "from-SM-yellow to-yellow-600"
+  },
+
+  "burbujas": [
+    "Ruta Lápices",
+    "Ruta Bichos",
+    "Ruta Murales",
+    "Isla del Soto Encantada",
+    "Isla del Soto",
+    "Centro de Interpretación",
+    "Aventuras"
+  ]
+}

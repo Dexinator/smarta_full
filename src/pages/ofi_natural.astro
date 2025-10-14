@@ -1,0 +1,11 @@
+---
+// Página de Oficina Virtual Natural
+// Santa Marta Natural - Naturaleza, Rutas Verdes y Río Tormes
+import { getEntry } from 'astro:content';
+import VirtualOfficeLayout from '../layouts/VirtualOfficeLayout.astro';
+
+// Cargar configuración desde content collection
+const config = await getEntry('virtual-offices', 'oficina-natural');
+---
+
+<VirtualOfficeLayout config={config.data} />

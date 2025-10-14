@@ -1,0 +1,11 @@
+---
+// Página de Oficina Virtual Familiar
+// Santa Marta Familiar - Aventuras y Actividades para Toda la Familia
+import { getEntry } from 'astro:content';
+import VirtualOfficeLayout from '../layouts/VirtualOfficeLayout.astro';
+
+// Cargar configuración desde content collection
+const config = await getEntry('virtual-offices', 'oficina-familiar');
+---
+
+<VirtualOfficeLayout config={config.data} />

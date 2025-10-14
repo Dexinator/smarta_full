@@ -21,12 +21,14 @@ const virtualOfficesCollection = defineCollection({
     lecturaFacil: z.object({
       visible: z.boolean().default(true),
       title: z.string().default('Lectura Fácil'),
+      subtitle: z.string().optional(),
+      subtitleLecturaFacil: z.string().optional(),
       pdfUrl: z.string().optional(),
       buttonText: z.string().default('Ir a lectura fácil'),
       content: z.array(z.object({
         emoji: z.string(),
         text: z.string(),
-      })),
+      })).optional(),
     }).optional(),
 
     // Sección 3: Mapa
@@ -53,11 +55,11 @@ const virtualOfficesCollection = defineCollection({
     // Sección 4: Banner CTA (Audioguía u otro)
     bannerCTA: z.object({
       visible: z.boolean().default(true),
-      link: z.string(),
-      emoji: z.string().default('🎧'),
-      title: z.string(),
-      subtitle: z.string(),
-      bgGradient: z.string().default('from-SM-blue to-blue-700'),
+      link: z.string().optional(),
+      emoji: z.string().default('🎧').optional(),
+      title: z.string().optional(),
+      subtitle: z.string().optional(),
+      bgGradient: z.string().default('from-SM-blue to-blue-700').optional(),
     }).optional(),
 
     // Sección 5: Información y Horarios
@@ -100,6 +102,9 @@ const virtualOfficesCollection = defineCollection({
         gradient: z.string(),
       })),
     }).optional(),
+
+    // Burbujas personalizadas (opcional)
+    burbujas: z.array(z.string()).optional(),
   }),
 });
 
