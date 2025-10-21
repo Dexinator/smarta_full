@@ -1,0 +1,13 @@
+from-SM-blue
+to-blue-700
+dark:from-blue-800
+dark:to-blue-900
+from-emerald-700
+to-emerald-800
+dark:from-emerald-900
+dark:to-emerald-950
+from-SM-yellow
+to-yellow-600
+dark:from-yellow-700
+dark:to-yellow-800
+bg-gradient-to-r

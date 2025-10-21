@@ -1,11 +1,5 @@
 @import "tailwindcss";
 
-/* Safelist de clases dinámicas para gradientes de oficinas virtuales */
-@source inline('from-SM-blue to-blue-700 from-blue-800 to-blue-900');
-@source inline('from-emerald-700 to-emerald-800 from-emerald-900 to-emerald-950');
-@source inline('from-SM-yellow to-yellow-600 from-yellow-700 to-yellow-800');
-@source inline('bg-gradient-to-r');
-
 /* Configuración de modo oscuro manual para Tailwind CSS 4 */
 @custom-variant dark (&:where(.dark, .dark *));
 

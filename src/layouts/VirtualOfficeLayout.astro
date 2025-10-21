@@ -47,8 +47,16 @@ const {
   burbujas: burbujasFiltradas,
 } = config;
 
-// Obtener el tema del banner
-const bannerTheme = bannerCTA?.bgGradientTheme || 'blue';
+// Mapear el tema a clases completas (las clases deben estar literales para que Tailwind las detecte)
+let bannerClasses = 'min-h-[50vh] sm:min-h-[40vh] bg-gradient-to-r flex items-center ';
+if (bannerCTA?.bgGradientTheme === 'emerald') {
+  bannerClasses += 'from-emerald-700 to-emerald-800 dark:from-emerald-900 dark:to-emerald-950';
+} else if (bannerCTA?.bgGradientTheme === 'yellow') {
+  bannerClasses += 'from-SM-yellow to-yellow-600 dark:from-yellow-700 dark:to-yellow-800';
+} else {
+  // Default blue
+  bannerClasses += 'from-SM-blue to-blue-700 dark:from-blue-800 dark:to-blue-900';
+}
 
 // Definir todas las burbujas disponibles con imágenes
 const todasBurbujas = {
@@ -201,14 +209,7 @@ const burbujas = burbujasFiltradas
     {bannerCTA?.visible && (
       <section
         id="banner-cta"
-        class:list={[
-          'min-h-[50vh] sm:min-h-[40vh] bg-gradient-to-r flex items-center',
-          {
-            'from-SM-blue to-blue-700 dark:from-blue-800 dark:to-blue-900': bannerTheme === 'blue',
-            'from-emerald-700 to-emerald-800 dark:from-emerald-900 dark:to-emerald-950': bannerTheme === 'emerald',
-            'from-SM-yellow to-yellow-600 dark:from-yellow-700 dark:to-yellow-800': bannerTheme === 'yellow',
-          }
-        ]}
+        class={bannerClasses}
       >
         <a
           href={bannerCTA.link}
@@ -330,7 +331,7 @@ const burbujas = burbujasFiltradas
 
           <!-- Contenido de lectura fácil (inicialmente oculto) -->
           <div id="contenido-lectura-facil" class="hidden bg-slate-50 dark:bg-slate-800 rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12 shadow-lg transition-all duration-500 ease-in-out">
-            <div class="prose prose-base sm:prose-lg dark:prose-invert max-w-none lectura-facil-content">
+            <div class="prose prose-base sm:prose-lg dark:prose-invert max-w-none lectura-facil-content [&_ul]:list-disc [&_ul]:pl-8 [&_li]:list-item">
               <div class="space-y-4 sm:space-y-6 text-base sm:text-lg leading-relaxed" set:html={lecturaFacil.content} />
             </div>
           </div>
@@ -391,6 +392,35 @@ const burbujas = burbujasFiltradas
 
   .lectura-facil-content p {
     margin-bottom: 1.5rem;
+  }
+
+  /* Forzar bullets visibles con mayor especificidad */
+  .lectura-facil-content ul {
+    list-style-type: disc !important;
+    list-style-position: outside !important;
+    padding-left: 2.5rem !important;
+    margin-bottom: 1.5rem;
+  }
+
+  .lectura-facil-content ul li {
+    display: list-item !important;
+    list-style-type: disc !important;
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  /* Sobrescribir estilos de prose que puedan ocultar bullets */
+  .prose.lectura-facil-content ul {
+    list-style-type: disc !important;
+    padding-left: 2.5rem !important;
+  }
+
+  .prose.lectura-facil-content ul li {
+    list-style-type: disc !important;
+  }
+
+  .prose.lectura-facil-content ul li::marker {
+    color: currentColor !important;
   }
 
   /* Mejoras de accesibilidad */
