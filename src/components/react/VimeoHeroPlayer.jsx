@@ -497,10 +497,21 @@ const VimeoHeroPlayer = ({
           position: absolute !important;
           top: 0 !important;
           left: 0 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
         }
 
-        .vimeo-hero-container iframe,
+        /* Contenedor para mantener aspect ratio 9:16 (vertical) */
         .vimeo-hero-container > div {
+          position: relative !important;
+          width: auto !important;
+          height: 100% !important;
+          aspect-ratio: 9 / 16 !important;
+          max-width: 100% !important;
+        }
+
+        .vimeo-hero-container iframe {
           position: absolute !important;
           top: 0 !important;
           left: 0 !important;
@@ -508,19 +519,19 @@ const VimeoHeroPlayer = ({
           height: 100% !important;
         }
 
-        /* Optimizado para video vertical 9:16 */
-        @media (max-width: 768px) and (orientation: portrait) {
-          .vimeo-hero-container iframe,
+        /* En pantallas muy anchas, limitar el ancho basado en la altura */
+        @media (min-aspect-ratio: 9/16) {
           .vimeo-hero-container > div {
-            object-fit: cover !important;
+            height: 100% !important;
+            width: auto !important;
           }
         }
 
-        /* En desktop/landscape, centrar el video */
-        @media (min-width: 769px), (orientation: landscape) {
-          .vimeo-hero-container iframe,
+        /* En pantallas más altas que el video, ajustar por altura */
+        @media (max-aspect-ratio: 9/16) {
           .vimeo-hero-container > div {
-            object-fit: contain !important;
+            width: 100% !important;
+            height: auto !important;
           }
         }
       `}} />

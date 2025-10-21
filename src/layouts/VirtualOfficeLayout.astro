@@ -47,16 +47,8 @@ const {
   burbujas: burbujasFiltradas,
 } = config;
 
-// Mapear el tema a clases completas (las clases deben estar literales para que Tailwind las detecte)
-let bannerClasses = 'min-h-[50vh] sm:min-h-[40vh] bg-gradient-to-r flex items-center ';
-if (bannerCTA?.bgGradientTheme === 'emerald') {
-  bannerClasses += 'from-emerald-700 to-emerald-800 dark:from-emerald-900 dark:to-emerald-950';
-} else if (bannerCTA?.bgGradientTheme === 'yellow') {
-  bannerClasses += 'from-SM-yellow to-yellow-600 dark:from-yellow-700 dark:to-yellow-800';
-} else {
-  // Default blue
-  bannerClasses += 'from-SM-blue to-blue-700 dark:from-blue-800 dark:to-blue-900';
-}
+// Obtener el tema del banner (por defecto blue)
+const bannerTheme = bannerCTA?.bgGradientTheme || 'blue';
 
 // Definir todas las burbujas disponibles con imágenes
 const todasBurbujas = {
@@ -100,7 +92,7 @@ const burbujas = burbujasFiltradas
         <div id="hero-overlay" class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40 z-10"></div>
 
         <!-- Contenedor del video Vimeo -->
-        <div class="absolute inset-0 flex items-center justify-center bg-slate-900">
+        <div class="absolute inset-0 flex items-center justify-center bg-black">
           <VimeoHeroPlayer
             vimeoId={hero.videoUrl}
             posterUrl={hero.posterUrl || "/placeholder-video.jpg"}
@@ -117,9 +109,6 @@ const burbujas = burbujasFiltradas
           <h1 id="hero-title" class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 animate-fade-in-up">
             {hero.title}
           </h1>
-          <p id="hero-subtitle" class="text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-6 animate-fade-in-up animation-delay-200">
-            {hero.subtitle}
-          </p>
 
           <!-- Botón de scroll -->
           <button
@@ -209,7 +198,8 @@ const burbujas = burbujasFiltradas
     {bannerCTA?.visible && (
       <section
         id="banner-cta"
-        class={bannerClasses}
+        data-theme={bannerTheme}
+        class="banner-cta min-h-[50vh] sm:min-h-[40vh] flex items-center"
       >
         <a
           href={bannerCTA.link}
@@ -435,6 +425,36 @@ const burbujas = burbujasFiltradas
     }
   }
 
+  /* Estilos de gradiente para el banner CTA según el tema */
+  .banner-cta {
+    background: linear-gradient(to right, #0072c0, #1d4ed8); /* blue por defecto */
+  }
+
+  .banner-cta[data-theme="blue"] {
+    background: linear-gradient(to right, #0072c0, #1d4ed8);
+  }
+
+  .banner-cta[data-theme="emerald"] {
+    background: linear-gradient(to right, #047857, #065f46);
+  }
+
+  .banner-cta[data-theme="yellow"] {
+    background: linear-gradient(to right, #f8c200, #d97706);
+  }
+
+  /* Modo oscuro */
+  .dark .banner-cta[data-theme="blue"] {
+    background: linear-gradient(to right, #1e40af, #1e3a8a);
+  }
+
+  .dark .banner-cta[data-theme="emerald"] {
+    background: linear-gradient(to right, #064e3b, #022c22);
+  }
+
+  .dark .banner-cta[data-theme="yellow"] {
+    background: linear-gradient(to right, #b45309, #92400e);
+  }
+
   /* Asegurar que el video sea responsive */
   #vertical-video {
     min-width: 100%;
@@ -460,15 +480,13 @@ const burbujas = burbujasFiltradas
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Fade out del título, subtítulo y sombreado después de 4 segundos
+    // Fade out del título y sombreado después de 4 segundos
     const heroTitle = document.getElementById('hero-title');
-    const heroSubtitle = document.getElementById('hero-subtitle');
     const heroOverlay = document.getElementById('hero-overlay');
 
-    if (heroTitle && heroSubtitle && heroOverlay) {
+    if (heroTitle && heroOverlay) {
       setTimeout(() => {
         heroTitle.classList.add('fade-out-hero');
-        heroSubtitle.classList.add('fade-out-hero');
         heroOverlay.classList.add('fade-out-hero');
       }, 4000); // 4 segundos
     }
