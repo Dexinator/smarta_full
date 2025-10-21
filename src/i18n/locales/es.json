@@ -19,28 +19,28 @@
         "title": "Arte",
         "description": "Museos, murales y salas de exposición",
         "icon": "🎨",
-        "link": "/arte"
+        "link": "/ofi_arte"
       },
       {
         "id": "nature",
         "title": "Naturaleza",
         "description": "Rutas verdes, río Tormes y espacios naturales",
         "icon": "🌿",
-        "link": "/naturaleza"
+        "link": "/ofi_natural"
       },
       {
         "id": "motorcycles",
         "title": "Motos",
         "description": "Museo de la Moto Histórica",
         "icon": "🏍️",
-        "link": "/motos"
+        "link": "/ofi_motera"
       },
       {
         "id": "family",
         "title": "Familia",
         "description": "Actividades y planes para toda la familia",
         "icon": "👨‍👩‍👧‍👦",
-        "link": "/familia"
+        "link": "/ofi_familiar"
       }
     ],
     "hint": "Selecciona una categoría para explorar"

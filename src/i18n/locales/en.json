@@ -19,28 +19,28 @@
         "title": "Art",
         "description": "Museums, murals, and exhibition spaces",
         "icon": "🎨",
-        "link": "/en/art"
+        "link": "/en/ofi_arte"
       },
       {
         "id": "nature",
         "title": "Nature",
         "description": "Soto Island, river walks and natural areas",
         "icon": "🌿",
-        "link": "/en/nature"
+        "link": "/en/ofi_natural"
       },
       {
         "id": "motorcycles",
         "title": "Motorbikes",
         "description": "The Historical Motorbike Museum",
         "icon": "🏍️",
-        "link": "/en/motorcycles"
+        "link": "/en/ofi_motera"
       },
       {
         "id": "family",
         "title": "Family",
         "description": "Activities and plans for the whole family",
         "icon": "👨‍👩‍👧‍👦",
-        "link": "/en/family"
+        "link": "/en/ofi_familiar"
       }
     ],
     "hint": "Select a category to start exploring"
