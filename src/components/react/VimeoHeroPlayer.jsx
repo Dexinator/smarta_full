@@ -342,7 +342,7 @@ const VimeoHeroPlayer = ({
       {/* Video container */}
       <div className={`relative ${isFullscreen ? 'w-full h-full' : 'w-full h-full'}`}>
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-end pb-20 bg-slate-900 z-20">
+          <div className="absolute inset-0 flex items-end justify-center pb-20 bg-slate-900 z-20">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-4 border-SM-blue border-t-transparent mb-4 mx-auto"></div>
               <p className="text-white">Cargando video...</p>
