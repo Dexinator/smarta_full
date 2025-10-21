@@ -88,7 +88,7 @@ const burbujas = burbujasFiltradas
   <main id="main-content" class="flex-1">
     <!-- Sección 1: Video Hero -->
     {hero?.visible && (
-      <section id="video-section" class="relative h-[100dvh] w-full overflow-hidden">
+      <section id="video-section" class="relative h-[100dvh] w-full overflow-hidden -mt-[90px] sm:-mt-[100px] md:-mt-[120px]">
         <div id="hero-overlay" class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40 z-10"></div>
 
         <!-- Contenedor del video Vimeo -->
@@ -105,7 +105,7 @@ const burbujas = burbujasFiltradas
         </div>
 
         <!-- Overlay con título -->
-        <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-white text-center px-4">
+        <div class="absolute inset-0 z-40 flex flex-col items-center justify-center text-white text-center px-4">
           <h1 id="hero-title" class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 animate-fade-in-up">
             {hero.title}
           </h1>
@@ -489,37 +489,6 @@ const burbujas = burbujasFiltradas
         heroTitle.classList.add('fade-out-hero');
         heroOverlay.classList.add('fade-out-hero');
       }, 4000); // 4 segundos
-    }
-
-    // Scroll snap del video a la segunda sección
-    let isSnapping = false;
-    const videoSection = document.getElementById('video-section');
-    const secondSection = document.querySelector('#main-content section:nth-child(2)') as HTMLElement;
-
-    if (videoSection && secondSection) {
-      let scrollTimeout: number;
-
-      window.addEventListener('scroll', () => {
-        if (isSnapping) return;
-
-        clearTimeout(scrollTimeout);
-        scrollTimeout = window.setTimeout(() => {
-          const scrollY = window.scrollY;
-          const videoHeight = videoSection.offsetHeight;
-          const threshold = videoHeight * 0.5; // 50% del video
-
-          // Si estamos entre el video y la mitad, hacer snap
-          if (scrollY > 100 && scrollY < threshold) {
-            isSnapping = true;
-            secondSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            setTimeout(() => { isSnapping = false; }, 1000);
-          } else if (scrollY >= threshold && scrollY < videoHeight - 100) {
-            isSnapping = true;
-            secondSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            setTimeout(() => { isSnapping = false; }, 1000);
-          }
-        }, 150);
-      });
     }
 
     // Toggle para contenido de Lectura Fácil
