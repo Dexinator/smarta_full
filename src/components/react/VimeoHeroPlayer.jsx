@@ -354,7 +354,7 @@ const VimeoHeroPlayer = ({
 
         {/* Controles flotantes arriba a la derecha (solo cuando NO está en fullscreen) */}
         {!isFullscreen && isReady && (
-          <div className="absolute top-[128px] sm:top-[140px] md:top-4 z-20" style={{ right: isMobile ? '16px' : 'max(16px, calc(50% - min(100vh * 9 / 32, 50vw) + 16px))' }}>
+          <div className="absolute top-[100px] sm:top-[112px] md:top-4 z-[45]" style={{ right: isMobile ? '16px' : 'max(16px, calc(50% - min(100vh * 9 / 32, 50vw) + 16px))' }}>
             <div className="flex items-center gap-3 bg-transparent rounded-full px-4 py-3">
               {/* Play/Pause */}
               <button
