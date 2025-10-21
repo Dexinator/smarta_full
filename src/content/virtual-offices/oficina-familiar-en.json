@@ -54,7 +54,7 @@
     "emoji": "🎮",
     "title": "Discover Our Adventures",
     "subtitle": "Experience unique interactive experiences while exploring Santa Marta",
-    "bgGradient": "from-SM-yellow to-yellow-600"
+    "bgGradientTheme": "yellow"
   },
 
   "burbujas": [

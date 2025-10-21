@@ -50,11 +50,11 @@
 
   "bannerCTA": {
     "visible": true,
-    "link": "https://www.isla.santamartaccesible.com",
+    "link": "https://soto.santamartaccesible.com/english",
     "emoji": "🎧",
     "title": "Discover Our Audio Guides",
     "subtitle": "Enjoy Isla del Soto with accessible audio",
-    "bgGradient": "from-emerald-700 to-emerald-800"
+    "bgGradientTheme": "emerald"
   },
 
   "burbujas": [

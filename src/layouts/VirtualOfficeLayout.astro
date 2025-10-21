@@ -47,6 +47,9 @@ const {
   burbujas: burbujasFiltradas,
 } = config;
 
+// Obtener el tema del banner
+const bannerTheme = bannerCTA?.bgGradientTheme || 'blue';
+
 // Definir todas las burbujas disponibles con imágenes
 const todasBurbujas = {
   'MAC José Fuentes': { title: 'MAC José Fuentes', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-arte-contemporaneo', img: imgMacJoseFuentes },
@@ -61,7 +64,7 @@ const todasBurbujas = {
   'Audioguía Murales': { title: 'Audioguía Murales', link: 'https://murales.santamartaccesible.com', img: imgAudioguiaMurales },
   'Isla del Soto': { title: 'Isla del Soto', link: 'https://www.turismosantamartadetormes.com/isla-del-soto', img: imgIslaSoto },
   'Centro de Interpretación': { title: 'Centro de Interpretación', link: 'https://www.turismosantamartadetormes.com/museo/centro-de-interpretacion-isla-del-soto', img: imgCentroInterpretacion },
-  'Audioguía Isla del Soto': { title: 'Audioguía Isla del Soto', link: 'https://www.isla.santamartaccesible.com', img: imgAudioguiaIsla },
+  'Audioguía Isla del Soto': { title: 'Audioguía Isla del Soto', link: 'https://soto.santamartaccesible.com/', img: imgAudioguiaIsla },
   'Museo de la Moto Histórica': { title: 'Museo de la Moto Histórica', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-la-moto-historica', img: imgMuseoMoto },
   'Ruta Lápices': { title: 'Ruta Lápices', link: 'https://www.turismosantamartadetormes.com/ruta-lapices', img: imgRutaLapices },
   'Ruta Bichos': { title: 'Ruta Bichos', link: 'https://www.turismosantamartadetormes.com/ruta-bichos-soto', img: imgRutaBichos },
@@ -196,7 +199,17 @@ const burbujas = burbujasFiltradas
 
     <!-- Sección 4: Banner CTA -->
     {bannerCTA?.visible && (
-      <section id="banner-cta" class={`min-h-[50vh] sm:min-h-[40vh] bg-gradient-to-r ${bannerCTA.bgGradient} dark:from-blue-800 dark:to-blue-900 flex items-center`}>
+      <section
+        id="banner-cta"
+        class:list={[
+          'min-h-[50vh] sm:min-h-[40vh] bg-gradient-to-r flex items-center',
+          {
+            'from-SM-blue to-blue-700 dark:from-blue-800 dark:to-blue-900': bannerTheme === 'blue',
+            'from-emerald-700 to-emerald-800 dark:from-emerald-900 dark:to-emerald-950': bannerTheme === 'emerald',
+            'from-SM-yellow to-yellow-600 dark:from-yellow-700 dark:to-yellow-800': bannerTheme === 'yellow',
+          }
+        ]}
+      >
         <a
           href={bannerCTA.link}
           class="w-full py-8 sm:py-12 px-4 hover:opacity-90 transition-opacity active:scale-[0.99] transform"

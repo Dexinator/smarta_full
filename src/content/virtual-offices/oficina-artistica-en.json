@@ -64,7 +64,7 @@
     "emoji": "🎧",
     "title": "Discover Our Audio Guides",
     "subtitle": "Enjoy the murals with accessible audio",
-    "bgGradient": "from-SM-blue to-blue-700"
+    "bgGradientTheme": "blue"
   },
 
   "burbujas": [

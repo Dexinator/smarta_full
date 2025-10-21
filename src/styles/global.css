@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Safelist de clases dinámicas para gradientes de oficinas virtuales */
+@source inline('from-SM-blue to-blue-700 from-blue-800 to-blue-900');
+@source inline('from-emerald-700 to-emerald-800 from-emerald-900 to-emerald-950');
+@source inline('from-SM-yellow to-yellow-600 from-yellow-700 to-yellow-800');
+@source inline('bg-gradient-to-r');
+
 /* Configuración de modo oscuro manual para Tailwind CSS 4 */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -45,6 +51,19 @@
   --color-yellow-700: #b45309;
   --color-yellow-800: #92400e;
   --color-yellow-900: #78350f;
+
+  /* Colores esmeralda (emerald) */
+  --color-emerald-50: #ecfdf5;
+  --color-emerald-100: #d1fae5;
+  --color-emerald-200: #a7f3d0;
+  --color-emerald-300: #6ee7b7;
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #059669;
+  --color-emerald-700: #047857;
+  --color-emerald-800: #065f46;
+  --color-emerald-900: #064e3b;
+  --color-emerald-950: #022c22;
 
   /* Colores grises */
   --color-gray-50: #f9fafb;

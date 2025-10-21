@@ -1,0 +1,32 @@
+<p class="western" lang="es-ES" align="left"><span style="font-size: small;"><span style="font-size: large;"><strong>Santa</strong></span> <span style="font-size: large;"><strong>Marta</strong></span> <span style="font-size: large;"><strong>Motera</strong></span></span></p>
+<p class="western" lang="es-ES">&nbsp;</p>
+<p class="western" lang="es-ES">&iquest;Te gustar&iacute;a ver de cerca motos muy especiales y antiguas?<br /> En Santa Marta de Tormes puedes hacerlo.</p>
+<p class="western" lang="es-ES" align="left"><span style="font-size: small;"><span style="font-size: large;">Aqu&iacute;</span> <span style="font-size: large;">est&aacute;</span> <span style="font-size: large;">el</span> <span style="font-size: large;"><strong>Museo</strong></span> <span style="font-size: large;"><strong>de</strong></span> <span style="font-size: large;"><strong>la</strong></span> <span style="font-size: large;"><strong>Moto </strong></span><span style="font-size: large;"><strong>Hist&oacute;rica</strong></span></span></p>
+<p class="western" lang="es-ES">donde hay m&aacute;s de 50 motos de diferentes marcas.<br /> Por ejemplo:</p>
+<ul>
+<li>
+<p lang="es-ES" align="left"><span style="font-size: small;"><span style="font-size: large;">Harley.</span></span></p>
+</li>
+<li>
+<p lang="es-ES" align="left"><span style="font-size: small;"><span style="font-size: large;">Ducati.</span></span></p>
+</li>
+<li>
+<p lang="es-ES" align="left"><span style="font-size: small;"><span style="font-size: large;">Yamaha.</span></span></p>
+</li>
+</ul>
+<p class="western" lang="es-ES">Son motos que van desde los a&ntilde;os 30<br /> hasta el a&ntilde;o 2000.</p>
+<p class="western" lang="es-ES">Algunas son muy antiguas.<br /> Otras son piezas &uacute;nicas.</p>
+<p class="western" lang="es-ES">Todas cuentan la historia de c&oacute;mo ha cambiado el motor.</p>
+<p class="western" lang="es-ES">&nbsp;</p>
+<p class="western" lang="es-ES">No hace falta ser motera o motero para disfrutar este lugar.</p>
+<p class="western" lang="es-ES">Las ni&ntilde;as y los ni&ntilde;os se sorprender&aacute;n con los colores<br /> y las formas de las motos.</p>
+<p class="western" lang="es-ES">Las personas mayores recordar&aacute;n la emoci&oacute;n</p>
+<p class="western" lang="es-ES">de los a&ntilde;os en que la moto era s&iacute;mbolo de libertad y aventura.<br /> Lo mejor es que la entrada al museo es gratis.</p>
+<p class="western" lang="es-ES">&nbsp;</p>
+<p class="western" lang="es-ES">Muy cerca del museo hay un mural&nbsp;</p>
+<p class="western" lang="es-ES">que es un homenaje a Alfonso Serrano.&nbsp;</p>
+<p class="western" lang="es-ES">que es la persona que ha compartido todas estas motos<br /> para que podamos verlas.</p>
+<p class="western" lang="es-ES">Gracias a &eacute;l podemos disfrutar de esta colecci&oacute;n.</p>
+<p class="western" lang="es-ES">&nbsp;</p>
+<p class="western" lang="es-ES">Para saber m&aacute;s visita la web:</p>
+<h1 class="western" lang="es-ES">turismosantamartadetormes.com</h1>

@@ -66,11 +66,11 @@
 
   "bannerCTA": {
     "visible": true,
-    "link": "https://www.murales.santamartaccesible.com",
+    "link": "https://murales.santamartaccesible.com/",
     "emoji": "🎧",
     "title": "Descubre Nuestras Audioguías",
     "subtitle": "Disfruta los murales con audio accesible",
-    "bgGradient": "from-SM-blue to-blue-700"
+    "bgGradientTheme": "blue"
   },
 
   "burbujas": [
