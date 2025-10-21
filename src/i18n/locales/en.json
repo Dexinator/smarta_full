@@ -56,7 +56,7 @@
         "features": ["English audio guide", "Easy Read", "Descriptive", "LSE Sign Language"],
         "duration": "40 min",
         "stops": "20 audios",
-        "link": "/en/audioguide-murals"
+        "link": "https://murales.santamartaccesible.com/english"
       },
       {
         "id": "isla-soto",
@@ -65,7 +65,7 @@
         "features": ["English audio guide", "Easy Read", "Descriptive", "LSE Sign Language"],
         "duration": "27 min",
         "stops": "10 audios",
-        "link": "/en/audioguide-isla-soto"
+        "link": "https://soto.santamartaccesible.com/english"
       }
     ],
     "cta": "Explore the audio guide",
