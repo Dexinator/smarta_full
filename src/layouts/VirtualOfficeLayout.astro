@@ -302,13 +302,11 @@ const burbujas = burbujasFiltradas
               Lectura Fácil
             </h2>
             {lecturaFacil.subtitleLecturaFacil && (
-              <p class="text-xl sm:text-2xl md:text-3xl text-slate-600 dark:text-slate-300 mb-6" style="white-space: pre-line">
-                {lecturaFacil.subtitleLecturaFacil}
-              </p>
+              <div class="text-xl sm:text-2xl md:text-3xl text-slate-600 dark:text-slate-300 mb-12 sm:mb-16 md:mb-20 subtitle-lectura-facil [&_ul]:list-disc [&_ul]:list-outside [&_ul]:pl-6 [&_ul]:mt-2 [&_ul]:text-left [&_li]:ml-0" set:html={lecturaFacil.subtitleLecturaFacil} />
             )}
             <button
               id="toggle-lectura-facil"
-              class="text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-300 hover:text-SM-blue dark:hover:text-SM-yellow transition-colors cursor-pointer inline-flex items-center gap-2 sm:gap-3 px-4 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+              class="text-lg sm:text-xl md:text-2xl font-semibold text-white dark:text-slate-900 bg-SM-blue dark:bg-SM-yellow hover:bg-blue-700 dark:hover:bg-yellow-400 transition-all cursor-pointer inline-flex items-center gap-2 sm:gap-3 px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95"
               aria-expanded="false"
               aria-controls="contenido-lectura-facil"
             >
@@ -413,6 +411,22 @@ const burbujas = burbujasFiltradas
     color: currentColor !important;
   }
 
+  /* Estilos para subtitleLecturaFacil - centrar contenido */
+  .subtitle-lectura-facil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Alinear todo el texto a la izquierda cuando hay listas */
+  .subtitle-lectura-facil:has(ul) {
+    align-items: flex-start;
+    text-align: left;
+    max-width: max-content;
+    margin: 0 auto;
+  }
+
   /* Mejoras de accesibilidad */
   @media (prefers-reduced-motion: reduce) {
     html {
@@ -480,15 +494,19 @@ const burbujas = burbujasFiltradas
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Fade out del título y sombreado después de 4 segundos
+    // Fade out del título y sombreado después de 2s (escritorio) o 4s (móvil)
     const heroTitle = document.getElementById('hero-title');
     const heroOverlay = document.getElementById('hero-overlay');
 
     if (heroTitle && heroOverlay) {
+      // Detectar si es escritorio (ancho >= 768px)
+      const isDesktop = window.innerWidth >= 768;
+      const fadeOutDelay = isDesktop ? 2000 : 4000; // 2s escritorio, 4s móvil
+
       setTimeout(() => {
         heroTitle.classList.add('fade-out-hero');
         heroOverlay.classList.add('fade-out-hero');
-      }, 4000); // 4 segundos
+      }, fadeOutDelay);
     }
 
     // Toggle para contenido de Lectura Fácil
