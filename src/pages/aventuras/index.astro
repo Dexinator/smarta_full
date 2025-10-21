@@ -1,0 +1,257 @@
+---
+// Página índice general de todas las aventuras gamificadas
+import Layout from '../../components/Layout.astro';
+import Header from '../../components/ui/Header.astro';
+import Footer from '../../components/ui/Footer.astro';
+import { Image } from 'astro:assets';
+
+// Importar imágenes de los tipos
+import imgSubtitulada from '../../assets/images/icons/subtitulada.jpg';
+import imgLecturaFacil from '../../assets/images/icons/lectura-facil.jpg';
+import imgEnglish from '../../assets/images/icons/english.jpg';
+
+const lang = 'es';
+
+// Lista de aventuras disponibles
+const adventures = [
+  {
+    id: 'isla-misterio',
+    title: 'El Misterio de la Isla del Soto',
+    description: 'Descubre los secretos ocultos de la Isla del Soto en esta emocionante aventura interactiva.',
+    link: '/aventuras/isla-misterio',
+    image: imgSubtitulada,
+    category: 'Naturaleza',
+    duration: '30-45 min',
+    difficulty: 'Intermedio',
+    available: true
+  },
+  {
+    id: 'ruta-murales',
+    title: 'La Búsqueda de los Murales Perdidos',
+    description: 'Explora Santa Marta mientras resuelves el enigma de los murales desaparecidos.',
+    link: '/aventuras/ruta-murales',
+    image: imgLecturaFacil,
+    category: 'Arte',
+    duration: '25-35 min',
+    difficulty: 'Fácil',
+    available: true
+  }
+];
+---
+
+<Layout
+  title="Aventuras Gamificadas - Santa Marta Accesible"
+  description="Explora nuestras aventuras interactivas adaptadas para todos"
+  lang={lang}
+>
+  <Header currentPage="aventuras" lang={lang} />
+
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 py-20 text-white relative overflow-hidden">
+      <div class="absolute inset-0 bg-black/20"></div>
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="text-center max-w-4xl mx-auto">
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up">
+            Aventuras Gamificadas
+          </h1>
+          <p class="text-xl sm:text-2xl mb-8 opacity-90 animate-fade-in-up animation-delay-200">
+            Explora Santa Marta de forma interactiva y divertida
+          </p>
+          <div class="flex flex-wrap gap-4 justify-center animate-fade-in-up animation-delay-400">
+            <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+              <span class="font-semibold">🎮 Interactivo</span>
+            </div>
+            <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+              <span class="font-semibold">♿ Accesible</span>
+            </div>
+            <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+              <span class="font-semibold">🌍 Multiidioma</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative elements -->
+      <div class="absolute top-10 left-10 w-20 h-20 bg-yellow-400/20 rounded-full blur-xl"></div>
+      <div class="absolute bottom-10 right-10 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
+    </section>
+
+    <!-- Adventures Grid -->
+    <section class="py-16 bg-slate-50 dark:bg-slate-800">
+      <div class="container mx-auto px-4 max-w-7xl">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+            Aventuras Disponibles
+          </h2>
+          <p class="text-lg text-slate-600 dark:text-slate-300">
+            Selecciona una aventura para comenzar tu experiencia
+          </p>
+        </div>
+
+        <!-- Grid de aventuras -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {adventures.map((adventure) => (
+            <a
+              href={adventure.link}
+              class="group bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:scale-105"
+            >
+              <div class="relative h-64 overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600">
+                <Image
+                  src={adventure.image}
+                  alt={adventure.title}
+                  width={800}
+                  height={400}
+                  class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+                <!-- Badges -->
+                <div class="absolute top-4 left-4 flex gap-2">
+                  <span class="bg-white/90 text-slate-900 px-3 py-1 rounded-full text-sm font-semibold">
+                    {adventure.category}
+                  </span>
+                  <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    {adventure.available ? 'Disponible' : 'Próximamente'}
+                  </span>
+                </div>
+              </div>
+
+              <div class="p-6">
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  {adventure.title}
+                </h3>
+                <p class="text-slate-600 dark:text-slate-300 mb-4">
+                  {adventure.description}
+                </p>
+
+                <!-- Metadata -->
+                <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+                  <div class="flex items-center gap-1">
+                    <span>⏱️</span>
+                    <span>{adventure.duration}</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span>📊</span>
+                    <span>{adventure.difficulty}</span>
+                  </div>
+                </div>
+
+                <!-- Call to action -->
+                <div class="mt-6 flex items-center text-indigo-600 dark:text-indigo-400 font-semibold">
+                  <span>Comenzar aventura</span>
+                  <svg class="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <!-- Más aventuras próximamente -->
+        <div class="mt-12 text-center">
+          <div class="bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 rounded-2xl p-8">
+            <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+              Más Aventuras Próximamente
+            </h3>
+            <p class="text-slate-600 dark:text-slate-300 mb-6">
+              Estamos trabajando en nuevas experiencias interactivas para ti
+            </p>
+            <div class="flex flex-wrap gap-4 justify-center">
+              <div class="bg-white/80 dark:bg-slate-800/80 px-4 py-2 rounded-lg">
+                <span class="text-slate-700 dark:text-slate-300">🏛️ El Enigma del MAC</span>
+              </div>
+              <div class="bg-white/80 dark:bg-slate-800/80 px-4 py-2 rounded-lg">
+                <span class="text-slate-700 dark:text-slate-300">🏍️ Rally de las Motos</span>
+              </div>
+              <div class="bg-white/80 dark:bg-slate-800/80 px-4 py-2 rounded-lg">
+                <span class="text-slate-700 dark:text-slate-300">✏️ El Secreto de los Lápices</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-white dark:bg-slate-900">
+      <div class="container mx-auto px-4 max-w-6xl">
+        <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">
+          Características de Nuestras Aventuras
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-4xl">♿</span>
+            </div>
+            <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+              Totalmente Accesibles
+            </h3>
+            <p class="text-slate-600 dark:text-slate-300">
+              Cada aventura está disponible en versión subtitulada, lectura fácil e inglés
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-4xl">🎮</span>
+            </div>
+            <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+              Interactivas
+            </h3>
+            <p class="text-slate-600 dark:text-slate-300">
+              Toma decisiones que afectan el desarrollo de la historia
+            </p>
+          </div>
+
+          <div class="text-center">
+            <div class="w-20 h-20 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-4xl">📚</span>
+            </div>
+            <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+              Educativas
+            </h3>
+            <p class="text-slate-600 dark:text-slate-300">
+              Aprende sobre la historia y cultura de Santa Marta mientras juegas
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer lang={lang} />
+</Layout>
+
+<style>
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in-up {
+      animation: none;
+    }
+  }
+</style>

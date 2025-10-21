@@ -1,0 +1,105 @@
+---
+// Versión subtitulada de la aventura "El Misterio de la Isla del Soto"
+import Layout from '../../../components/Layout.astro';
+import Header from '../../../components/ui/Header.astro';
+import Footer from '../../../components/ui/Footer.astro';
+
+const lang = 'es';
+---
+
+<Layout
+  title="El Misterio de la Isla del Soto - Versión Subtitulada"
+  description="Aventura interactiva con subtítulos y apoyo visual completo"
+  lang={lang}
+>
+  <Header currentPage="aventuras" lang={lang} />
+
+  <main class="flex-1">
+    <!-- Hero de la aventura -->
+    <section class="bg-gradient-to-b from-blue-900 to-blue-700 py-20 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          El Misterio de la Isla del Soto
+        </h1>
+        <p class="text-xl mb-2">Versión Subtitulada</p>
+        <div class="inline-block bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+          Con subtítulos y apoyo visual
+        </div>
+      </div>
+    </section>
+
+    <!-- Contenido de ejemplo de la aventura -->
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <div class="bg-slate-50 rounded-xl p-8 shadow-lg">
+          <h2 class="text-2xl font-bold mb-6 text-slate-900">Capítulo 1: El Comienzo</h2>
+
+          <!-- Ejemplo de contenido con subtítulos -->
+          <div class="space-y-6">
+            <div class="bg-white rounded-lg p-6 border-2 border-blue-200">
+              <div class="flex items-start gap-4">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span class="text-3xl">🗣️</span>
+                </div>
+                <div class="flex-1">
+                  <p class="text-lg text-slate-700 mb-2">
+                    "Bienvenido a la Isla del Soto. Hay un misterio que resolver..."
+                  </p>
+                  <p class="text-sm text-slate-500 italic">
+                    [Subtítulo: Narrador - Voz en off con música misteriosa de fondo]
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 border-2 border-green-200">
+              <div class="flex items-start gap-4">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span class="text-3xl">🎬</span>
+                </div>
+                <div class="flex-1">
+                  <p class="text-lg text-slate-700 mb-2">
+                    [Escena: Vista panorámica de la isla con el sol poniéndose]
+                  </p>
+                  <p class="text-sm text-slate-500 italic">
+                    Descripción visual: La cámara sobrevuela lentamente la isla mostrando la vegetación y el río
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-yellow-50 rounded-lg p-6 border-2 border-yellow-300">
+              <h3 class="text-lg font-bold mb-3 text-slate-900">Tu primera decisión:</h3>
+              <div class="space-y-3">
+                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors text-left">
+                  A) Explorar el sendero del bosque
+                </button>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors text-left">
+                  B) Investigar la orilla del río
+                </button>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors text-left">
+                  C) Buscar en el centro de interpretación
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controles de la aventura -->
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <button class="bg-slate-600 hover:bg-slate-700 text-white font-medium py-3 px-6 rounded-lg transition-colors">
+            ⏸️ Pausar
+          </button>
+          <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors">
+            ♿ Opciones de accesibilidad
+          </button>
+          <a href="/aventuras/isla-misterio" class="bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-6 rounded-lg transition-colors text-center">
+            🚪 Volver al menú
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer lang={lang} />
+</Layout>

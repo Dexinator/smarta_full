@@ -1,0 +1,11 @@
+---
+// English Artistic Virtual Office Page
+// Artistic Santa Marta - Museums, Murals and Urban Art
+import { getEntry } from 'astro:content';
+import VirtualOfficeLayout from '../../layouts/VirtualOfficeLayout.astro';
+
+// Load configuration from content collection
+const config = await getEntry('virtual-offices', 'oficina-artistica-en');
+---
+
+<VirtualOfficeLayout config={config.data} />

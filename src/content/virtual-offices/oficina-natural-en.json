@@ -1,0 +1,65 @@
+{
+  "title": "Natural Santa Marta | Santa Marta de Tormes",
+  "description": "Discover the nature of Santa Marta de Tormes. Isla del Soto, green routes, Tormes river and accessible audio guides.",
+  "lang": "en",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "1123863144",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Natural Santa Marta! 🌿",
+    "subtitle": "Enjoy:\nGreen routes\nTormes River\nNatural spaces"
+  },
+
+  "lecturaFacil": {
+    "visible": false
+  },
+
+  "mapa": {
+    "visible": true,
+    "title": "Where are the natural spaces?",
+    "subtitle": "Locations in Santa Marta",
+    "locations": [
+      {
+        "name": "Isla del Soto",
+        "description": "Natural park by the Tormes river",
+        "coordinates": [40.95264807709702, -5.636532175503943]
+      },
+      {
+        "name": "Interpretation Center",
+        "description": "Isla del Soto Interpretation Center",
+        "coordinates": [40.952270516013584, -5.632678987163401]
+      },
+      {
+        "name": "Footbridge from La Aldehuela",
+        "description": "Access to Isla del Soto",
+        "coordinates": [40.95301270973846, -5.635148155783474]
+      },
+      {
+        "name": "Footbridge from Al Fontana",
+        "description": "Access to Isla del Soto",
+        "coordinates": [40.953214853347895, -5.638477865332619]
+      },
+      {
+        "name": "Footbridge from Plaza Iglesia",
+        "description": "Access to Isla del Soto",
+        "coordinates": [40.95188025018759, -5.6310139627174065]
+      }
+    ]
+  },
+
+  "bannerCTA": {
+    "visible": true,
+    "link": "https://www.isla.santamartaccesible.com",
+    "emoji": "🎧",
+    "title": "Discover Our Audio Guides",
+    "subtitle": "Enjoy Isla del Soto with accessible audio",
+    "bgGradient": "from-emerald-700 to-emerald-800"
+  },
+
+  "burbujas": [
+    "Isla del Soto",
+    "Centro de Interpretación",
+    "Audioguía Isla del Soto"
+  ]
+}

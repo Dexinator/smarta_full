@@ -1,0 +1,38 @@
+{
+  "title": "Biker Santa Marta | Santa Marta de Tormes",
+  "description": "Discover the Historic Motorcycle Museum in Santa Marta de Tormes. Unique pieces and classic motorcycle collections.",
+  "lang": "en",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "1123861502",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Biker Santa Marta! 🏍️",
+    "subtitle": "Discover unique pieces\nat the Historic Motorcycle Museum."
+  },
+
+  "lecturaFacil": {
+    "visible": false
+  },
+
+  "mapa": {
+    "visible": true,
+    "title": "Where is the Motorcycle Museum?",
+    "subtitle": "Location in Santa Marta",
+    "locations": [
+      {
+        "name": "Historic Motorcycle Museum",
+        "description": "Museum with classic motorcycle collection",
+        "coordinates": [40.94911306191609, -5.627337563607579]
+      }
+    ]
+  },
+
+  "bannerCTA": {
+    "visible": false
+  },
+
+  "burbujas": [
+    "Museo de la Moto Histórica"
+  ]
+}

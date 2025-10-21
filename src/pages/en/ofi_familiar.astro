@@ -1,0 +1,11 @@
+---
+// English Family Virtual Office Page
+// Family Santa Marta - Routes and Family Adventures
+import { getEntry } from 'astro:content';
+import VirtualOfficeLayout from '../../layouts/VirtualOfficeLayout.astro';
+
+// Load configuration from content collection
+const config = await getEntry('virtual-offices', 'oficina-familiar-en');
+---
+
+<VirtualOfficeLayout config={config.data} />

@@ -6,8 +6,11 @@ import Footer from '../components/ui/Footer.astro';
 import MapComponent from '../components/react/MapComponent.jsx';
 import VimeoHeroPlayer from '../components/react/VimeoHeroPlayer.jsx';
 
+// Importar componente Image y getImage de Astro para optimización automática
+import { Image, getImage } from 'astro:assets';
+
 // Importar imágenes de burbujas optimizadas
-import imgMacJoseFuentes from '../assets/images/burbujas/JFmac.png';
+import imgMacJoseFuentes from '../assets/images/main_page/arte.png';
 import imgMuseoGrabado from '../assets/images/burbujas/Museo del Grabado.png';
 import imgEspacioSerzo from '../assets/images/burbujas/Espacio Serzo.png';
 import imgEspacioAgustin from '../assets/images/burbujas/Espacio Agustín Casillas.png';
@@ -83,7 +86,7 @@ const burbujas = burbujasFiltradas
     <!-- Sección 1: Video Hero -->
     {hero?.visible && (
       <section id="video-section" class="relative h-[100dvh] w-full overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40 z-10"></div>
+        <div id="hero-overlay" class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/40 z-10"></div>
 
         <!-- Contenedor del video Vimeo -->
         <div class="absolute inset-0 flex items-center justify-center bg-slate-900">
@@ -100,10 +103,10 @@ const burbujas = burbujasFiltradas
 
         <!-- Overlay con título -->
         <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-white text-center px-4">
-          <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 animate-fade-in-up">
+          <h1 id="hero-title" class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 animate-fade-in-up">
             {hero.title}
           </h1>
-          <p class="text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-6 animate-fade-in-up animation-delay-200">
+          <p id="hero-subtitle" class="text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-6 animate-fade-in-up animation-delay-200">
             {hero.subtitle}
           </p>
 
@@ -181,7 +184,7 @@ const burbujas = burbujasFiltradas
           <!-- Componente de mapa -->
           <div class="mb-6 sm:mb-8">
             <MapComponent
-              client:visible
+              client:load
               locations={mapa.locations}
               language={lang}
               className="shadow-lg sm:shadow-xl"
@@ -249,26 +252,38 @@ const burbujas = burbujasFiltradas
           </p>
         </div>
 
-        <!-- Grid de burbujas con imágenes -->
+        <!-- Grid de burbujas con imágenes optimizadas -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6">
-          {burbujas.map((burbuja) => (
-            <a
-              href={burbuja.link}
-              class="flex flex-col items-center group"
-            >
-              <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full shadow-lg group-hover:shadow-xl group-active:scale-95 transform transition-all overflow-hidden mb-3">
-                <img
-                  src={burbuja.img.src}
-                  alt={burbuja.title}
-                  class="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <h3 class="text-sm sm:text-base md:text-lg font-semibold text-slate-900 dark:text-white text-center px-2">
-                {burbuja.title}
-              </h3>
-            </a>
-          ))}
+          {burbujas.map((burbuja, index) => {
+            // Las primeras 6 imágenes se cargan con prioridad alta, el resto con lazy loading
+            const isEager = index < 6;
+
+            return (
+              <a
+                href={burbuja.link}
+                class="flex flex-col items-center group"
+              >
+                <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full shadow-lg group-hover:shadow-xl group-active:scale-95 transform transition-all overflow-hidden mb-3">
+                  <Image
+                    src={burbuja.img}
+                    alt={burbuja.title}
+                    width={256}
+                    height={256}
+                    widths={[96, 128, 192, 256]}
+                    sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, 128px"
+                    format="webp"
+                    quality={80}
+                    class="w-full h-full object-cover"
+                    loading={isEager ? "eager" : "lazy"}
+                    decoding={isEager ? "sync" : "async"}
+                  />
+                </div>
+                <h3 class="text-sm sm:text-base md:text-lg font-semibold text-slate-900 dark:text-white text-center px-2">
+                  {burbuja.title}
+                </h3>
+              </a>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -339,12 +354,26 @@ const burbujas = burbujasFiltradas
     }
   }
 
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
   .animate-fade-in-up {
     animation: fade-in-up 0.8s ease-out forwards;
   }
 
   .animation-delay-200 {
     animation-delay: 200ms;
+  }
+
+  .fade-out-hero {
+    animation: fade-out 1s ease-out forwards;
+    pointer-events: none;
   }
 
   /* Estilos para lectura fácil */
@@ -395,6 +424,19 @@ const burbujas = burbujasFiltradas
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Fade out del título, subtítulo y sombreado después de 4 segundos
+    const heroTitle = document.getElementById('hero-title');
+    const heroSubtitle = document.getElementById('hero-subtitle');
+    const heroOverlay = document.getElementById('hero-overlay');
+
+    if (heroTitle && heroSubtitle && heroOverlay) {
+      setTimeout(() => {
+        heroTitle.classList.add('fade-out-hero');
+        heroSubtitle.classList.add('fade-out-hero');
+        heroOverlay.classList.add('fade-out-hero');
+      }, 4000); // 4 segundos
+    }
+
     // Scroll snap del video a la segunda sección
     let isSnapping = false;
     const videoSection = document.getElementById('video-section');

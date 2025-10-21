@@ -7,8 +7,8 @@
     "visible": true,
     "videoUrl": "1123863144",
     "posterUrl": "/placeholder-video.jpg",
-    "title": "Santa Marta Natural",
-    "subtitle": "Naturaleza, Rutas Verdes y Río Tormes"
+    "title": "¡Santa Marta Natural! 🌿",
+    "subtitle": "Disfruta de:\nRutas verdes\nRío Tormes\nEspacios naturales"
   },
 
   "lecturaFacil": {
@@ -85,7 +85,7 @@
     "emoji": "🎧",
     "title": "Descubre Nuestras Audioguías",
     "subtitle": "Disfruta la Isla del Soto con audio accesible",
-    "bgGradient": "from-green-500 to-green-700"
+    "bgGradient": "from-emerald-700 to-emerald-800"
   },
 
   "burbujas": [

@@ -1,0 +1,69 @@
+{
+  "title": "Family Santa Marta | Santa Marta de Tormes",
+  "description": "Discover Santa Marta as a family. Routes, adventures and activities to enjoy together.",
+  "lang": "en",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "1127293648",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Family Santa Marta! 👨‍👩‍👧‍👦",
+    "subtitle": "Experience activities and family adventures."
+  },
+
+  "lecturaFacil": {
+    "visible": false
+  },
+
+  "mapa": {
+    "visible": true,
+    "title": "Where are the family activities?",
+    "subtitle": "Locations in Santa Marta",
+    "locations": [
+      {
+        "name": "Isla del Soto",
+        "description": "Natural park with play areas and picnic spots",
+        "coordinates": [40.95264807709702, -5.636532175503943]
+      },
+      {
+        "name": "Interpretation Center",
+        "description": "Isla del Soto Interpretation Center",
+        "coordinates": [40.952270516013584, -5.632678987163401]
+      },
+      {
+        "name": "Enchanted Isla del Soto",
+        "description": "Space for stories and legends",
+        "coordinates": [40.94928204234335, -5.629937204019709]
+      },
+      {
+        "name": "Pencils Route - Point 1",
+        "description": "Start of the Pencils Route",
+        "coordinates": [40.95322338759185, -5.637900680365301]
+      },
+      {
+        "name": "Bugs Route - Point 1",
+        "description": "Start of the Bugs Route",
+        "coordinates": [40.949947057698786, -5.632746121861494]
+      }
+    ]
+  },
+
+  "bannerCTA": {
+    "visible": true,
+    "link": "/#aventuras",
+    "emoji": "🎮",
+    "title": "Discover Our Adventures",
+    "subtitle": "Experience unique interactive experiences while exploring Santa Marta",
+    "bgGradient": "from-SM-yellow to-yellow-600"
+  },
+
+  "burbujas": [
+    "Ruta Lápices",
+    "Ruta Bichos",
+    "Ruta Murales",
+    "Isla del Soto Encantada",
+    "Isla del Soto",
+    "Centro de Interpretación",
+    "Aventuras"
+  ]
+}

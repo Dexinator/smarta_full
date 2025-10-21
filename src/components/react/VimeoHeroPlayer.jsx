@@ -8,7 +8,7 @@ const VimeoHeroPlayer = ({
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(75);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // Iniciar muted para permitir autoplay
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [error, setError] = useState(false);
@@ -177,7 +177,7 @@ const VimeoHeroPlayer = ({
         dnt: true,
         keyboard: false,
         loop: true, // Loop activado
-        muted: false, // CON sonido
+        muted: true, // SIN sonido inicialmente para permitir autoplay en móviles
         pip: false,
         playsinline: true,
         portrait: false,
@@ -197,7 +197,8 @@ const VimeoHeroPlayer = ({
           setDuration(d);
         });
 
-        newPlayer.setVolume(volume / 100);
+        // Iniciar con volumen 0 (muted) para cumplir políticas de autoplay
+        newPlayer.setVolume(0);
       });
 
       newPlayer.on('play', () => {
@@ -351,68 +352,74 @@ const VimeoHeroPlayer = ({
 
         <div ref={playerRef} className="vimeo-hero-container absolute inset-0 w-full h-full" />
 
-        {/* Controles flotantes (solo cuando NO está en fullscreen) */}
+        {/* Controles flotantes en la parte superior (solo cuando NO está en fullscreen) */}
         {!isFullscreen && isReady && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 z-30">
-            {/* Barra de progreso */}
-            <div
-              className="h-1 bg-white/30 rounded-full cursor-pointer mb-3 relative"
-              onClick={handleSeek}
-            >
-              <div
-                className="h-full bg-SM-blue rounded-full transition-all duration-100"
-                style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              {/* Play/Pause */}
-              <button
-                onClick={handlePlayPause}
-                className="p-2 text-white hover:text-SM-yellow transition-colors"
-                aria-label={isPlaying ? "Pausar" : "Reproducir"}
-              >
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  {isPlaying ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6"/>
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                  )}
-                </svg>
-              </button>
-
-              {/* Tiempo */}
-              <span className="text-white text-sm">
-                {formatTime(currentTime)} / {formatTime(duration)}
-              </span>
-
-              {/* Controles derecha */}
-              <div className="flex items-center space-x-2">
-                {/* Volumen */}
+          <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/80 via-black/60 to-transparent pt-20 md:pt-24 pb-6 px-3 md:px-4 z-30">
+            <div className="max-w-4xl mx-auto">
+              {/* Contenedor compacto de controles */}
+              <div className="flex items-center justify-between gap-2 mb-2">
+                {/* Play/Pause */}
                 <button
-                  onClick={() => setIsMuted(!isMuted)}
-                  className="p-2 text-white hover:text-SM-yellow transition-colors"
-                  aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+                  onClick={handlePlayPause}
+                  className="p-1.5 md:p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
+                  aria-label={isPlaying ? "Pausar" : "Reproducir"}
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    {isMuted ? (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd"/>
+                  <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {isPlaying ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6"/>
                     ) : (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                     )}
                   </svg>
                 </button>
 
-                {/* Pantalla completa */}
-                <button
-                  onClick={toggleFullscreen}
-                  className="p-2 text-white hover:text-SM-yellow transition-colors"
-                  aria-label="Pantalla completa"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
-                  </svg>
-                </button>
+                {/* Tiempo */}
+                <span className="text-white text-xs md:text-sm font-medium flex-shrink-0">
+                  {formatTime(currentTime)} / {formatTime(duration)}
+                </span>
+
+                {/* Espaciador flexible */}
+                <div className="flex-1"></div>
+
+                {/* Controles derecha */}
+                <div className="flex items-center gap-1 md:gap-2">
+                  {/* Volumen */}
+                  <button
+                    onClick={() => setIsMuted(!isMuted)}
+                    className="p-1.5 md:p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
+                    aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+                  >
+                    <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      {isMuted ? (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd"/>
+                      ) : (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                      )}
+                    </svg>
+                  </button>
+
+                  {/* Pantalla completa */}
+                  <button
+                    onClick={toggleFullscreen}
+                    className="p-1.5 md:p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
+                    aria-label="Pantalla completa"
+                  >
+                    <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Barra de progreso */}
+              <div
+                className="h-1 bg-white/30 rounded-full cursor-pointer relative"
+                onClick={handleSeek}
+              >
+                <div
+                  className="h-full bg-SM-blue rounded-full transition-all duration-100"
+                  style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                />
               </div>
             </div>
           </div>

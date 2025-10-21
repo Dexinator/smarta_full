@@ -1,0 +1,11 @@
+---
+// English Biker Virtual Office Page
+// Biker Santa Marta - Historic Motorcycle Museum
+import { getEntry } from 'astro:content';
+import VirtualOfficeLayout from '../../layouts/VirtualOfficeLayout.astro';
+
+// Load configuration from content collection
+const config = await getEntry('virtual-offices', 'oficina-motera-en');
+---
+
+<VirtualOfficeLayout config={config.data} />

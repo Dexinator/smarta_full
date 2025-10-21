@@ -55,17 +55,28 @@ const MapComponent = ({
   }, []);
 
   const toggleScrollZoom = () => {
+    console.log('toggleScrollZoom llamado', { scrollZoomEnabled, hasMap: !!mapInstanceRef.current });
+
     if (mapInstanceRef.current) {
       if (scrollZoomEnabled) {
+        // Deshabilitar scroll zoom y paneo/arrastre
         mapInstanceRef.current.scrollWheelZoom.disable();
         mapInstanceRef.current.dragging.disable();
         mapInstanceRef.current.touchZoom.disable();
+        console.log('Mapa BLOQUEADO');
       } else {
+        // Habilitar scroll zoom y paneo/arrastre
         mapInstanceRef.current.scrollWheelZoom.enable();
         mapInstanceRef.current.dragging.enable();
         mapInstanceRef.current.touchZoom.enable();
+        console.log('Mapa DESBLOQUEADO');
+        console.log('dragging enabled:', mapInstanceRef.current.dragging.enabled());
+        console.log('touchZoom enabled:', mapInstanceRef.current.touchZoom.enabled());
+        console.log('scrollWheelZoom enabled:', mapInstanceRef.current.scrollWheelZoom.enabled());
       }
       setScrollZoomEnabled(!scrollZoomEnabled);
+    } else {
+      console.error('mapInstanceRef.current es null!');
     }
   };
 

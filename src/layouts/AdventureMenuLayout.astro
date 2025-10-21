@@ -1,0 +1,305 @@
+---
+// Layout reutilizable para menús de aventuras gamificadas
+import Layout from '../components/Layout.astro';
+import Header from '../components/ui/Header.astro';
+import Footer from '../components/ui/Footer.astro';
+
+// Importar componente Image de Astro para optimización automática
+import { Image } from 'astro:assets';
+
+// Importar imágenes de tipos de aventura
+import imgSubtitulada from '../assets/images/icons/subtitulada.jpg';
+import imgLecturaFacil from '../assets/images/icons/lectura-facil.jpg';
+import imgEnglish from '../assets/images/icons/english.jpg';
+
+interface Props {
+  config: any; // Configuración desde content collection o props directas
+}
+
+const { config } = Astro.props;
+const {
+  title,
+  description,
+  lang = 'es',
+  hero,
+  subtitle,
+  adventureCards,
+  showFooter = true,
+} = config;
+
+// Mapa de imágenes para los tipos de aventura
+const adventureTypeImages = {
+  'subtitulada': imgSubtitulada,
+  'lectura-facil': imgLecturaFacil,
+  'english': imgEnglish,
+};
+
+// Mapa de colores para los badges
+const badgeColors = {
+  'subtitulada': 'bg-blue-600',
+  'lectura-facil': 'bg-green-600',
+  'english': 'bg-purple-600',
+};
+
+// Textos para los badges según el idioma
+const badgeTexts = {
+  'es': {
+    'subtitulada': 'Subtitulada',
+    'lectura-facil': 'Lectura Fácil',
+    'english': 'English',
+  },
+  'en': {
+    'subtitulada': 'Subtitled',
+    'lectura-facil': 'Easy Read',
+    'english': 'English',
+  }
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  lang={lang}
+>
+  <Header currentPage="aventuras" lang={lang} />
+
+  <main id="main-content" class="flex-1">
+    <!-- Sección Hero con imagen -->
+    {hero?.visible && (
+      <section id="hero-section" class="relative h-[50vh] sm:h-[60vh] md:h-[70vh] w-full overflow-hidden bg-gradient-to-b from-slate-900 to-slate-800">
+        <!-- Imagen de fondo -->
+        {hero.imageUrl && (
+          <div class="absolute inset-0">
+            <img
+              src={hero.imageUrl}
+              alt={hero.imageAlt || ''}
+              class="w-full h-full object-cover opacity-60"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+          </div>
+        )}
+
+        <!-- Contenido del hero -->
+        <div class="relative z-10 h-full flex flex-col items-center justify-center text-white text-center px-4">
+          <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-fade-in-up">
+            {hero.title}
+          </h1>
+          {hero.subtitle && (
+            <p class="text-lg sm:text-xl md:text-2xl mb-6 animate-fade-in-up animation-delay-200 max-w-3xl">
+              {hero.subtitle}
+            </p>
+          )}
+
+          <!-- Botón de scroll si hay más contenido -->
+          {(subtitle?.visible || adventureCards?.visible) && (
+            <button
+              onclick="document.getElementById('adventure-menu').scrollIntoView({ behavior: 'smooth', block: 'start' })"
+              class="absolute bottom-6 p-2 animate-bounce"
+              aria-label="Desplazarse al menú de aventuras"
+            >
+              <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+              </svg>
+            </button>
+          )}
+        </div>
+      </section>
+    )}
+
+    <!-- Sección de Subtítulo opcional -->
+    {subtitle?.visible && (
+      <section id="adventure-subtitle" class="bg-white dark:bg-slate-900 py-8 sm:py-12">
+        <div class="container mx-auto px-4 max-w-4xl">
+          <div class="text-center">
+            <p class="text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-300">
+              {subtitle.text}
+            </p>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Sección de Tarjetas de Aventura -->
+    {adventureCards?.visible && (
+      <section id="adventure-menu" class="bg-slate-50 dark:bg-slate-800 py-12 sm:py-16 md:py-20">
+        <div class="container mx-auto px-4 max-w-7xl">
+          <!-- Título de la sección -->
+          {adventureCards.sectionTitle && (
+            <div class="text-center mb-8 sm:mb-12">
+              <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">
+                {adventureCards.sectionTitle}
+              </h2>
+              {adventureCards.sectionSubtitle && (
+                <p class="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300">
+                  {adventureCards.sectionSubtitle}
+                </p>
+              )}
+            </div>
+          )}
+
+          <!-- Grid de tarjetas horizontales -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {adventureCards.cards?.map((card: any) => {
+              const typeImage = adventureTypeImages[card.type];
+              const badgeColor = badgeColors[card.type] || 'bg-gray-600';
+              const badgeText = badgeTexts[lang]?.[card.type] || card.type;
+
+              return (
+                <a
+                  href={card.link}
+                  class="group relative bg-white dark:bg-slate-900 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
+                  aria-label={`${card.title} - ${badgeText}`}
+                >
+                  <!-- Contenedor de la imagen con badge -->
+                  <div class="relative aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800">
+                    {typeImage && (
+                      <Image
+                        src={typeImage}
+                        alt={card.imageAlt || card.title}
+                        width={600}
+                        height={338}
+                        widths={[400, 600, 800]}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        format="webp"
+                        quality={85}
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    )}
+
+                    <!-- Overlay gradient on hover -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                    <!-- Badge -->
+                    <div class={`absolute top-4 right-4 ${badgeColor} text-white px-3 py-1.5 rounded-full text-sm font-semibold shadow-lg`}>
+                      {badgeText}
+                    </div>
+                  </div>
+
+                  <!-- Contenido de la tarjeta -->
+                  <div class="p-6">
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {card.title}
+                    </h3>
+                    {card.description && (
+                      <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base line-clamp-2">
+                        {card.description}
+                      </p>
+                    )}
+
+                    <!-- Indicador de acción -->
+                    <div class="mt-4 flex items-center text-blue-600 dark:text-blue-400 font-medium">
+                      <span class="text-sm sm:text-base">{lang === 'es' ? 'Comenzar aventura' : 'Start adventure'}</span>
+                      <svg class="w-5 h-5 ml-2 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+
+          <!-- Mensaje si no hay tarjetas configuradas -->
+          {(!adventureCards.cards || adventureCards.cards.length === 0) && (
+            <div class="text-center py-12">
+              <p class="text-lg text-slate-500 dark:text-slate-400">
+                {lang === 'es'
+                  ? 'No hay aventuras disponibles en este momento.'
+                  : 'No adventures available at this time.'}
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+    )}
+  </main>
+
+  {showFooter && <Footer lang={lang} />}
+</Layout>
+
+<style>
+  /* Animaciones */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  /* Line clamp para descripciones */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Mejoras de accesibilidad */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    .animate-bounce,
+    .animate-fade-in-up {
+      animation: none;
+    }
+
+    .group-hover\:scale-110,
+    .hover\:scale-105,
+    .group-hover\:translate-x-2 {
+      transform: none !important;
+    }
+  }
+
+  /* Focus visible para accesibilidad con teclado */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 3px solid #3b82f6;
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Animación de aparición progresiva de las tarjetas
+    const cards = document.querySelectorAll('#adventure-menu .group');
+
+    if (cards.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                entry.target.classList.add('animate-fade-in-up');
+              }, index * 100);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        }
+      );
+
+      cards.forEach(card => {
+        card.style.opacity = '0';
+        observer.observe(card);
+      });
+    }
+  });
+</script>

@@ -1,0 +1,11 @@
+---
+// English Natural Virtual Office Page
+// Natural Santa Marta - Isla del Soto, Green Routes and Nature
+import { getEntry } from 'astro:content';
+import VirtualOfficeLayout from '../../layouts/VirtualOfficeLayout.astro';
+
+// Load configuration from content collection
+const config = await getEntry('virtual-offices', 'oficina-natural-en');
+---
+
+<VirtualOfficeLayout config={config.data} />

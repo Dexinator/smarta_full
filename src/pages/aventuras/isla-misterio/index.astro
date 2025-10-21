@@ -1,0 +1,13 @@
+---
+// Página de menú para la aventura "El Misterio de la Isla del Soto"
+import AdventureMenuLayout from '../../../layouts/AdventureMenuLayout.astro';
+import adventureConfig from '../../../content/adventures/isla-misterio.json';
+
+// Podemos sobrescribir o extender la configuración si es necesario
+const config = {
+  ...adventureConfig,
+  // Aquí puedes agregar o modificar propiedades específicas para esta página
+};
+---
+
+<AdventureMenuLayout config={config} />

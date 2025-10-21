@@ -1,0 +1,82 @@
+{
+  "title": "Artistic Santa Marta | Santa Marta de Tormes",
+  "description": "Discover the art of Santa Marta de Tormes. Museums, murals, exhibition halls and accessible audio guides.",
+  "lang": "en",
+
+  "hero": {
+    "visible": true,
+    "videoUrl": "1123859116",
+    "posterUrl": "/placeholder-video.jpg",
+    "title": "Artistic Santa Marta! 🎨",
+    "subtitle": "Don't miss:\nMuseums\nMurals\nExhibition Halls"
+  },
+
+  "lecturaFacil": {
+    "visible": false
+  },
+
+  "mapa": {
+    "visible": true,
+    "title": "Where are the art spaces?",
+    "subtitle": "Locations in Santa Marta",
+    "locations": [
+      {
+        "name": "MAC José Fuentes",
+        "description": "Contemporary Art Museum",
+        "coordinates": [40.94903821068262, -5.630767828997082]
+      },
+      {
+        "name": "Engraving Museum",
+        "description": "Museum of Engraving and Multiple Work",
+        "coordinates": [40.950715570966466, -5.631181309935234]
+      },
+      {
+        "name": "Serzo Space",
+        "description": "Exhibition space",
+        "coordinates": [40.94916213387142, -5.630791420405776]
+      },
+      {
+        "name": "Agustín Casillas Space",
+        "description": "Sculpture space",
+        "coordinates": [40.949733420918456, -5.629289383399149]
+      },
+      {
+        "name": "Tragaluz Hall",
+        "description": "Exhibition Hall",
+        "coordinates": [40.94862730746121, -5.627921456776943]
+      },
+      {
+        "name": "Miguel Delibes Hall",
+        "description": "Exhibition Hall",
+        "coordinates": [40.95225375214037, -5.632879158521092]
+      },
+      {
+        "name": "Protagonistas Hall",
+        "description": "Exhibition Hall",
+        "coordinates": [40.9491150877696, -5.630794930957536]
+      }
+    ]
+  },
+
+  "bannerCTA": {
+    "visible": true,
+    "link": "https://www.murales.santamartaccesible.com",
+    "emoji": "🎧",
+    "title": "Discover Our Audio Guides",
+    "subtitle": "Enjoy the murals with accessible audio",
+    "bgGradient": "from-SM-blue to-blue-700"
+  },
+
+  "burbujas": [
+    "MAC José Fuentes",
+    "Museo del Grabado",
+    "Espacio Serzo",
+    "Espacio Agustín Casillas",
+    "Sala Tragaluz",
+    "Sala Miguel Delibes",
+    "Sala Protagonistas",
+    "Ruta Murales",
+    "Arte Emboscado",
+    "Audioguía Murales"
+  ]
+}

@@ -1,0 +1,54 @@
+---
+// English version of "The Search for the Lost Murals"
+import Layout from '../../../components/Layout.astro';
+import Header from '../../../components/ui/Header.astro';
+import Footer from '../../../components/ui/Footer.astro';
+
+const lang = 'en';
+---
+
+<Layout
+  title="The Search for the Lost Murals - English Version"
+  description="Interactive game about Santa Marta's street art"
+  lang={lang}
+>
+  <Header currentPage="adventures" lang={lang} />
+
+  <main class="flex-1">
+    <section class="bg-gradient-to-b from-purple-900 to-purple-700 py-20 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          The Search for the Lost Murals
+        </h1>
+        <p class="text-xl mb-2">English Version</p>
+        <div class="inline-block bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+          Full English Experience
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <div class="bg-purple-50 rounded-xl p-8 shadow-lg text-center">
+          <h2 class="text-3xl font-bold mb-6 text-slate-900">Coming Soon!</h2>
+          <p class="text-lg text-slate-700 mb-8">
+            This exciting adventure about Santa Marta's street art will be available soon.
+          </p>
+          <div class="bg-white rounded-lg p-6 inline-block">
+            <span class="text-6xl">🎨</span>
+            <p class="mt-4 text-slate-600">
+              Discover the hidden secrets in urban art
+            </p>
+          </div>
+          <div class="mt-8">
+            <a href="/aventuras/ruta-murales" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg transition-colors inline-block">
+              Back to Menu
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer lang={lang} />
+</Layout>
