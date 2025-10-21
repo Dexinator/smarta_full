@@ -15,35 +15,10 @@
     "visible": true,
     "title": "Lectura Fácil",
     "subtitle": "Información accesible sobre Santa Marta Natural",
-    "subtitleLecturaFacil": "🌿 ¡Santa Marta Natural! Disfruta sus rutas verdes, del río Tormes y sus espacios naturales.",
+    "subtitleLecturaFacil": "🌿 ¡Santa Marta Natural!\nDisfruta de:\nRutas verdes\nRío Tormes\nEspacios naturales",
     "pdfUrl": "/docs/Adaptación a Lectura Fácil - Santa Marta Natural.pdf",
     "buttonText": "Ir a lectura fácil",
-    "content": [
-      {
-        "emoji": "🌳",
-        "text": "La Isla del Soto es un parque natural muy bonito donde puedes pasear, hacer deporte y disfrutar de la naturaleza."
-      },
-      {
-        "emoji": "🚶",
-        "text": "Hay caminos para pasear, carriles bici, y zonas para sentarse y relajarte junto al río Tormes."
-      },
-      {
-        "emoji": "🦆",
-        "text": "En la isla viven muchos pájaros y animales. Puedes ver patos, garzas y otras aves."
-      },
-      {
-        "emoji": "🏛️",
-        "text": "El Centro de Interpretación te explica la historia y la naturaleza de la Isla del Soto."
-      },
-      {
-        "emoji": "🎧",
-        "text": "Puedes usar la audioguía de la Isla del Soto para conocer más sobre la naturaleza mientras paseas."
-      },
-      {
-        "emoji": "♿",
-        "text": "Los caminos son accesibles y hay pasarelas para cruzar el río desde diferentes puntos del pueblo."
-      }
-    ]
+    "content": ""
   },
 
   "mapa": {

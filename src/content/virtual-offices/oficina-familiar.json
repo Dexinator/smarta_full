@@ -15,35 +15,10 @@
     "visible": true,
     "title": "Lectura Fácil",
     "subtitle": "Información accesible sobre Santa Marta Familiar",
-    "subtitleLecturaFacil": "👨‍👩‍👧‍👦 ¡Santa Marta Familiar! Vive actividades y aventuras en familia.",
+    "subtitleLecturaFacil": "👨‍👩‍👧‍👦 ¡Santa Marta Familiar!\nHaz actividades y aventuras en familia.",
     "pdfUrl": "/docs/Adaptación a Lectura Fácil - Santa Marta Familiar.pdf",
     "buttonText": "Ir a lectura fácil",
-    "content": [
-      {
-        "emoji": "✏️",
-        "text": "La Ruta de los Lápices es un juego para encontrar lápices gigantes de colores por las calles del pueblo."
-      },
-      {
-        "emoji": "🐛",
-        "text": "La Ruta de los Bichos es para buscar esculturas de insectos y aprender sobre ellos mientras juegas."
-      },
-      {
-        "emoji": "🎨",
-        "text": "También puedes hacer la Ruta de los Murales y descubrir las pinturas en las paredes del pueblo."
-      },
-      {
-        "emoji": "🧚",
-        "text": "La Isla del Soto Encantada es un espacio con historias de hadas y duendes para los más pequeños."
-      },
-      {
-        "emoji": "🌳",
-        "text": "La Isla del Soto tiene zonas de juegos, merenderos y espacios para pasar el día en familia."
-      },
-      {
-        "emoji": "🎮",
-        "text": "Hay muchas aventuras interactivas y experiencias para que toda la familia se divierta junta."
-      }
-    ]
+    "content": ""
   },
 
   "mapa": {

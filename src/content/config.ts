@@ -25,10 +25,7 @@ const virtualOfficesCollection = defineCollection({
       subtitleLecturaFacil: z.string().optional(),
       pdfUrl: z.string().optional(),
       buttonText: z.string().default('Ir a lectura fácil'),
-      content: z.array(z.object({
-        emoji: z.string(),
-        text: z.string(),
-      })).optional(),
+      content: z.string().optional(),
     }).optional(),
 
     // Sección 3: Mapa
