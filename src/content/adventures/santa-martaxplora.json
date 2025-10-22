@@ -1,0 +1,52 @@
+{
+  "id": "santa-martaxplora",
+  "title": "Santa MartaXplora",
+  "description": "Explora Santa Marta de Tormes de forma interactiva y accesible",
+  "hero": {
+    "visible": true,
+    "imageKey": "santa-marta-explora",
+    "imageAlt": "Vista panorámica de Santa Marta de Tormes"
+  },
+  "subtitle": {
+    "visible": true,
+    "text": "Elige tu forma favorita de vivir esta aventura. Cada versión está adaptada para diferentes necesidades y preferencias."
+  },
+  "adventureCards": {
+    "visible": true,
+    "sectionTitle": "SANTA MARTAXPLORA",
+    "sectionSubtitle": "Todas las versiones incluyen la misma historia emocionante",
+    "cards": [
+      {
+        "type": "espanol",
+        "title": "Audio",
+        "link": "/aventuras/santa-martaxplora/espanol",
+        "imageAlt": "Versión en español"
+      },
+      {
+        "type": "lectura-facil",
+        "title": "Audio Lectura Fácil",
+        "link": "/aventuras/santa-martaxplora/lectura-facil",
+        "imageAlt": "Versión en lectura fácil"
+      },
+      {
+        "type": "descriptiva",
+        "title": "Audio Descriptivo",
+        "link": "/aventuras/santa-martaxplora/descriptiva",
+        "imageAlt": "Versión descriptiva"
+      },
+      {
+        "type": "subtitulada",
+        "title": "Vídeo LSE",
+        "link": "/aventuras/santa-martaxplora/subtitulada",
+        "imageAlt": "Versión con subtítulos"
+      },
+      {
+        "type": "english",
+        "title": "Audio",
+        "link": "/aventuras/santa-martaxplora/english",
+        "imageAlt": "English version"
+      }
+    ]
+  },
+  "showFooter": true
+}

@@ -1,0 +1,11 @@
+---
+// Página de menú para Santa MartaXplora
+import AdventureMenuLayout from '../../../layouts/AdventureMenuLayout.astro';
+import adventureConfig from '../../../content/adventures/santa-martaxplora.json';
+
+const config = {
+  ...adventureConfig,
+};
+---
+
+<AdventureMenuLayout config={config} />

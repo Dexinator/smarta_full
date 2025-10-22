@@ -1,0 +1,40 @@
+{
+  "id": "urban-escape",
+  "title": "Santa Marta Urban Escape",
+  "description": "Resuelve los enigmas y completa el recorrido por Santa Marta de Tormes",
+  "hero": {
+    "visible": true,
+    "imageKey": "urban-escape",
+    "imageAlt": "Santa Marta Urban Escape"
+  },
+  "subtitle": {
+    "visible": true,
+    "text": "Resuelve los enigmas y completa el recorrido. Elige tu forma favorita de vivir esta aventura."
+  },
+  "adventureCards": {
+    "visible": true,
+    "sectionTitle": "SANTA MARTA URBAN ESCAPE",
+    "sectionSubtitle": "Todas las versiones incluyen la misma historia emocionante",
+    "cards": [
+      {
+        "type": "espanol",
+        "title": "Audio",
+        "link": "/aventuras/urban-escape/espanol",
+        "imageAlt": "Versión en español"
+      },
+      {
+        "type": "lectura-facil",
+        "title": "Audio Lectura Fácil",
+        "link": "/aventuras/urban-escape/lectura-facil",
+        "imageAlt": "Versión en lectura fácil"
+      },
+      {
+        "type": "english",
+        "title": "Audio",
+        "link": "/aventuras/urban-escape/english",
+        "imageAlt": "English version"
+      }
+    ]
+  },
+  "showFooter": true
+}

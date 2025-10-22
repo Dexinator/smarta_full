@@ -1,0 +1,11 @@
+---
+// Página de menú para Santa Marta Urban Escape
+import AdventureMenuLayout from '../../../layouts/AdventureMenuLayout.astro';
+import adventureConfig from '../../../content/adventures/urban-escape.json';
+
+const config = {
+  ...adventureConfig,
+};
+---
+
+<AdventureMenuLayout config={config} />
