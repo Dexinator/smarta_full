@@ -16,7 +16,7 @@ import imgDescriptiva from '../assets/images/icons/descriptiva.png';
 
 // Importar imágenes hero disponibles
 import imgHeroSantaMarta from '../assets/images/main_page/santa marta explora.png';
-import imgHeroUrbanEscape from '../assets/images/adventures/SMUrban.png';
+import imgHeroUrbanEscape from '../assets/images/adventures/SMUrban.jpg';
 
 interface Props {
   config: any; // Configuración desde content collection o props directas
@@ -101,10 +101,10 @@ const badgeTexts = {
         {(subtitle?.visible || adventureCards?.visible) && (
           <button
             onclick="document.getElementById('adventure-menu').scrollIntoView({ behavior: 'smooth', block: 'start' })"
-            class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 p-2 animate-bounce bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30 transition-colors"
+            class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 p-2 animate-bounce bg-white/20 rounded-full backdrop-blur-sm hover:bg-white/30 transition-colors"
             aria-label="Desplazarse al menú de aventuras"
           >
-            <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
             </svg>
           </button>
@@ -117,9 +117,7 @@ const badgeTexts = {
       <section id="adventure-subtitle" class="bg-white dark:bg-slate-900 py-8 sm:py-12">
         <div class="container mx-auto px-4 max-w-4xl">
           <div class="text-center">
-            <p class="text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-300">
-              {subtitle.text}
-            </p>
+            <p class="text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-300" set:html={subtitle.text} />
           </div>
         </div>
       </section>
