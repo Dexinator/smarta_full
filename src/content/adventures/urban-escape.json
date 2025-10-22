@@ -17,7 +17,7 @@
     "sectionSubtitle": "Todas las versiones incluyen la misma historia emocionante",
     "cards": [
       {
-        "type": "espanol",
+        "type": "aventura-esp",
         "title": "Aventura",
         "link": "/aventuras/urban-escape/espanol",
         "imageAlt": "Versión en español"
@@ -29,7 +29,7 @@
         "imageAlt": "Versión en lectura fácil"
       },
       {
-        "type": "english",
+        "type": "aventura-eng",
         "title": "Adventure",
         "link": "/aventuras/urban-escape/english",
         "imageAlt": "English version"
