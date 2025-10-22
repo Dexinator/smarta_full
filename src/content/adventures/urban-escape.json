@@ -18,19 +18,19 @@
     "cards": [
       {
         "type": "espanol",
-        "title": "Audio",
+        "title": "Aventura",
         "link": "/aventuras/urban-escape/espanol",
         "imageAlt": "Versión en español"
       },
       {
         "type": "lectura-facil",
-        "title": "Audio Lectura Fácil",
+        "title": "Aventura Lectura Fácil",
         "link": "/aventuras/urban-escape/lectura-facil",
         "imageAlt": "Versión en lectura fácil"
       },
       {
         "type": "english",
-        "title": "Audio",
+        "title": "Adventure",
         "link": "/aventuras/urban-escape/english",
         "imageAlt": "English version"
       }
