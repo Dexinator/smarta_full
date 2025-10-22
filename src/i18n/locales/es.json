@@ -83,17 +83,17 @@
       {
         "id": "detectives",
         "title": "Detectives en Acción",
-        "link": "/aventura-detectives"
+        "link": "/aventuras/detectives"
       },
       {
         "id": "urban-scape",
         "title": "Santa Marta Urban Escape",
-        "link": "/aventura-urban-scape"
+        "link": "/aventuras/urban-escape"
       },
       {
         "id": "xplora",
         "title": "Santa MartaXplora",
-        "link": "/aventura-xplora"
+        "link": "/aventuras/santa-martaxplora"
       }
     ],
     "hint": "Toca o haz clic en una tarjeta para comenzar tu aventura"
