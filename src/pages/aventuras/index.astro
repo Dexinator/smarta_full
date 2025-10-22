@@ -6,32 +6,32 @@ import Footer from '../../components/ui/Footer.astro';
 import { Image } from 'astro:assets';
 
 // Importar imágenes de los tipos
-import imgSubtitulada from '../../assets/images/icons/subtitulada.jpg';
-import imgLecturaFacil from '../../assets/images/icons/lectura-facil.jpg';
-import imgEnglish from '../../assets/images/icons/english.jpg';
+import imgSubtitulada from '../../assets/images/icons/subtitulada.png';
+import imgLecturaFacil from '../../assets/images/icons/lectura-facil.png';
+import imgEnglish from '../../assets/images/icons/english.png';
 
 const lang = 'es';
 
 // Lista de aventuras disponibles
 const adventures = [
   {
-    id: 'isla-misterio',
-    title: 'El Misterio de la Isla del Soto',
-    description: 'Descubre los secretos ocultos de la Isla del Soto en esta emocionante aventura interactiva.',
-    link: '/aventuras/isla-misterio',
+    id: 'santa-martaxplora',
+    title: 'Santa MartaXplora',
+    description: 'Explora Santa Marta de Tormes de forma interactiva y accesible.',
+    link: '/aventuras/santa-martaxplora',
     image: imgSubtitulada,
-    category: 'Naturaleza',
+    category: 'Exploración',
     duration: '30-45 min',
     difficulty: 'Intermedio',
     available: true
   },
   {
-    id: 'ruta-murales',
-    title: 'La Búsqueda de los Murales Perdidos',
-    description: 'Explora Santa Marta mientras resuelves el enigma de los murales desaparecidos.',
-    link: '/aventuras/ruta-murales',
+    id: 'urban-escape',
+    title: 'Santa Marta Urban Escape',
+    description: 'Resuelve los enigmas y completa el recorrido por Santa Marta de Tormes.',
+    link: '/aventuras/urban-escape',
     image: imgLecturaFacil,
-    category: 'Arte',
+    category: 'Enigmas',
     duration: '25-35 min',
     difficulty: 'Fácil',
     available: true
