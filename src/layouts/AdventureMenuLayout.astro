@@ -4,8 +4,8 @@ import Layout from '../components/Layout.astro';
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
 
-// Importar componente Image de Astro para optimización automática
-import { Image } from 'astro:assets';
+// Importar componente Image y getImage de Astro para optimización automática
+import { Image, getImage } from 'astro:assets';
 
 // Importar imágenes de tipos de aventura (PNG para mejor calidad)
 import imgSubtitulada from '../assets/images/icons/subtitulada.png';
@@ -43,11 +43,22 @@ const heroImages = {
   'urban-escape': imgHeroUrbanEscape,
 };
 
-// Mapa de imágenes hero para desktop
+// Mapa de imágenes hero para desktop (raw imports)
 const heroImagesDesktop = {
   'santa-marta-explora': imgHeroSantaMartaDesktop,
   'urban-escape': imgHeroUrbanEscapeDesktop,
 };
+
+// Procesar imágenes desktop con getImage para optimización
+const processedDesktopImages = hero?.imageKey && heroImagesDesktop[hero.imageKey]
+  ? await getImage({
+      src: heroImagesDesktop[hero.imageKey],
+      width: 3440,
+      height: 1440,
+      format: 'webp',
+      quality: 80,
+    })
+  : null;
 
 // Mapa de imágenes para los tipos de aventura
 const adventureTypeImages = {
@@ -92,21 +103,24 @@ const badgeTexts = {
         {hero.imageKey && heroImages[hero.imageKey] && (
           <div class="absolute inset-0">
             <picture>
-              {/* Imagen para desktop */}
-              {heroImagesDesktop[hero.imageKey] && (
+              {/* Imagen optimizada para desktop (procesada con Sharp) */}
+              {processedDesktopImages && (
                 <source
                   media="(min-width: 768px)"
-                  srcset={heroImagesDesktop[hero.imageKey].src}
+                  srcset={processedDesktopImages.src}
+                  type="image/webp"
                 />
               )}
-              {/* Imagen para móvil (fallback) */}
+              {/* Imagen para móvil (procesada automáticamente por Image) */}
               <Image
                 src={heroImages[hero.imageKey]}
                 alt={hero.imageAlt || ''}
-                width={2000}
+                width={1200}
                 height={1200}
+                widths={[600, 1200, 1800]}
+                sizes="100vw"
                 format="webp"
-                quality={75}
+                quality={80}
                 class="w-full h-full object-cover"
                 loading="eager"
                 decoding="sync"
