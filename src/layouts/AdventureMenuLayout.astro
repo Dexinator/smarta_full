@@ -16,7 +16,9 @@ import imgDescriptiva from '../assets/images/icons/descriptiva.png';
 
 // Importar imágenes hero disponibles
 import imgHeroSantaMarta from '../assets/images/main_page/santa marta explora.png';
+import imgHeroSantaMartaDesktop from '../assets/images/adventures/SMX_desktop.png';
 import imgHeroUrbanEscape from '../assets/images/adventures/SMUrban.jpg';
+import imgHeroUrbanEscapeDesktop from '../assets/images/adventures/SMUrban_desktop.png';
 
 interface Props {
   config: any; // Configuración desde content collection o props directas
@@ -35,10 +37,16 @@ const {
 // Este template siempre se muestra en español
 const lang = 'es';
 
-// Mapa de imágenes hero disponibles
+// Mapa de imágenes hero disponibles (móvil)
 const heroImages = {
   'santa-marta-explora': imgHeroSantaMarta,
   'urban-escape': imgHeroUrbanEscape,
+};
+
+// Mapa de imágenes hero para desktop
+const heroImagesDesktop = {
+  'santa-marta-explora': imgHeroSantaMartaDesktop,
+  'urban-escape': imgHeroUrbanEscapeDesktop,
 };
 
 // Mapa de imágenes para los tipos de aventura
@@ -80,20 +88,30 @@ const badgeTexts = {
     <!-- Sección Hero con imagen -->
     {hero?.visible && (
       <section id="hero-section" class="relative h-[50vh] sm:h-[60vh] md:h-[70vh] w-full overflow-hidden bg-slate-900">
-        <!-- Imagen de fondo -->
+        <!-- Imagen de fondo responsive -->
         {hero.imageKey && heroImages[hero.imageKey] && (
           <div class="absolute inset-0">
-            <Image
-              src={heroImages[hero.imageKey]}
-              alt={hero.imageAlt || ''}
-              width={2000}
-              height={1200}
-              format="webp"
-              quality={75}
-              class="w-full h-full object-cover"
-              loading="eager"
-              decoding="sync"
-            />
+            <picture>
+              {/* Imagen para desktop */}
+              {heroImagesDesktop[hero.imageKey] && (
+                <source
+                  media="(min-width: 768px)"
+                  srcset={heroImagesDesktop[hero.imageKey].src}
+                />
+              )}
+              {/* Imagen para móvil (fallback) */}
+              <Image
+                src={heroImages[hero.imageKey]}
+                alt={hero.imageAlt || ''}
+                width={2000}
+                height={1200}
+                format="webp"
+                quality={75}
+                class="w-full h-full object-cover"
+                loading="eager"
+                decoding="sync"
+              />
+            </picture>
           </div>
         )}
 
