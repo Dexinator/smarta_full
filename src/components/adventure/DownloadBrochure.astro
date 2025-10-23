@@ -1,0 +1,158 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pdfPath: string; // Ruta relativa desde src/assets/docs
+  buttonText?: string;
+}
+
+const { title, description, pdfPath, buttonText } = Astro.props;
+
+// Importar todos los PDFs de la carpeta docs
+const pdfImports = import.meta.glob('/src/assets/docs/**/*.pdf');
+
+// Función para cargar el PDF dinámicamente
+async function loadPdf(path: string) {
+  // Normalizar la ruta
+  let normalizedPath = path;
+  if (!normalizedPath.startsWith('/src/')) {
+    normalizedPath = `/src/assets/docs/${path}`;
+  }
+
+  const pdfLoader = pdfImports[normalizedPath];
+  if (pdfLoader) {
+    const module = await pdfLoader();
+    return module.default;
+  }
+  console.warn(`PDF not found: ${normalizedPath}`);
+  return null;
+}
+
+// Cargar el PDF
+const pdfModule = await loadPdf(pdfPath);
+const pdfUrl = pdfModule || '#'; // Fallback a # si no se encuentra
+
+// Texto por defecto del botón
+const downloadButtonText = buttonText || 'Descargar Folleto';
+---
+
+<div class="download-brochure bg-gradient-to-br from-SM-blue/5 to-SM-yellow/5 rounded-2xl p-8 sm:p-10 text-center">
+  <!-- Icono decorativo -->
+  <div class="mb-6 flex justify-center">
+    <div class="w-20 h-20 bg-gradient-to-br from-SM-blue to-blue-700 rounded-full flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
+      <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+        </path>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Título -->
+  <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
+    {title}
+  </h2>
+
+  <!-- Descripción -->
+  <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
+    {description}
+  </p>
+
+  <!-- Botón de descarga -->
+  <a
+    href={pdfUrl}
+    download
+    target="_blank"
+    rel="noopener noreferrer"
+    class="download-button inline-flex items-center px-8 py-4 bg-gradient-to-r from-SM-blue to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-SM-blue transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-SM-blue/50"
+    aria-label={`${downloadButtonText} - Se abre en una nueva pestaña`}
+  >
+    <!-- Icono de descarga -->
+    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10">
+      </path>
+    </svg>
+
+    <span class="text-lg">{downloadButtonText}</span>
+
+    <!-- Badge PDF -->
+    <span class="ml-3 px-2 py-1 bg-white/20 rounded-md text-sm font-medium">
+      PDF
+    </span>
+  </a>
+
+  <!-- Texto adicional -->
+  <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+    <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+      </path>
+    </svg>
+    Se abre en una nueva pestaña
+  </p>
+</div>
+
+<style>
+  .download-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .download-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .download-button:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  /* Animación de pulso para el icono principal */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .download-brochure:hover .transform {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Accesibilidad - Focus visible */
+  .download-button:focus-visible {
+    outline: 2px solid #0072c0;
+    outline-offset: 4px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .download-button {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      padding-top: 0.875rem;
+      padding-bottom: 0.875rem;
+    }
+
+    .download-button svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .download-button span {
+      font-size: 1rem;
+    }
+  }
+</style>

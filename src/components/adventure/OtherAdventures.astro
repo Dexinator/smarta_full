@@ -1,0 +1,123 @@
+---
+import { Image, getImage } from 'astro:assets';
+
+// Importar imágenes de aventuras y main_page
+const adventureImages = import.meta.glob('/src/assets/images/{adventures,main_page}/**/*.{jpg,jpeg,png,webp,avif}');
+
+interface Adventure {
+  title: string;
+  link: string;
+  image: string;
+}
+
+interface Props {
+  adventures: Adventure[];
+}
+
+const { adventures } = Astro.props;
+
+// Función para cargar las imágenes dinámicamente
+async function loadImage(imagePath: string) {
+  let normalizedPath = imagePath;
+  if (!normalizedPath.startsWith('/src/')) {
+    normalizedPath = `/src/assets/images/adventures/${imagePath}`;
+  }
+
+  const imageLoader = adventureImages[normalizedPath];
+  if (imageLoader) {
+    const module = await imageLoader();
+    return module.default;
+  }
+
+  // Fallback a imagen de main_page si no se encuentra la imagen
+  try {
+    const fallbackPath = `/src/assets/images/main_page/santa marta explora.png`;
+    const fallbackLoader = adventureImages[fallbackPath];
+    if (fallbackLoader) {
+      const module = await fallbackLoader();
+      return module.default;
+    }
+  } catch (e) {
+    console.warn(`Image not found: ${normalizedPath}`);
+  }
+
+  return null;
+}
+
+// Cargar todas las imágenes
+const adventuresWithImages = await Promise.all(
+  adventures.map(async (adventure) => ({
+    ...adventure,
+    img: await loadImage(adventure.image)
+  }))
+);
+
+// Filtrar aventuras con imágenes válidas
+const validAdventures = adventuresWithImages.filter(a => a.img !== null);
+---
+
+{validAdventures && validAdventures.length > 0 && (
+  <section id="otras-aventuras" class="bg-slate-50 dark:bg-slate-800 py-12 sm:py-16 md:py-20">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <!-- Título -->
+      <div class="text-center mb-8 sm:mb-12">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-3">
+          Otras aventuras
+        </h2>
+        <p class="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 mt-3">
+          Descubre más experiencias en Santa Marta
+        </p>
+      </div>
+
+      <!-- Grid de burbujas con imágenes optimizadas -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6">
+        {validAdventures.map((adventure, index) => {
+          // Las primeras 6 imágenes se cargan con prioridad alta
+          const isEager = index < 6;
+          return (
+            <a
+              href={adventure.link}
+              class="flex flex-col items-center group"
+              aria-label={`Ir a ${adventure.title}`}
+            >
+              <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full shadow-lg group-hover:shadow-xl group-active:scale-95 transform transition-all overflow-hidden mb-3 bg-gradient-to-br from-SM-blue to-blue-700">
+                {adventure.img && (
+                  <Image
+                    src={adventure.img}
+                    alt={adventure.title}
+                    width={256}
+                    height={256}
+                    widths={[96, 128, 192, 256]}
+                    sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, 128px"
+                    format="webp"
+                    quality={80}
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    loading={isEager ? "eager" : "lazy"}
+                    decoding={isEager ? "sync" : "async"}
+                  />
+                )}
+              </div>
+              <h3 class="text-sm sm:text-base md:text-lg font-semibold text-slate-900 dark:text-white text-center px-2 group-hover:text-SM-blue dark:group-hover:text-SM-yellow transition-colors">
+                {adventure.title}
+              </h3>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  /* Animación suave al hacer hover */
+  @media (hover: hover) {
+    .group:hover .group-hover\:scale-110 {
+      transform: scale(1.1);
+    }
+  }
+
+  /* Asegurar que las burbujas mantengan proporción circular */
+  .rounded-full {
+    aspect-ratio: 1;
+  }
+</style>

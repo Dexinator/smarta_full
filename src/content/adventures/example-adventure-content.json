@@ -1,0 +1,150 @@
+{
+  "title": "Aventura Santa Marta - Audio Español",
+  "description": "Descubre los secretos de Santa Marta a través de esta aventura interactiva con audio guías y puntos de interés",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "santa-marta/1.png",
+        "alt": "Primera pista de la aventura - Plaza principal de Santa Marta",
+        "buttonText": "Pista 1: Plaza Bolívar",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://soundcloud.com/jorge-badillo-222916125/la-tierra-de-la-aventura",
+          "label": "Reproducir audio de la primera pista"
+        }
+      },
+      {
+        "src": "santa-marta/2.png",
+        "alt": "Segunda pista - Murales del centro histórico",
+        "buttonText": "Pista 2: Centro Histórico",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://soundcloud.com/jorge-badillo-222916125/la-tierra-de-la-aventura",
+          "label": "Reproducir audio de la segunda pista"
+        }
+      },
+      {
+        "src": "santa-marta/3.png",
+        "alt": "Tercera pista - Vista panorámica desde el mirador",
+        "buttonText": "Pista 3: Mirador",
+        "mediaButton": {
+          "type": "video",
+          "url": "https://vimeo.com/824804225",
+          "label": "Ver video en lengua de señas"
+        }
+      },
+      {
+        "src": "santa-marta/4.png",
+        "alt": "Cuarta pista - Mercado local tradicional",
+        "buttonText": "Pista 4: Mercado Público",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://soundcloud.com/jorge-badillo-222916125/la-tierra-de-la-aventura",
+          "label": "Reproducir audio de la cuarta pista"
+        }
+      },
+      {
+        "src": "santa-marta/5.png",
+        "alt": "Quinta pista - Playa del Rodadero al atardecer",
+        "buttonText": "Pista 5: Playa Rodadero",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://soundcloud.com/jorge-badillo-222916125/la-tierra-de-la-aventura",
+          "label": "Reproducir audio de la quinta pista"
+        }
+      },
+      {
+        "src": "santa-marta/6.png",
+        "alt": "Destino final - Catedral de Santa Marta",
+        "buttonText": "Final: Catedral",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://soundcloud.com/jorge-badillo-222916125/la-tierra-de-la-aventura",
+          "label": "Reproducir mensaje final de la aventura"
+        }
+      }
+    ]
+  },
+  "map": {
+    "visible": true,
+    "center": [11.2403547, -74.2110227],
+    "zoom": 14,
+    "locations": [
+      {
+        "coordinates": [11.2403547, -74.2110227],
+        "name": "Plaza de Bolívar",
+        "description": "Punto de inicio de la aventura"
+      },
+      {
+        "coordinates": [11.2413456, -74.2098765],
+        "name": "Centro Histórico",
+        "description": "Zona de murales y arte urbano"
+      },
+      {
+        "coordinates": [11.2389012, -74.2123456],
+        "name": "Mirador de la Ciudad",
+        "description": "Vista panorámica de Santa Marta"
+      },
+      {
+        "coordinates": [11.2421234, -74.2087654],
+        "name": "Mercado Público",
+        "description": "Experiencia cultural y gastronómica"
+      },
+      {
+        "coordinates": [11.2234567, -74.1876543],
+        "name": "Playa del Rodadero",
+        "description": "Playa icónica de Santa Marta"
+      },
+      {
+        "coordinates": [11.2410987, -74.2112345],
+        "name": "Catedral de Santa Marta",
+        "description": "Destino final de la aventura"
+      }
+    ]
+  },
+  "downloadBrochure": {
+    "visible": true,
+    "title": "Descargar Folleto de la Aventura",
+    "description": "Obtén toda la información de la aventura, mapas detallados, horarios y recomendaciones en un práctico folleto PDF que puedes llevar contigo durante tu recorrido.",
+    "pdfPath": "adventures/santa-marta-adventure-es.pdf",
+    "buttonText": "Descargar Folleto (PDF - 2.5 MB)"
+  },
+  "otherAdventures": {
+    "visible": true,
+    "adventures": [
+      {
+        "title": "Audio Lectura Fácil",
+        "link": "/aventuras/santa-marta-lectura-facil",
+        "image": "santa-marta/7.png"
+      },
+      {
+        "title": "Video LSE",
+        "link": "/aventuras/santa-marta-lse",
+        "image": "santa-marta/8.png"
+      },
+      {
+        "title": "Audio Descriptivo",
+        "link": "/aventuras/santa-marta-descriptivo",
+        "image": "santa-marta/9.png"
+      },
+      {
+        "title": "English Audio",
+        "link": "/aventuras/santa-marta-english",
+        "image": "santa-marta/2.png"
+      },
+      {
+        "title": "Urban Escape",
+        "link": "/aventuras/urban-escape",
+        "image": "santa-marta/3.png"
+      },
+      {
+        "title": "Ruta Familiar",
+        "link": "/aventuras/ruta-familiar",
+        "image": "santa-marta/4.png"
+      }
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+---
+import MapComponent from '../react/MapComponent.jsx';
+
+interface Props {
+  locations: Array<{
+    coordinates: [number, number];
+    name: string;
+    description?: string;
+  }>;
+  center?: [number, number];
+  zoom?: number;
+}
+
+const { locations, center, zoom = 15 } = Astro.props;
+
+// Calcular el centro del mapa si no se proporciona
+const mapCenter = center || (locations.length > 0 ? locations[0].coordinates : [11.2403547, -74.2110227]);
+---
+
+<div class="map-section">
+  <!-- Título de la sección -->
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-3">
+      Puntos de Interés
+    </h2>
+    <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+      Explora las ubicaciones importantes de esta aventura
+    </p>
+  </div>
+
+  <!-- Componente de Mapa -->
+  <div class="map-container">
+    <MapComponent
+      client:load
+      center={mapCenter}
+      zoom={zoom}
+      locations={locations}
+      showControls={true}
+      language="es"
+      className="shadow-xl"
+    />
+  </div>
+
+  {/* Lista de ubicaciones para accesibilidad (oculta visualmente pero accesible para lectores de pantalla) */}
+  <div class="sr-only">
+    <h3>Lista de ubicaciones</h3>
+    <ol>
+      {locations.map((location, index) => (
+        <li>
+          <strong>{location.name}</strong>
+          {location.description && (
+            <span>: {location.description}</span>
+          )}
+          <span>
+            (Coordenadas: {location.coordinates[0]}, {location.coordinates[1]})
+          </span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>
+
+<style>
+  .map-section {
+    width: 100%;
+  }
+
+  .map-container {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 640px) {
+    .map-container {
+      border-radius: 0.5rem;
+    }
+  }
+
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>

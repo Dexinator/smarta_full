@@ -1,0 +1,852 @@
+---
+import { Image, getImage } from 'astro:assets';
+import MediaModal from './MediaModal';
+
+interface Props {
+  images: Array<{
+    src: string;
+    alt: string;
+    mediaButton?: {
+      type: 'audio' | 'video';
+      url: string;
+      label: string;
+    };
+    buttonText?: string;
+  }>;
+  orientation: 'landscape' | 'portrait';
+  buttonsPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+}
+
+const { images, orientation, buttonsPosition = 'top-right' } = Astro.props;
+
+const isLandscape = orientation === 'landscape';
+
+// Determinar las clases de posición para los botones
+const positionClasses = {
+  'top-left': 'top-4 left-4',
+  'top-right': 'top-4 right-4',
+  'bottom-left': 'bottom-4 left-4',
+  'bottom-right': 'bottom-4 right-4'
+}[buttonsPosition];
+
+// Importar todas las imágenes de la carpeta de aventuras
+const imageImports = import.meta.glob('/src/assets/images/adventures/**/*.{jpg,jpeg,png,webp,avif}');
+
+// Función para cargar las imágenes dinámicamente
+async function loadImage(imagePath: string) {
+  let normalizedPath = imagePath;
+  if (!normalizedPath.startsWith('/src/')) {
+    normalizedPath = `/src/assets/images/adventures/${imagePath}`;
+  }
+
+  const imageLoader = imageImports[normalizedPath];
+  if (imageLoader) {
+    const module = await imageLoader();
+    return module.default;
+  }
+  console.warn(`Image not found: ${normalizedPath}`);
+  return null;
+}
+
+// Cargar y optimizar todas las imágenes
+const optimizedImages = await Promise.all(
+  images.map(async (img) => {
+    const imageModule = await loadImage(img.src);
+    if (!imageModule) return null;
+
+    // Configurar dimensiones según orientación
+    const dimensions = isLandscape
+      ? { width: 1920, height: 1080 }  // 16:9
+      : { width: 1080, height: 1920 }; // 9:16
+
+    // Generar múltiples tamaños para responsive
+    const sizes = isLandscape
+      ? [640, 768, 1024, 1366, 1920]
+      : [480, 640, 768, 1024, 1080];
+
+    // Optimizar imagen principal
+    const optimizedImage = await getImage({
+      src: imageModule,
+      width: dimensions.width,
+      height: dimensions.height,
+      format: 'webp',
+      quality: 85
+    });
+
+    // Generar srcset para diferentes tamaños
+    const srcsetWebp = await Promise.all(
+      sizes.map(async (size) => {
+        const opt = await getImage({
+          src: imageModule,
+          width: size,
+          format: 'webp',
+          quality: 85
+        });
+        return `${opt.src} ${size}w`;
+      })
+    );
+
+    // Fallback en JPEG
+    const fallback = await getImage({
+      src: imageModule,
+      width: dimensions.width,
+      height: dimensions.height,
+      format: 'jpg',
+      quality: 85
+    });
+
+    return {
+      ...img,
+      optimized: optimizedImage,
+      srcsetWebp: srcsetWebp.join(', '),
+      fallback: fallback.src,
+      sizes: isLandscape
+        ? '(max-width: 640px) 640px, (max-width: 768px) 768px, (max-width: 1024px) 1024px, (max-width: 1366px) 1366px, 1920px'
+        : '(max-width: 480px) 480px, (max-width: 640px) 640px, (max-width: 768px) 768px, (max-width: 1024px) 1024px, 1080px'
+    };
+  })
+);
+
+// Filtrar imágenes que no se pudieron cargar
+const validImages = optimizedImages.filter(img => img !== null);
+---
+
+<div class="adventure-gallery-wrapper">
+  <div
+    class="adventure-gallery-container relative bg-black"
+    data-orientation={orientation}
+    data-buttons-position={buttonsPosition}
+  >
+    <!-- Botón de salir de pantalla completa (oculto por defecto) -->
+    <button
+      class="exit-fullscreen-button hidden fixed top-4 right-4 z-[10001] bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all duration-300"
+      aria-label="Salir de pantalla completa"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <!-- Contenedor del Carousel -->
+    <div
+      class="gallery-carousel relative overflow-hidden"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Galería de imágenes de la aventura. Desliza para navegar."
+    >
+      <!-- Track de imágenes -->
+      <div class="gallery-track flex transition-transform duration-300 ease-in-out">
+        {validImages.map((image, index) => (
+          <div
+            class="gallery-slide flex-shrink-0 w-full relative"
+            data-slide-index={index}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`Imagen ${index + 1} de ${validImages.length}`}
+          >
+            <!-- Contenedor de imagen con aspect ratio -->
+            <div class={`relative ${isLandscape ? 'aspect-video' : 'aspect-[9/16]'} bg-black`}>
+              <picture>
+                <source
+                  type="image/webp"
+                  srcset={image.srcsetWebp}
+                  sizes={image.sizes}
+                />
+                <source
+                  type="image/jpeg"
+                  srcset={image.fallback}
+                />
+                <img
+                  src={image.optimized.src}
+                  alt={image.alt}
+                  width={image.optimized.attributes.width}
+                  height={image.optimized.attributes.height}
+                  class="w-full h-full object-cover"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding={index === 0 ? 'sync' : 'async'}
+                  fetchpriority={index === 0 ? 'high' : 'auto'}
+                />
+              </picture>
+
+              <!-- Botón de Media (si aplica) -->
+              {image.mediaButton && (
+                <div class={`media-button-container absolute ${positionClasses} z-20`}>
+                  <button
+                    class="media-button bg-black/70 hover:bg-black/90 text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-SM-blue focus:ring-offset-2 flex items-center gap-2"
+                    data-media-type={image.mediaButton.type}
+                    data-media-url={image.mediaButton.url}
+                    data-slide-index={index}
+                    aria-label={image.mediaButton.label || 'Abrir reproductor multimedia'}
+                    style={image.buttonText ? 'border-radius: 9999px; padding: 0.5rem 1rem 0.5rem 0.75rem;' : 'border-radius: 9999px; padding: 0.75rem;'}
+                  >
+                    {image.buttonText && (
+                      <span class="button-text text-xs sm:text-sm font-medium whitespace-nowrap">
+                        {image.buttonText}
+                      </span>
+                    )}
+                    <div class="flex-shrink-0">
+                      {image.mediaButton.type === 'audio' ? (
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                        </svg>
+                      ) : (
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                        </svg>
+                      )}
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Controles de navegación para desktop -->
+      <button
+        class="gallery-prev hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all z-10 items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+        aria-label="Imagen anterior"
+        disabled
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+
+      <button
+        class="gallery-next hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all z-10 items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+        aria-label="Imagen siguiente"
+        disabled={validImages.length <= 1}
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Indicadores de puntos -->
+    {validImages.length > 1 && (
+      <div
+        class="gallery-indicators absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10"
+        role="tablist"
+        aria-label="Navegación de galería"
+      >
+        {validImages.map((_, index) => (
+          <button
+            class={`indicator w-2 h-2 rounded-full transition-all duration-300 ${
+              index === 0 ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/70'
+            }`}
+            data-slide-target={index}
+            role="tab"
+            aria-selected={index === 0}
+            aria-label={`Imagen ${index + 1}`}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+
+  <!-- Botón de pantalla completa (fuera de la galería) -->
+  <div class="fullscreen-button-container mt-4 flex justify-center">
+    <button
+      class="fullscreen-button bg-SM-blue hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-SM-blue focus:ring-offset-2 flex items-center gap-2 shadow-lg"
+      aria-label="Ver galería en pantalla completa"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+      </svg>
+      <span>Ver en pantalla completa</span>
+    </button>
+  </div>
+</div>
+
+<!-- Modal para Media -->
+<MediaModal client:load />
+
+<style>
+  /* Estilos base para móvil con snap scroll */
+  @media (max-width: 768px) {
+    .gallery-carousel {
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+    }
+
+    .gallery-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery-track {
+      display: flex;
+      transition: none;
+    }
+
+    .gallery-slide {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
+
+  /* Estilos para botón de media */
+  .media-button {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Por defecto, ocultar todos los botones */
+  .media-button-container {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  /* En modo normal, mostrar solo botones de slide activa */
+  .gallery-slide.active-slide .media-button-container {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  /* En fullscreen, mostrar TODOS los botones en su imagen correspondiente */
+  .fullscreen-active .media-button-container {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+  }
+
+  /* Estilos para modo fullscreen */
+  .fullscreen-active {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    background: black !important;
+  }
+
+  .fullscreen-active .gallery-carousel {
+    height: 100vh !important;
+  }
+
+  .fullscreen-active .gallery-slide {
+    height: 100vh !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fullscreen-active .gallery-slide > div {
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* En fullscreen, resetear aspect-ratio y usar contain */
+  .fullscreen-active .aspect-video,
+  .fullscreen-active .aspect-\[9\/16\] {
+    aspect-ratio: unset !important;
+    height: 100vh !important;
+    width: 100vw !important;
+  }
+
+  .fullscreen-active img {
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+
+  /* Mostrar botón de salir en fullscreen */
+  .fullscreen-active .exit-fullscreen-button {
+    display: flex !important;
+  }
+
+  /* En fullscreen móvil, mantener botones visibles */
+  @media (max-width: 768px) {
+    .fullscreen-active .gallery-carousel {
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+
+    .fullscreen-active .gallery-track {
+      display: flex !important;
+    }
+
+    .fullscreen-active .gallery-slide {
+      flex-shrink: 0 !important;
+      width: 100vw !important;
+      scroll-snap-align: center !important;
+    }
+  }
+
+  /* Posición de botones en fullscreen - manteniendo absolute positioning */
+  .fullscreen-active[data-buttons-position="top-left"] .media-button-container {
+    top: 1rem !important;
+    left: 1rem !important;
+    right: auto !important;
+    bottom: auto !important;
+  }
+
+  .fullscreen-active[data-buttons-position="top-right"] .media-button-container {
+    top: 1rem !important;
+    right: 1rem !important;
+    left: auto !important;
+    bottom: auto !important;
+  }
+
+  .fullscreen-active[data-buttons-position="bottom-left"] .media-button-container {
+    bottom: 1rem !important;
+    left: 1rem !important;
+    right: auto !important;
+    top: auto !important;
+  }
+
+  .fullscreen-active[data-buttons-position="bottom-right"] .media-button-container {
+    bottom: 1rem !important;
+    right: 1rem !important;
+    left: auto !important;
+    top: auto !important;
+  }
+
+  /* Ajustes específicos para móvil horizontal */
+  @media (max-width: 768px) and (orientation: landscape) {
+    /* En horizontal, reducir el espacio de los controles */
+    .fullscreen-active .exit-fullscreen-button {
+      top: 0.25rem !important;
+      right: 0.25rem !important;
+      padding: 0.375rem !important;
+    }
+
+    .fullscreen-active .exit-fullscreen-button svg {
+      width: 1rem !important;
+      height: 1rem !important;
+    }
+
+    /* Ajustar posiciones para landscape - más cerca del borde */
+    .fullscreen-active[data-buttons-position="top-left"] .media-button-container {
+      top: 0.25rem !important;
+      left: 0.25rem !important;
+    }
+
+    .fullscreen-active[data-buttons-position="top-right"] .media-button-container {
+      top: 0.25rem !important;
+      right: 2rem !important; /* Espacio para botón cerrar */
+    }
+
+    .fullscreen-active[data-buttons-position="bottom-left"] .media-button-container {
+      bottom: 1.5rem !important; /* Espacio para indicadores */
+      left: 0.25rem !important;
+    }
+
+    .fullscreen-active[data-buttons-position="bottom-right"] .media-button-container {
+      bottom: 1.5rem !important;
+      right: 0.25rem !important;
+    }
+
+    /* Botones más pequeños en horizontal */
+    .fullscreen-active .media-button {
+      padding: 0.25rem 0.5rem !important;
+      font-size: 0.75rem !important;
+    }
+
+    .fullscreen-active .button-text {
+      font-size: 0.625rem !important;
+      max-width: 70px !important;
+    }
+
+    .fullscreen-active .media-button svg {
+      width: 0.875rem !important;
+      height: 0.875rem !important;
+    }
+
+    /* Indicadores más pequeños */
+    .fullscreen-active .gallery-indicators {
+      bottom: 0.25rem !important;
+    }
+
+    .fullscreen-active .indicator {
+      width: 0.25rem !important;
+      height: 0.25rem !important;
+    }
+
+    .fullscreen-active .indicator.bg-white {
+      width: 1rem !important;
+    }
+  }
+
+  /* Indicadores en fullscreen */
+  .fullscreen-active .gallery-indicators {
+    position: fixed !important;
+    bottom: 1rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10000 !important;
+  }
+
+  /* Focus visible para accesibilidad */
+  .media-button:focus-visible,
+  .fullscreen-button:focus-visible,
+  .exit-fullscreen-button:focus-visible,
+  .gallery-prev:focus-visible,
+  .gallery-next:focus-visible,
+  .indicator:focus-visible {
+    outline: 2px solid #0072c0;
+    outline-offset: 2px;
+  }
+
+  /* Aspect ratios */
+  .aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+
+  .aspect-\[9\/16\] {
+    aspect-ratio: 9 / 16;
+  }
+
+  /* Limitar altura en móviles con imágenes portrait */
+  @media (max-width: 768px) {
+    [data-orientation="portrait"] .gallery-slide {
+      max-height: 80vh;
+    }
+
+    [data-orientation="portrait"] .aspect-\[9\/16\] {
+      max-height: 80vh;
+      width: auto;
+      margin: 0 auto;
+    }
+  }
+
+  /* Animación suave para indicadores */
+  .indicator {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const galleries = document.querySelectorAll('.adventure-gallery-wrapper');
+
+    galleries.forEach(wrapper => {
+      const gallery = wrapper.querySelector('.adventure-gallery-container');
+      const carousel = gallery.querySelector('.gallery-carousel');
+      const track = gallery.querySelector('.gallery-track');
+      const slides = gallery.querySelectorAll('.gallery-slide');
+      const prevButton = gallery.querySelector('.gallery-prev');
+      const nextButton = gallery.querySelector('.gallery-next');
+      const indicators = gallery.querySelectorAll('.indicator');
+      const mediaButtons = gallery.querySelectorAll('.media-button');
+      const fullscreenButton = wrapper.querySelector('.fullscreen-button');
+      const exitFullscreenButton = gallery.querySelector('.exit-fullscreen-button');
+
+      if (!carousel || !track || slides.length === 0) return;
+
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+
+      // Variable para rastrear si estábamos en pantalla completa antes del modal
+      let wasInFullscreenBeforeModal = false;
+
+      // Función para actualizar la posición del carousel
+      const updateCarousel = (index) => {
+        if (index < 0 || index >= totalSlides) return;
+
+        currentIndex = index;
+
+        // Marcar la slide activa
+        slides.forEach((slide, i) => {
+          if (i === currentIndex) {
+            slide.classList.add('active-slide');
+          } else {
+            slide.classList.remove('active-slide');
+          }
+        });
+
+        // En desktop usar transform, en móvil usar scroll
+        if (window.innerWidth > 768) {
+          track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        } else {
+          // En móvil (normal o fullscreen), usar scroll
+          const slideWidth = slides[0].offsetWidth;
+          carousel.scrollTo({
+            left: slideWidth * currentIndex,
+            behavior: 'smooth'
+          });
+        }
+
+        // Actualizar botones de navegación
+        if (prevButton) prevButton.disabled = currentIndex === 0;
+        if (nextButton) nextButton.disabled = currentIndex === totalSlides - 1;
+
+        // Actualizar indicadores
+        indicators.forEach((indicator, i) => {
+          if (i === currentIndex) {
+            indicator.classList.add('bg-white', 'w-8');
+            indicator.classList.remove('bg-white/50', 'w-2');
+            indicator.setAttribute('aria-selected', 'true');
+          } else {
+            indicator.classList.remove('bg-white', 'w-8');
+            indicator.classList.add('bg-white/50', 'w-2');
+            indicator.setAttribute('aria-selected', 'false');
+          }
+        });
+      };
+
+      // Event listeners para botones de navegación
+      prevButton?.addEventListener('click', () => {
+        updateCarousel(currentIndex - 1);
+      });
+
+      nextButton?.addEventListener('click', () => {
+        updateCarousel(currentIndex + 1);
+      });
+
+      // Event listeners para indicadores
+      indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+          updateCarousel(index);
+        });
+      });
+
+      // Touch/swipe para móvil - simplificado
+      const handleMobileScroll = () => {
+        // Solo procesar en móvil
+        if (window.innerWidth > 768) return;
+
+        const slideWidth = slides[0].offsetWidth;
+        const newIndex = Math.round(carousel.scrollLeft / slideWidth);
+
+        if (newIndex !== currentIndex && newIndex >= 0 && newIndex < totalSlides) {
+          currentIndex = newIndex;
+
+          // Solo actualizar active-slide en modo normal (no fullscreen)
+          if (!gallery.classList.contains('fullscreen-active')) {
+            slides.forEach((slide, i) => {
+              if (i === currentIndex) {
+                slide.classList.add('active-slide');
+              } else {
+                slide.classList.remove('active-slide');
+              }
+            });
+          }
+
+          // Actualizar indicadores siempre
+          indicators.forEach((indicator, i) => {
+            if (i === currentIndex) {
+              indicator.classList.add('bg-white', 'w-8');
+              indicator.classList.remove('bg-white/50', 'w-2');
+              indicator.setAttribute('aria-selected', 'true');
+            } else {
+              indicator.classList.remove('bg-white', 'w-8');
+              indicator.classList.add('bg-white/50', 'w-2');
+              indicator.setAttribute('aria-selected', 'false');
+            }
+          });
+        }
+      };
+
+      // Detectar cambio de slide con scroll en móvil
+      carousel.addEventListener('scroll', handleMobileScroll);
+
+      // Navegación con teclado
+      carousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          updateCarousel(currentIndex - 1);
+        } else if (e.key === 'ArrowRight') {
+          updateCarousel(currentIndex + 1);
+        }
+      });
+
+      // Event listeners para botones de media
+      const setupMediaButtons = () => {
+        const buttons = gallery.querySelectorAll('.media-button');
+        buttons.forEach(button => {
+          // Remover listeners anteriores para evitar duplicados
+          button.replaceWith(button.cloneNode(true));
+        });
+
+        // Obtener los botones nuevamente después del clone
+        const newButtons = gallery.querySelectorAll('.media-button');
+        newButtons.forEach(button => {
+          button.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+
+            const type = button.dataset.mediaType;
+            const url = button.dataset.mediaUrl;
+
+            console.log('Media button clicked:', { type, url }); // Debug
+
+            // Verificar si estamos en pantalla completa
+            const isCurrentlyFullscreen = document.fullscreenElement ||
+                                         document.webkitFullscreenElement ||
+                                         document.mozFullScreenElement ||
+                                         document.msFullscreenElement;
+
+            // Si estamos en pantalla completa, guardar estado y salir
+            if (isCurrentlyFullscreen) {
+              wasInFullscreenBeforeModal = true;
+              console.log('Exiting fullscreen to show modal'); // Debug
+
+              try {
+                await exitFullscreen();
+                // Pequeña pausa para asegurar que salió de fullscreen
+                await new Promise(resolve => setTimeout(resolve, 100));
+              } catch (err) {
+                console.error('Error exiting fullscreen:', err);
+              }
+            } else {
+              wasInFullscreenBeforeModal = false;
+            }
+
+            // Disparar evento personalizado para abrir el modal
+            window.dispatchEvent(new CustomEvent('openMediaModal', {
+              detail: { type, url }
+            }));
+          });
+        });
+      };
+
+      // Configurar botones inicialmente
+      setupMediaButtons();
+
+      // Listener para cuando se cierre el modal
+      window.addEventListener('closeMediaModal', async () => {
+        console.log('Modal closed, checking if should return to fullscreen:', wasInFullscreenBeforeModal); // Debug
+
+        // Si estábamos en pantalla completa antes del modal, restaurar
+        if (wasInFullscreenBeforeModal) {
+          wasInFullscreenBeforeModal = false; // Reset flag
+
+          // Pequeña pausa para asegurar que el modal se cerró completamente
+          await new Promise(resolve => setTimeout(resolve, 100));
+
+          try {
+            await enterFullscreen();
+            console.log('Returned to fullscreen after modal closed'); // Debug
+          } catch (err) {
+            console.error('Error returning to fullscreen:', err);
+          }
+        }
+      });
+
+      // Funcionalidad de pantalla completa
+      const enterFullscreen = async () => {
+        try {
+          // En móvil, intentar bloquear orientación
+          if (window.innerWidth <= 768) {
+            const isLandscapeImage = gallery.dataset.orientation === 'landscape';
+            if (screen.orientation && screen.orientation.lock) {
+              try {
+                await screen.orientation.lock(isLandscapeImage ? 'landscape' : 'portrait');
+              } catch (err) {
+                console.log('No se pudo bloquear la orientación:', err);
+              }
+            }
+          }
+
+          // Solicitar pantalla completa
+          if (gallery.requestFullscreen) {
+            await gallery.requestFullscreen();
+          } else if (gallery.webkitRequestFullscreen) {
+            await gallery.webkitRequestFullscreen();
+          } else if (gallery.mozRequestFullScreen) {
+            await gallery.mozRequestFullScreen();
+          } else if (gallery.msRequestFullscreen) {
+            await gallery.msRequestFullscreen();
+          }
+
+          gallery.classList.add('fullscreen-active');
+
+          // Re-configurar botones de media después de entrar en fullscreen
+          setTimeout(() => {
+            setupMediaButtons();
+          }, 100);
+
+        } catch (err) {
+          console.error('Error al entrar en pantalla completa:', err);
+        }
+      };
+
+      const exitFullscreen = async () => {
+        try {
+          if (document.exitFullscreen) {
+            await document.exitFullscreen();
+          } else if (document.webkitExitFullscreen) {
+            await document.webkitExitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            await document.mozCancelFullScreen();
+          } else if (document.msExitFullscreen) {
+            await document.msExitFullscreen();
+          }
+
+          // Desbloquear orientación
+          if (screen.orientation && screen.orientation.unlock) {
+            try {
+              screen.orientation.unlock();
+            } catch (err) {
+              console.log('No se pudo desbloquear la orientación:', err);
+            }
+          }
+        } catch (err) {
+          console.error('Error al salir de pantalla completa:', err);
+        }
+      };
+
+      // Event listener para botón de pantalla completa
+      fullscreenButton?.addEventListener('click', enterFullscreen);
+
+      // Event listener para botón de salir de pantalla completa
+      exitFullscreenButton?.addEventListener('click', exitFullscreen);
+
+      // Listener para cambios de pantalla completa
+      const handleFullscreenChange = () => {
+        const isFullscreen = document.fullscreenElement ||
+                           document.webkitFullscreenElement ||
+                           document.mozFullScreenElement ||
+                           document.msFullscreenElement;
+
+        if (!isFullscreen) {
+          gallery.classList.remove('fullscreen-active');
+
+          // Re-configurar botones después de salir de fullscreen
+          setTimeout(() => {
+            setupMediaButtons();
+            updateCarousel(currentIndex); // Re-establecer el estado
+          }, 100);
+        }
+      };
+
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+      document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+      // Actualizar en resize
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          updateCarousel(currentIndex);
+        }, 250);
+      });
+
+      // Inicializar la primera slide como activa
+      updateCarousel(0);
+    });
+  });
+</script>

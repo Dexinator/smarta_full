@@ -1,0 +1,45 @@
+{
+  "title": "Aventura con Botones Abajo-Izquierda",
+  "description": "Ejemplo de aventura con botones posicionados en la esquina inferior izquierda",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "santa-marta/1.png",
+        "alt": "Primera pista - Botones abajo izquierda",
+        "buttonText": "Audio Pista 1",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://soundcloud.com/jorge-badillo-222916125/la-tierra-de-la-aventura",
+          "label": "Reproducir audio de la primera pista"
+        }
+      },
+      {
+        "src": "santa-marta/2.png",
+        "alt": "Segunda pista - Botones abajo izquierda",
+        "buttonText": "Video Pista 2",
+        "mediaButton": {
+          "type": "video",
+          "url": "https://vimeo.com/824804225",
+          "label": "Ver video de la segunda pista"
+        }
+      },
+      {
+        "src": "santa-marta/3.png",
+        "alt": "Tercera pista - Sin botón de media",
+        "buttonText": "Pista 3: Solo imagen"
+      }
+    ]
+  },
+  "map": {
+    "visible": false
+  },
+  "downloadBrochure": {
+    "visible": false
+  },
+  "otherAdventures": {
+    "visible": false
+  }
+}

@@ -1,0 +1,10 @@
+---
+import AdventureContentLayout from '../../../layouts/AdventureContentLayout.astro';
+import adventureConfig from '../../../content/adventures/example-adventure-content.json';
+---
+
+<AdventureContentLayout
+  title={adventureConfig.title}
+  description={adventureConfig.description}
+  config={adventureConfig}
+/>

@@ -1,0 +1,202 @@
+---
+import Layout from '../components/Layout.astro';
+import Header from '../components/ui/Header.astro';
+import Footer from '../components/ui/Footer.astro';
+import ImageGallery from '../components/adventure/ImageGallery.astro';
+import MapSection from '../components/adventure/MapSection.astro';
+import DownloadBrochure from '../components/adventure/DownloadBrochure.astro';
+import OtherAdventures from '../components/adventure/OtherAdventures.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  config: {
+    imageGallery?: {
+      visible: boolean;
+      orientation: 'landscape' | 'portrait';
+      buttonsPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+      images: Array<{
+        src: string;
+        alt: string;
+        mediaButton?: {
+          type: 'audio' | 'video';
+          url: string;
+          label: string;
+        };
+      }>;
+    };
+    map?: {
+      visible: boolean;
+      center?: [number, number];
+      zoom?: number;
+      locations: Array<{
+        coordinates: [number, number];
+        name: string;
+        description?: string;
+      }>;
+    };
+    downloadBrochure?: {
+      visible: boolean;
+      title: string;
+      description: string;
+      pdfPath: string;
+      buttonText?: string;
+    };
+    otherAdventures?: {
+      visible: boolean;
+      adventures: Array<{
+        title: string;
+        link: string;
+        image: string;
+      }>;
+    };
+  };
+}
+
+const { title, description, config } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <!-- Skip Links para accesibilidad -->
+  <div class="sr-only">
+    <a href="#main-content" class="skip-link">
+      Saltar al contenido principal
+    </a>
+    {config.imageGallery?.visible && (
+      <a href="#adventure-gallery" class="skip-link">
+        Saltar a la galería de imágenes
+      </a>
+    )}
+    {config.map?.visible && (
+      <a href="#adventure-map" class="skip-link">
+        Saltar al mapa
+      </a>
+    )}
+    {config.downloadBrochure?.visible && (
+      <a href="#adventure-download" class="skip-link">
+        Saltar a descarga de folleto
+      </a>
+    )}
+    {config.otherAdventures?.visible && (
+      <a href="#otras-aventuras" class="skip-link">
+        Saltar a otras aventuras
+      </a>
+    )}
+  </div>
+
+  <!-- Header -->
+  <Header />
+
+  <!-- Contenido Principal -->
+  <main id="main-content" class="min-h-screen bg-white dark:bg-slate-900">
+    <!-- Galería de Imágenes (Opcional) -->
+    {config.imageGallery?.visible && (
+      <section
+        id="adventure-gallery"
+        class="relative"
+        aria-label="Galería de aventura"
+      >
+        <ImageGallery
+          images={config.imageGallery.images}
+          orientation={config.imageGallery.orientation}
+          buttonsPosition={config.imageGallery.buttonsPosition}
+        />
+      </section>
+    )}
+
+    <!-- Sección de Mapa (Opcional) -->
+    {config.map?.visible && (
+      <section
+        id="adventure-map"
+        class="py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-800"
+        aria-label="Mapa de ubicaciones"
+      >
+        <div class="max-w-7xl mx-auto">
+          <MapSection
+            locations={config.map.locations}
+            center={config.map.center}
+            zoom={config.map.zoom}
+          />
+        </div>
+      </section>
+    )}
+
+    <!-- Sección de Descarga de Folleto (Opcional) -->
+    {config.downloadBrochure?.visible && (
+      <section
+        id="adventure-download"
+        class="py-12 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900"
+        aria-label="Descargar folleto"
+      >
+        <div class="max-w-4xl mx-auto">
+          <DownloadBrochure
+            title={config.downloadBrochure.title}
+            description={config.downloadBrochure.description}
+            pdfPath={config.downloadBrochure.pdfPath}
+            buttonText={config.downloadBrochure.buttonText}
+          />
+        </div>
+      </section>
+    )}
+
+    <!-- Sección de Otras Aventuras (Opcional) -->
+    {config.otherAdventures?.visible && (
+      <OtherAdventures
+        adventures={config.otherAdventures.adventures}
+      />
+    )}
+  </main>
+
+  <!-- Footer -->
+  <Footer />
+</Layout>
+
+<style>
+  /* Skip links accessibility styles */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #0072c0;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+    border-radius: 0 0 4px 0;
+  }
+
+  .skip-link:focus {
+    top: 0;
+  }
+
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .sr-only:focus {
+    position: absolute;
+    width: auto;
+    height: auto;
+    padding: 0.5rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  /* Smooth scroll behavior */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+</style>

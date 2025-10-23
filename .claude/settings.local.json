@@ -5,7 +5,12 @@
       "Read(//mnt/c/coding/isla_soto2.0/src/components/react/**)",
       "Bash(mkdir:*)",
       "WebSearch",
-      "Read(//mnt/c/coding/isla_soto2.0/**)"
+      "Read(//mnt/c/coding/isla_soto2.0/**)",
+      "Bash(__NEW_LINE__ cp \"/mnt/c/coding/smarta_full/src/assets/images/main_page/arte.png\" /mnt/c/coding/smarta_full/src/assets/images/adventures/santa-marta/pista-3.jpg)",
+      "Bash(__NEW_LINE__ cp \"/mnt/c/coding/smarta_full/src/assets/images/main_page/familia.png\" /mnt/c/coding/smarta_full/src/assets/images/adventures/santa-marta/pista-4.jpg)",
+      "Bash(__NEW_LINE__ cp \"/mnt/c/coding/smarta_full/src/assets/images/main_page/naturaleza.png\" /mnt/c/coding/smarta_full/src/assets/images/adventures/santa-marta/pista-5.jpg)",
+      "Bash(__NEW_LINE__ cp \"/mnt/c/coding/smarta_full/src/assets/images/main_page/soto (audioguia).jpg\" /mnt/c/coding/smarta_full/src/assets/images/adventures/santa-marta/final.jpg)",
+      "Bash(__NEW_LINE__ echo \"All images copied successfully\")"
     ],
     "deny": [],
     "ask": []
