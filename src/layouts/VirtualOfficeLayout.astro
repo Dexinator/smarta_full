@@ -3,7 +3,7 @@
 import Layout from '../components/Layout.astro';
 import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
-import MapComponent from '../components/react/MapComponent.jsx';
+import MapSection from '../components/adventure/MapSection.astro';
 import VimeoHeroPlayer from '../components/react/VimeoHeroPlayer.jsx';
 
 // Importar componente Image y getImage de Astro para optimización automática
@@ -159,26 +159,13 @@ const burbujas = burbujasFiltradas
 
     <!-- Sección 3: Mapa -->
     {mapa?.visible && (
-      <section id="mapa" class="min-h-[100dvh] bg-slate-50 dark:bg-slate-800 pt-24 pb-12 sm:pt-28 sm:pb-16 md:pt-32 md:pb-20">
-        <div class="w-full px-4 sm:container sm:mx-auto sm:max-w-6xl">
-          <div class="text-center mb-6 sm:mb-12">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-4">
-              {mapa.title}
-            </h2>
-            <p class="text-sm sm:text-lg text-slate-600 dark:text-slate-300">
-              Explora el mapa para encontrar la ubicación de lo que quieres visitar
-            </p>
-          </div>
-
-          <!-- Componente de mapa -->
-          <div class="mb-6 sm:mb-8">
-            <MapComponent
-              client:load
-              locations={mapa.locations}
-              language={lang}
-              className="shadow-lg sm:shadow-xl"
-            />
-          </div>
+      <section id="mapa" class="py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-800">
+        <div class="max-w-7xl mx-auto">
+          <MapSection
+            locations={mapa.locations}
+            center={mapa.center}
+            zoom={mapa.zoom}
+          />
         </div>
       </section>
     )}

@@ -56,7 +56,7 @@ const virtualOfficesCollection = defineCollection({
       emoji: z.string().default('🎧').optional(),
       title: z.string().optional(),
       subtitle: z.string().optional(),
-      bgGradient: z.string().default('from-SM-blue to-blue-700').optional(),
+      bgGradientTheme: z.string().default('blue').optional(),
     }).optional(),
 
     // Sección 5: Información y Horarios
