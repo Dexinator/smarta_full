@@ -1,12 +1,13 @@
 ---
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   pdfPath: string; // Ruta relativa desde src/assets/docs
   buttonText?: string;
+  lang?: string;
 }
 
-const { title, description, pdfPath, buttonText } = Astro.props;
+const { title, description, pdfPath, buttonText, lang = 'es' } = Astro.props;
 
 // Importar todos los PDFs de la carpeta docs
 const pdfImports = import.meta.glob('/src/assets/docs/**/*.pdf');
@@ -32,8 +33,27 @@ async function loadPdf(path: string) {
 const pdfModule = await loadPdf(pdfPath);
 const pdfUrl = pdfModule || '#'; // Fallback a # si no se encuentra
 
+// Textos según idioma
+const texts = {
+  es: {
+    defaultDescription: 'Obtén la aventura en un práctico folleto PDF que puedes llevar contigo durante tu recorrido.',
+    defaultButton: 'Descargar Folleto',
+    opensInNewTab: 'Se abre en una nueva pestaña'
+  },
+  en: {
+    defaultDescription: 'Get the adventure in a handy PDF brochure that you can take with you during your tour.',
+    defaultButton: 'Download Brochure',
+    opensInNewTab: 'Opens in a new tab'
+  }
+};
+
+const currentTexts = texts[lang] || texts.es;
+
+// Usar descripción proporcionada o la por defecto según idioma
+const finalDescription = description || currentTexts.defaultDescription;
+
 // Texto por defecto del botón
-const downloadButtonText = buttonText || 'Descargar Folleto';
+const downloadButtonText = buttonText || currentTexts.defaultButton;
 ---
 
 <div class="download-brochure bg-gradient-to-br from-SM-blue/5 to-SM-yellow/5 rounded-2xl p-8 sm:p-10 text-center">
@@ -55,7 +75,7 @@ const downloadButtonText = buttonText || 'Descargar Folleto';
 
   <!-- Descripción -->
   <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">
-    {description}
+    {finalDescription}
   </p>
 
   <!-- Botón de descarga -->
@@ -65,7 +85,7 @@ const downloadButtonText = buttonText || 'Descargar Folleto';
     target="_blank"
     rel="noopener noreferrer"
     class="download-button inline-flex items-center px-8 py-4 bg-gradient-to-r from-SM-blue to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-SM-blue transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-SM-blue/50"
-    aria-label={`${downloadButtonText} - Se abre en una nueva pestaña`}
+    aria-label={`${downloadButtonText} - ${currentTexts.opensInNewTab}`}
   >
     <!-- Icono de descarga -->
     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,7 +109,7 @@ const downloadButtonText = buttonText || 'Descargar Folleto';
             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
       </path>
     </svg>
-    Se abre en una nueva pestaña
+    {currentTexts.opensInNewTab}
   </p>
 </div>
 

@@ -1,0 +1,102 @@
+{
+  "title": "Santa MartaXplora - Audio Descriptivo",
+  "description": "Aventura cultural de Santa Marta con audiodescripción detallada para personas con discapacidad visual",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "sliders/santa_martaxplora_espanol/1.png",
+        "alt": "Imagen de bienvenida con el logo de Santa MartaXplora y vista panorámica del pueblo",
+        "buttonText": "Inicio"
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/2.png",
+        "alt": "Imagen detallada del origen de la villa con fotografías históricas y mapas antiguos",
+        "buttonText": "Parada 1"
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/3.png",
+        "alt": "Fotografías de los vestigios históricos, mostrando estructuras antiguas y elementos arquitectónicos",
+        "buttonText": "Parada 2"
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/4.png",
+        "alt": "Imagen de la patrona Santa Marta, con detalles de la iglesia y elementos religiosos",
+        "buttonText": "Parada 3"
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/5.png",
+        "alt": "Fotografía del edificio del Ayuntamiento, mostrando su fachada principal y detalles arquitectónicos",
+        "buttonText": "Parada 4"
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/6.png",
+        "alt": "Collage de expresiones artísticas locales, incluyendo esculturas y obras de arte público",
+        "buttonText": "Parada 5"
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/7.png",
+        "alt": "Fotografías de diversos murales urbanos, mostrando colores vibrantes y temáticas variadas",
+        "buttonText": "Parada 6"
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/8.png",
+        "alt": "Información adicional con mapa completo del recorrido y datos de interés",
+        "buttonText": "Info"
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/9.png",
+        "alt": "Imagen de celebración final con vista general de Santa Marta y mensaje de felicitación",
+        "buttonText": "Final"
+      }
+    ]
+  },
+  "map": {
+    "visible": true,
+    "center": [40.95, -5.63],
+    "zoom": 15,
+    "locations": [
+      {
+        "coordinates": [40.95071134566318, -5.630797530988721],
+        "name": "1. Origen de la Villa",
+        "description": "Punto de inicio histórico con paneles informativos y vistas del casco antiguo"
+      },
+      {
+        "coordinates": [40.950407108105324, -5.630693530399303],
+        "name": "2. Vestigios del Pasado",
+        "description": "Zona con restos arqueológicos y elementos arquitectónicos preservados"
+      },
+      {
+        "coordinates": [40.95018933304696, -5.630563443270727],
+        "name": "3. Patrona de Santa Marta",
+        "description": "Iglesia principal con la imagen de la patrona y elementos religiosos históricos"
+      },
+      {
+        "coordinates": [40.949150080295105, -5.630790089922149],
+        "name": "4. Ayuntamiento",
+        "description": "Edificio administrativo con arquitectura característica y plaza frontal"
+      },
+      {
+        "coordinates": [40.949722380367845, -5.629270618554697],
+        "name": "5. Arte",
+        "description": "Zona con instalaciones artísticas permanentes y espacios culturales"
+      },
+      {
+        "coordinates": [40.95001308665347, -5.629439597700798],
+        "name": "6. Ruta de los Murales",
+        "description": "Recorrido por los principales murales urbanos con diversas temáticas y estilos"
+      }
+    ]
+  },
+  "downloadBrochure": {
+    "visible": true,
+    "title": "Descarga el folleto con audiodescripción",
+    "pdfPath": "adventures/Aventura Santa MartaXplora.pdf",
+    "buttonText": "Descargar Folleto Descriptivo (PDF)"
+  },
+  "otherAdventures": {
+    "visible": true
+  }
+}

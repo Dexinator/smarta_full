@@ -9,22 +9,39 @@ interface Props {
   }>;
   center?: [number, number];
   zoom?: number;
+  lang?: string;
 }
 
-const { locations, center, zoom = 15 } = Astro.props;
+const { locations, center, zoom = 15, lang = 'es' } = Astro.props;
 
 // Calcular el centro del mapa si no se proporciona
 const mapCenter = center || (locations.length > 0 ? locations[0].coordinates : [11.2403547, -74.2110227]);
+
+// Textos según idioma
+const texts = {
+  es: {
+    title: 'Paradas',
+    subtitle: 'Descubre las ubicaciones importantes de esta aventura',
+    listTitle: 'Lista de ubicaciones'
+  },
+  en: {
+    title: 'Stops',
+    subtitle: 'Discover the important locations of this adventure',
+    listTitle: 'List of locations'
+  }
+};
+
+const currentTexts = texts[lang] || texts.es;
 ---
 
 <div class="map-section">
   <!-- Título de la sección -->
   <div class="text-center mb-8">
     <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-3">
-      Puntos de Interés
+      {currentTexts.title}
     </h2>
     <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-      Explora las ubicaciones importantes de esta aventura
+      {currentTexts.subtitle}
     </p>
   </div>
 
@@ -36,14 +53,14 @@ const mapCenter = center || (locations.length > 0 ? locations[0].coordinates : [
       zoom={zoom}
       locations={locations}
       showControls={true}
-      language="es"
+      language={lang}
       className="shadow-xl"
     />
   </div>
 
   {/* Lista de ubicaciones para accesibilidad (oculta visualmente pero accesible para lectores de pantalla) */}
   <div class="sr-only">
-    <h3>Lista de ubicaciones</h3>
+    <h3>{currentTexts.listTitle}</h3>
     <ol>
       {locations.map((location, index) => (
         <li>

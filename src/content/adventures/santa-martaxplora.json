@@ -31,19 +31,19 @@
       {
         "type": "descriptiva",
         "title": "Audio Descriptivo",
-        "link": "/aventuras/santa-martaxplora/descriptiva",
+        "link": "/aventuras/santa-martaxplora/descriptivo",
         "imageAlt": "Versión descriptiva"
       },
       {
         "type": "subtitulada",
         "title": "Vídeo LSE",
-        "link": "/aventuras/santa-martaxplora/subtitulada",
-        "imageAlt": "Versión con subtítulos"
+        "link": "/aventuras/santa-martaxplora/signoguia",
+        "imageAlt": "Versión con lengua de señas"
       },
       {
         "type": "english",
         "title": "Audio",
-        "link": "/aventuras/santa-martaxplora/english",
+        "link": "/aventuras/santa-martaxplora/ingles",
         "imageAlt": "English version"
       }
     ]

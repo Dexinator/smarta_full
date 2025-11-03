@@ -1,0 +1,12 @@
+---
+import AdventureContentLayout from '../../../layouts/AdventureContentLayout.astro';
+import adventureConfig from '../../../content/adventures/santa-martaxplora-signoguia.json';
+---
+
+<AdventureContentLayout
+  title={adventureConfig.title}
+  description={adventureConfig.description}
+  config={adventureConfig}
+  lang="es"
+  currentAdventure="santa-martaxplora"
+/>

@@ -7,17 +7,17 @@
     "buttonsPosition": "bottom-left",
     "images": [
       {
-        "src": "santa-marta/1.png",
+        "src": "sliders/santa_martaxplora_espanol/1.png",
         "alt": "Primera pista de la aventura - Plaza principal de Santa Marta",
         "buttonText": "Pista 1: Plaza Bolívar",
         "mediaButton": {
           "type": "audio",
-          "url": "https://soundcloud.com/jorge-badillo-222916125/la-tierra-de-la-aventura",
+          "url": "https://api.soundcloud.com/tracks/2191788147",
           "label": "Reproducir audio de la primera pista"
         }
       },
       {
-        "src": "santa-marta/2.png",
+        "src": "sliders/santa_martaxplora_espanol/2.png",
         "alt": "Segunda pista - Murales del centro histórico",
         "buttonText": "Pista 2: Centro Histórico",
         "mediaButton": {
@@ -27,7 +27,7 @@
         }
       },
       {
-        "src": "santa-marta/3.png",
+        "src": "sliders/santa_martaxplora_espanol/3.png",
         "alt": "Tercera pista - Vista panorámica desde el mirador",
         "buttonText": "Pista 3: Mirador",
         "mediaButton": {
@@ -37,7 +37,7 @@
         }
       },
       {
-        "src": "santa-marta/4.png",
+        "src": "sliders/santa_martaxplora_espanol/4.png",
         "alt": "Cuarta pista - Mercado local tradicional",
         "buttonText": "Pista 4: Mercado Público",
         "mediaButton": {
@@ -47,7 +47,7 @@
         }
       },
       {
-        "src": "santa-marta/5.png",
+        "src": "sliders/santa_martaxplora_espanol/5.png",
         "alt": "Quinta pista - Playa del Rodadero al atardecer",
         "buttonText": "Pista 5: Playa Rodadero",
         "mediaButton": {
@@ -57,7 +57,7 @@
         }
       },
       {
-        "src": "santa-marta/6.png",
+        "src": "sliders/santa_martaxplora_espanol/6.png",
         "alt": "Destino final - Catedral de Santa Marta",
         "buttonText": "Final: Catedral",
         "mediaButton": {
@@ -118,32 +118,32 @@
       {
         "title": "Audio Lectura Fácil",
         "link": "/aventuras/santa-marta-lectura-facil",
-        "image": "santa-marta/7.png"
+        "image": "sliders/santa_martaxplora_espanol/7.png"
       },
       {
         "title": "Video LSE",
         "link": "/aventuras/santa-marta-lse",
-        "image": "santa-marta/8.png"
+        "image": "sliders/santa_martaxplora_espanol/8.png"
       },
       {
         "title": "Audio Descriptivo",
         "link": "/aventuras/santa-marta-descriptivo",
-        "image": "santa-marta/9.png"
+        "image": "sliders/santa_martaxplora_espanol/9.png"
       },
       {
         "title": "English Audio",
         "link": "/aventuras/santa-marta-english",
-        "image": "santa-marta/2.png"
+        "image": "sliders/santa_martaxplora_espanol/2.png"
       },
       {
         "title": "Urban Escape",
         "link": "/aventuras/urban-escape",
-        "image": "santa-marta/3.png"
+        "image": "sliders/santa_martaxplora_espanol/3.png"
       },
       {
         "title": "Ruta Familiar",
         "link": "/aventuras/ruta-familiar",
-        "image": "santa-marta/4.png"
+        "image": "sliders/santa_martaxplora_espanol/4.png"
       }
     ]
   }

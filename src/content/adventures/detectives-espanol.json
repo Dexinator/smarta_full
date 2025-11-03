@@ -1,0 +1,162 @@
+{
+  "title": "Detectives en acción - Aventura familiar",
+  "description": "Una emocionante aventura familiar en Santa Marta donde los niños se convierten en detectives para descubrir los secretos de la ciudad",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "sliders/Detectives_espanol/1.png",
+        "alt": "Bienvenida a la aventura de detectives",
+        "buttonText": "Inicio"
+      },
+      {
+        "src": "sliders/Detectives_espanol/2.png",
+        "alt": "Introducción y reglas del juego",
+        "buttonText": "Introducción"
+      },
+      {
+        "src": "sliders/Detectives_espanol/3.png",
+        "alt": "Pista 1: Hormiga Matilda",
+        "buttonText": "Pista 1"
+      },
+      {
+        "src": "sliders/Detectives_espanol/4.png",
+        "alt": "Encuentra a la Hormiga Matilda",
+        "buttonText": "Hormiga Matilda"
+      },
+      {
+        "src": "sliders/Detectives_espanol/5.png",
+        "alt": "Pista 2: Libélula Azul",
+        "buttonText": "Pista 2"
+      },
+      {
+        "src": "sliders/Detectives_espanol/6.png",
+        "alt": "Encuentra la Libélula Azul",
+        "buttonText": "Libélula Azul"
+      },
+      {
+        "src": "sliders/Detectives_espanol/7.png",
+        "alt": "Pista 3: Lápiz y Goma",
+        "buttonText": "Pista 3"
+      },
+      {
+        "src": "sliders/Detectives_espanol/8.png",
+        "alt": "Encuentra el Lápiz y Goma",
+        "buttonText": "Lápiz y Goma"
+      },
+      {
+        "src": "sliders/Detectives_espanol/9.png",
+        "alt": "Pista 4: Pastor Alemán",
+        "buttonText": "Pista 4"
+      },
+      {
+        "src": "sliders/Detectives_espanol/10.png",
+        "alt": "Encuentra al Pastor Alemán",
+        "buttonText": "Pastor Alemán"
+      },
+      {
+        "src": "sliders/Detectives_espanol/11.png",
+        "alt": "Pista 5: Puerta Mágica",
+        "buttonText": "Pista 5"
+      },
+      {
+        "src": "sliders/Detectives_espanol/12.png",
+        "alt": "Encuentra la Puerta Mágica",
+        "buttonText": "Puerta Mágica"
+      },
+      {
+        "src": "sliders/Detectives_espanol/13.png",
+        "alt": "Pista 6: Cocodrilo",
+        "buttonText": "Pista 6"
+      },
+      {
+        "src": "sliders/Detectives_espanol/14.png",
+        "alt": "Encuentra al Cocodrilo",
+        "buttonText": "Cocodrilo"
+      },
+      {
+        "src": "sliders/Detectives_espanol/15.png",
+        "alt": "Pista 7: Abeja Maya",
+        "buttonText": "Pista 7"
+      },
+      {
+        "src": "sliders/Detectives_espanol/16.png",
+        "alt": "Encuentra a la Abeja Maya",
+        "buttonText": "Abeja Maya"
+      },
+      {
+        "src": "sliders/Detectives_espanol/17.png",
+        "alt": "Pista 8: Minion Bob",
+        "buttonText": "Pista 8"
+      },
+      {
+        "src": "sliders/Detectives_espanol/18.png",
+        "alt": "Encuentra a Minion Bob",
+        "buttonText": "Minion Bob"
+      },
+      {
+        "src": "sliders/Detectives_espanol/19.png",
+        "alt": "¡Felicidades! Has completado la aventura",
+        "buttonText": "Final"
+      }
+    ]
+  },
+  "map": {
+    "visible": true,
+    "center": [40.95, -5.63],
+    "zoom": 15,
+    "locations": [
+      {
+        "coordinates": [40.95213693167115, -5.633651711086779],
+        "name": "1. Hormiga Matilda",
+        "description": "Primera parada de la aventura"
+      },
+      {
+        "coordinates": [40.95223433666433, -5.6328778949975336],
+        "name": "2. Libélula Azul",
+        "description": "Segunda parada de la aventura"
+      },
+      {
+        "coordinates": [40.95215412080652, -5.631345435687536],
+        "name": "3. Lápiz y Goma",
+        "description": "Tercera parada de la aventura"
+      },
+      {
+        "coordinates": [40.94966564984236, -5.630538772517705],
+        "name": "4. Pastor Alemán",
+        "description": "Cuarta parada de la aventura"
+      },
+      {
+        "coordinates": [40.94926668150299, -5.6299212122517],
+        "name": "5. Puerta Mágica",
+        "description": "Quinta parada de la aventura"
+      },
+      {
+        "coordinates": [40.949195866626745, -5.628342662692132],
+        "name": "6. Cocodrilo",
+        "description": "Sexta parada de la aventura"
+      },
+      {
+        "coordinates": [40.94550226294406, -5.62565685440694],
+        "name": "7. Abeja Maya",
+        "description": "Séptima parada de la aventura"
+      },
+      {
+        "coordinates": [40.948626398674854, -5.627790205814891],
+        "name": "8. Minion Bob",
+        "description": "Última parada de la aventura"
+      }
+    ]
+  },
+  "downloadBrochure": {
+    "visible": true,
+    "title": "Descarga el folleto de la aventura",
+    "pdfPath": "adventures/Detectives en Acción - Aventura.pdf",
+    "buttonText": "Descargar Folleto Detectives (PDF)"
+  },
+  "otherAdventures": {
+    "visible": true
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "title": "Santa MartaXplora - Cultural Adventure",
+  "description": "Explore the history and culture of Santa Marta de Tormes through its most emblematic places",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "sliders/santa_martaxplora_ingles/1.png",
+        "alt": "Welcome to Santa MartaXplora",
+        "buttonText": "Start",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191786463",
+          "label": "Listen to welcome audio"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_ingles/2.png",
+        "alt": "Stop 1: Origin of the Town",
+        "buttonText": "Stop 1",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191786463",
+          "label": "Listen to Origin of the Town audio"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_ingles/3.png",
+        "alt": "Stop 2: Traces of the Past",
+        "buttonText": "Stop 2",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191786467",
+          "label": "Listen to Traces of the Past audio"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_ingles/4.png",
+        "alt": "Stop 3: Patron Saint of Santa Marta",
+        "buttonText": "Stop 3",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191786459",
+          "label": "Listen to Patron Saint audio"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_ingles/5.png",
+        "alt": "Stop 4: Town Hall",
+        "buttonText": "Stop 4",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191786475",
+          "label": "Listen to Town Hall audio"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_ingles/6.png",
+        "alt": "Stop 5: Art",
+        "buttonText": "Stop 5",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191786471",
+          "label": "Listen to Art audio"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_ingles/7.png",
+        "alt": "Stop 6: Mural Route",
+        "buttonText": "Stop 6",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191786479",
+          "label": "Listen to Mural Route audio"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_ingles/8.png",
+        "alt": "Additional information",
+        "buttonText": "Info"
+      },
+      {
+        "src": "sliders/santa_martaxplora_ingles/9.png",
+        "alt": "Congratulations! You've completed Santa MartaXplora",
+        "buttonText": "Finish"
+      }
+    ]
+  },
+  "map": {
+    "visible": true,
+    "center": [40.95, -5.63],
+    "zoom": 15,
+    "locations": [
+      {
+        "coordinates": [40.95071134566318, -5.630797530988721],
+        "name": "1. Origin of the Town",
+        "description": "Discover the historical origin of Santa Marta"
+      },
+      {
+        "coordinates": [40.950407108105324, -5.630693530399303],
+        "name": "2. Traces of the Past",
+        "description": "Historical remains of the town"
+      },
+      {
+        "coordinates": [40.95018933304696, -5.630563443270727],
+        "name": "3. Patron Saint of Santa Marta",
+        "description": "History of the town's patron saint"
+      },
+      {
+        "coordinates": [40.949150080295105, -5.630790089922149],
+        "name": "4. Town Hall",
+        "description": "Administrative and cultural center"
+      },
+      {
+        "coordinates": [40.949722380367845, -5.629270618554697],
+        "name": "5. Art",
+        "description": "Local artistic expressions"
+      },
+      {
+        "coordinates": [40.95001308665347, -5.629439597700798],
+        "name": "6. Mural Route",
+        "description": "Urban art and murals of the city"
+      }
+    ]
+  },
+  "downloadBrochure": {
+    "visible": true,
+    "title": "Download the Santa MartaXplora brochure",
+    "pdfPath": "adventures/English Santa MartaXplora adventure .pdf",
+    "buttonText": "Download Santa MartaXplora Brochure (PDF)"
+  },
+  "otherAdventures": {
+    "visible": true
+  }
+}

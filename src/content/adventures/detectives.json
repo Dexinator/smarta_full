@@ -1,0 +1,34 @@
+{
+  "id": "detectives",
+  "title": "Detectives en acción",
+  "description": "Una aventura familiar donde los niños se convierten en detectives",
+  "hero": {
+    "visible": true,
+    "imageKey": "detectives-accion",
+    "imageAlt": "Aventura de detectives para niños"
+  },
+  "subtitle": {
+    "visible": true,
+    "text": "Resuelve los misterios de Santa Marta.<br> Una aventura perfecta para toda la familia."
+  },
+  "adventureCards": {
+    "visible": true,
+    "sectionTitle": "DETECTIVES EN ACCIÓN",
+    "sectionSubtitle": "Elige tu idioma preferido para vivir esta aventura",
+    "cards": [
+      {
+        "type": "aventura-esp",
+        "title": "Aventura en Español",
+        "link": "/aventuras/detectives/espanol",
+        "imageAlt": "Versión en español"
+      },
+      {
+        "type": "aventura-eng",
+        "title": "Adventure in English",
+        "link": "/aventuras/detectives/ingles",
+        "imageAlt": "English version"
+      }
+    ]
+  },
+  "showFooter": true
+}

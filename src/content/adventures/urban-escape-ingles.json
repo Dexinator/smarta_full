@@ -1,0 +1,162 @@
+{
+  "title": "Santa Marta Urban Escape",
+  "description": "Discover the urban art and murals of Santa Marta de Tormes in this cultural adventure",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "sliders/Urban_escape_ingles/1.png",
+        "alt": "Welcome to Santa Marta Urban Escape",
+        "buttonText": "Start"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/2.png",
+        "alt": "Introduction to urban art",
+        "buttonText": "Introduction"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/3.png",
+        "alt": "Stop 1: Waterwheel",
+        "buttonText": "Stop 1"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/4.png",
+        "alt": "Discover the Waterwheel",
+        "buttonText": "Waterwheel"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/5.png",
+        "alt": "Stop 2: Woodpecker 'Wenceslao'",
+        "buttonText": "Stop 2"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/6.png",
+        "alt": "Find the Woodpecker",
+        "buttonText": "Woodpecker"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/7.png",
+        "alt": "Stop 3: Lamp Post Pencils",
+        "buttonText": "Stop 3"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/8.png",
+        "alt": "Discover the Lamp Post Pencils",
+        "buttonText": "Lamp Pencils"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/9.png",
+        "alt": "Stop 4: Butterfly",
+        "buttonText": "Stop 4"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/10.png",
+        "alt": "Find the Butterfly",
+        "buttonText": "Butterfly"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/11.png",
+        "alt": "Stop 5: Mural 'Woman, History and People'",
+        "buttonText": "Stop 5"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/12.png",
+        "alt": "Admire the Woman, History and People mural",
+        "buttonText": "Woman Mural"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/13.png",
+        "alt": "Stop 6: Garage",
+        "buttonText": "Stop 6"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/14.png",
+        "alt": "Discover the Garage art",
+        "buttonText": "Garage"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/15.png",
+        "alt": "Stop 7: Pool Balls",
+        "buttonText": "Stop 7"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/16.png",
+        "alt": "Find the Pool Balls",
+        "buttonText": "Pool Balls"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/17.png",
+        "alt": "Stop 8: Mural 'Ocean'",
+        "buttonText": "Stop 8"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/18.png",
+        "alt": "Admire the Ocean Mural",
+        "buttonText": "Ocean Mural"
+      },
+      {
+        "src": "sliders/Urban_escape_ingles/19.png",
+        "alt": "Congratulations! You've completed the Urban Escape",
+        "buttonText": "Finish"
+      }
+    ]
+  },
+  "map": {
+    "visible": true,
+    "center": [40.95, -5.63],
+    "zoom": 15,
+    "locations": [
+      {
+        "coordinates": [40.9522987099381, -5.632480504558067],
+        "name": "1. Waterwheel",
+        "description": "First stop of the urban tour"
+      },
+      {
+        "coordinates": [40.95216545611483, -5.631654560552113],
+        "name": "2. Woodpecker 'Wenceslao'",
+        "description": "Urban art in bird form"
+      },
+      {
+        "coordinates": [40.951060505421275, -5.630696761001704],
+        "name": "3. Lamp Post Pencils",
+        "description": "Illuminated urban creativity"
+      },
+      {
+        "coordinates": [40.949241829940966, -5.630773596802085],
+        "name": "4. Butterfly",
+        "description": "Natural art in the city"
+      },
+      {
+        "coordinates": [40.94911028258176, -5.630069153210581],
+        "name": "5. Mural 'Woman, History and People'",
+        "description": "Historical and cultural mural"
+      },
+      {
+        "coordinates": [40.949181007192294, -5.6291604781419995],
+        "name": "6. Garage",
+        "description": "Urban art in everyday spaces"
+      },
+      {
+        "coordinates": [40.95032264396436, -5.627389984130646],
+        "name": "7. Pool Balls",
+        "description": "Playful artistic installation"
+      },
+      {
+        "coordinates": [40.950672493127634, -5.628455754646255],
+        "name": "8. Mural 'Ocean'",
+        "description": "Last stop of the artistic tour"
+      }
+    ]
+  },
+  "downloadBrochure": {
+    "visible": true,
+    "title": "Download the Urban Escape brochure",
+    "pdfPath": "adventures/English  Santa Marta Urban Escape.pdf",
+    "buttonText": "Download Urban Escape Brochure (PDF)"
+  },
+  "otherAdventures": {
+    "visible": true
+  }
+}

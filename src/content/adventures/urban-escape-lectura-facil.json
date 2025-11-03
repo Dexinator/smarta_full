@@ -1,0 +1,162 @@
+{
+  "title": "Santa Marta Urban Escape - Lectura Fácil",
+  "description": "Descubre el arte de las calles de Santa Marta. Una aventura fácil de entender para todos",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "sliders/Urban_escape_lectura_facil/1.png",
+        "alt": "Empezamos la aventura",
+        "buttonText": "Inicio"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/2.png",
+        "alt": "Vamos a ver arte en la calle",
+        "buttonText": "Empezar"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/3.png",
+        "alt": "Primera parada: Rueda Aceña",
+        "buttonText": "Parada 1"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/4.png",
+        "alt": "Mira la Rueda Aceña",
+        "buttonText": "Rueda"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/5.png",
+        "alt": "Segunda parada: Pájaro Carpintero",
+        "buttonText": "Parada 2"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/6.png",
+        "alt": "Busca el Pájaro Carpintero",
+        "buttonText": "Pájaro"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/7.png",
+        "alt": "Tercera parada: Lápices",
+        "buttonText": "Parada 3"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/8.png",
+        "alt": "Mira los Lápices en la farola",
+        "buttonText": "Lápices"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/9.png",
+        "alt": "Cuarta parada: Mariposa",
+        "buttonText": "Parada 4"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/10.png",
+        "alt": "Busca la Mariposa",
+        "buttonText": "Mariposa"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/11.png",
+        "alt": "Quinta parada: Mural grande",
+        "buttonText": "Parada 5"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/12.png",
+        "alt": "Mira el mural de la mujer",
+        "buttonText": "Mural"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/13.png",
+        "alt": "Sexta parada: Garaje",
+        "buttonText": "Parada 6"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/14.png",
+        "alt": "Busca el arte en el garaje",
+        "buttonText": "Garaje"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/15.png",
+        "alt": "Séptima parada: Bolas de Billar",
+        "buttonText": "Parada 7"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/16.png",
+        "alt": "Mira las Bolas de Billar",
+        "buttonText": "Bolas"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/17.png",
+        "alt": "Última parada: Mural del mar",
+        "buttonText": "Parada 8"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/18.png",
+        "alt": "Mira el mural del Océano",
+        "buttonText": "Océano"
+      },
+      {
+        "src": "sliders/Urban_escape_lectura_facil/19.png",
+        "alt": "¡Muy bien! Has terminado",
+        "buttonText": "Final"
+      }
+    ]
+  },
+  "map": {
+    "visible": true,
+    "center": [40.95, -5.63],
+    "zoom": 15,
+    "locations": [
+      {
+        "coordinates": [40.9522987099381, -5.632480504558067],
+        "name": "1. Rueda Aceña",
+        "description": "Primera parada"
+      },
+      {
+        "coordinates": [40.95216545611483, -5.631654560552113],
+        "name": "2. Pájaro Carpintero 'Wenceslao'",
+        "description": "Segunda parada"
+      },
+      {
+        "coordinates": [40.951060505421275, -5.630696761001704],
+        "name": "3. Lápices de la Farola",
+        "description": "Tercera parada"
+      },
+      {
+        "coordinates": [40.949241829940966, -5.630773596802085],
+        "name": "4. Mariposa",
+        "description": "Cuarta parada"
+      },
+      {
+        "coordinates": [40.94911028258176, -5.630069153210581],
+        "name": "5. Mural 'Mujer, Historia y Pueblo'",
+        "description": "Quinta parada"
+      },
+      {
+        "coordinates": [40.949181007192294, -5.6291604781419995],
+        "name": "6. Garaje",
+        "description": "Sexta parada"
+      },
+      {
+        "coordinates": [40.95032264396436, -5.627389984130646],
+        "name": "7. Bolas de Billar",
+        "description": "Séptima parada"
+      },
+      {
+        "coordinates": [40.950672493127634, -5.628455754646255],
+        "name": "8. Mural 'Océano'",
+        "description": "Última parada"
+      }
+    ]
+  },
+  "downloadBrochure": {
+    "visible": true,
+    "title": "Descarga el folleto fácil",
+    "pdfPath": "adventures/LF Santa Marta Urban Escape - Aventura.pdf",
+    "buttonText": "Descargar Folleto Fácil (PDF)"
+  },
+  "otherAdventures": {
+    "visible": true
+  }
+}

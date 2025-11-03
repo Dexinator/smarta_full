@@ -1,0 +1,137 @@
+{
+  "title": "Santa MartaXplora - Aventura Cultural",
+  "description": "Explora la historia y cultura de Santa Marta de Tormes a través de sus lugares más emblemáticos",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "sliders/santa_martaxplora_espanol/1.png",
+        "alt": "Bienvenida a Santa MartaXplora",
+        "buttonText": "Inicio",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191788147",
+          "label": "Escuchar audio de bienvenida"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/2.png",
+        "alt": "Parada 1: Origen de la Villa",
+        "buttonText": "Parada 1",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191788147",
+          "label": "Escuchar audio del Origen de la Villa"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/3.png",
+        "alt": "Parada 2: Vestigios del Pasado",
+        "buttonText": "Parada 2",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191788151",
+          "label": "Escuchar audio de Vestigios del Pasado"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/4.png",
+        "alt": "Parada 3: Patrona de Santa Marta",
+        "buttonText": "Parada 3",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191788167",
+          "label": "Escuchar audio de la Patrona"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/5.png",
+        "alt": "Parada 4: Ayuntamiento",
+        "buttonText": "Parada 4",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191788159",
+          "label": "Escuchar audio del Ayuntamiento"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/6.png",
+        "alt": "Parada 5: Arte",
+        "buttonText": "Parada 5",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191788155",
+          "label": "Escuchar audio sobre el Arte"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/7.png",
+        "alt": "Parada 6: Ruta de los Murales",
+        "buttonText": "Parada 6",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191788163",
+          "label": "Escuchar audio de la Ruta de los Murales"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/8.png",
+        "alt": "Información adicional",
+        "buttonText": "Info"
+      },
+      {
+        "src": "sliders/santa_martaxplora_espanol/9.png",
+        "alt": "¡Felicidades! Has completado Santa MartaXplora",
+        "buttonText": "Final"
+      }
+    ]
+  },
+  "map": {
+    "visible": true,
+    "center": [40.95, -5.63],
+    "zoom": 15,
+    "locations": [
+      {
+        "coordinates": [40.95071134566318, -5.630797530988721],
+        "name": "1. Origen de la Villa",
+        "description": "Descubre el origen histórico de Santa Marta"
+      },
+      {
+        "coordinates": [40.950407108105324, -5.630693530399303],
+        "name": "2. Vestigios del Pasado",
+        "description": "Restos históricos de la villa"
+      },
+      {
+        "coordinates": [40.95018933304696, -5.630563443270727],
+        "name": "3. Patrona de Santa Marta",
+        "description": "Historia de la patrona del pueblo"
+      },
+      {
+        "coordinates": [40.949150080295105, -5.630790089922149],
+        "name": "4. Ayuntamiento",
+        "description": "Centro administrativo y cultural"
+      },
+      {
+        "coordinates": [40.949722380367845, -5.629270618554697],
+        "name": "5. Arte",
+        "description": "Expresiones artísticas locales"
+      },
+      {
+        "coordinates": [40.95001308665347, -5.629439597700798],
+        "name": "6. Ruta de los Murales",
+        "description": "Arte urbano y murales de la ciudad"
+      }
+    ]
+  },
+  "downloadBrochure": {
+    "visible": true,
+    "title": "Descarga el folleto de Santa MartaXplora",
+    "pdfPath": "adventures/Aventura Santa MartaXplora.pdf",
+    "buttonText": "Descargar Folleto Santa MartaXplora (PDF)"
+  },
+  "otherAdventures": {
+    "visible": true
+  }
+}

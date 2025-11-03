@@ -10,6 +10,8 @@ import OtherAdventures from '../components/adventure/OtherAdventures.astro';
 interface Props {
   title: string;
   description: string;
+  lang?: string;
+  currentAdventure?: string;
   config: {
     imageGallery?: {
       visible: boolean;
@@ -38,13 +40,13 @@ interface Props {
     downloadBrochure?: {
       visible: boolean;
       title: string;
-      description: string;
+      description?: string;
       pdfPath: string;
       buttonText?: string;
     };
     otherAdventures?: {
       visible: boolean;
-      adventures: Array<{
+      adventures?: Array<{
         title: string;
         link: string;
         image: string;
@@ -53,7 +55,7 @@ interface Props {
   };
 }
 
-const { title, description, config } = Astro.props;
+const { title, description, config, lang = 'es', currentAdventure } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
@@ -116,6 +118,7 @@ const { title, description, config } = Astro.props;
             locations={config.map.locations}
             center={config.map.center}
             zoom={config.map.zoom}
+            lang={lang}
           />
         </div>
       </section>
@@ -134,6 +137,7 @@ const { title, description, config } = Astro.props;
             description={config.downloadBrochure.description}
             pdfPath={config.downloadBrochure.pdfPath}
             buttonText={config.downloadBrochure.buttonText}
+            lang={lang}
           />
         </div>
       </section>
@@ -143,6 +147,8 @@ const { title, description, config } = Astro.props;
     {config.otherAdventures?.visible && (
       <OtherAdventures
         adventures={config.otherAdventures.adventures}
+        currentAdventure={currentAdventure}
+        lang={lang}
       />
     )}
   </main>

@@ -1,0 +1,137 @@
+{
+  "title": "Santa MartaXplora - Lectura Fácil",
+  "description": "Conoce Santa Marta de forma fácil. Una aventura para todos",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "sliders/santa_martaxplora_lectura_facil/1.png",
+        "alt": "Empezamos la aventura",
+        "buttonText": "Inicio",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191787379",
+          "label": "Escuchar audio fácil"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_lectura_facil/2.png",
+        "alt": "Primera parada: Cómo empezó el pueblo",
+        "buttonText": "Parada 1",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191787379",
+          "label": "Escuchar sobre el origen"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_lectura_facil/3.png",
+        "alt": "Segunda parada: Cosas antiguas",
+        "buttonText": "Parada 2",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191787367",
+          "label": "Escuchar sobre lo antiguo"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_lectura_facil/4.png",
+        "alt": "Tercera parada: Santa Marta",
+        "buttonText": "Parada 3",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191787371",
+          "label": "Escuchar sobre Santa Marta"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_lectura_facil/5.png",
+        "alt": "Cuarta parada: El Ayuntamiento",
+        "buttonText": "Parada 4",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191787359",
+          "label": "Escuchar sobre el Ayuntamiento"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_lectura_facil/6.png",
+        "alt": "Quinta parada: Arte bonito",
+        "buttonText": "Parada 5",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191787375",
+          "label": "Escuchar sobre el arte"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_lectura_facil/7.png",
+        "alt": "Sexta parada: Dibujos en las paredes",
+        "buttonText": "Parada 6",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191787363",
+          "label": "Escuchar sobre los murales"
+        }
+      },
+      {
+        "src": "sliders/santa_martaxplora_lectura_facil/8.png",
+        "alt": "Más información",
+        "buttonText": "Info"
+      },
+      {
+        "src": "sliders/santa_martaxplora_lectura_facil/9.png",
+        "alt": "¡Muy bien! Has terminado",
+        "buttonText": "Final"
+      }
+    ]
+  },
+  "map": {
+    "visible": true,
+    "center": [40.95, -5.63],
+    "zoom": 15,
+    "locations": [
+      {
+        "coordinates": [40.95071134566318, -5.630797530988721],
+        "name": "1. Origen de la Villa",
+        "description": "Cómo empezó el pueblo"
+      },
+      {
+        "coordinates": [40.950407108105324, -5.630693530399303],
+        "name": "2. Vestigios del Pasado",
+        "description": "Cosas antiguas"
+      },
+      {
+        "coordinates": [40.95018933304696, -5.630563443270727],
+        "name": "3. Patrona de Santa Marta",
+        "description": "La santa del pueblo"
+      },
+      {
+        "coordinates": [40.949150080295105, -5.630790089922149],
+        "name": "4. Ayuntamiento",
+        "description": "Donde trabaja el alcalde"
+      },
+      {
+        "coordinates": [40.949722380367845, -5.629270618554697],
+        "name": "5. Arte",
+        "description": "Cosas bonitas"
+      },
+      {
+        "coordinates": [40.95001308665347, -5.629439597700798],
+        "name": "6. Ruta de los Murales",
+        "description": "Dibujos en las paredes"
+      }
+    ]
+  },
+  "downloadBrochure": {
+    "visible": true,
+    "title": "Descarga el folleto fácil",
+    "pdfPath": "adventures/Lectura Fácil SANTA MARTAXPLORA .pdf",
+    "buttonText": "Descargar Folleto Fácil (PDF)"
+  },
+  "otherAdventures": {
+    "visible": true
+  }
+}

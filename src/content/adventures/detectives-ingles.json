@@ -1,0 +1,162 @@
+{
+  "title": "Kingfisher Detectives - Family Adventure",
+  "description": "An exciting family adventure in Santa Marta where children become detectives to discover the city's secrets",
+  "imageGallery": {
+    "visible": true,
+    "orientation": "landscape",
+    "buttonsPosition": "bottom-left",
+    "images": [
+      {
+        "src": "sliders/Detectives_ingles/1.png",
+        "alt": "Welcome to the detective adventure",
+        "buttonText": "Start"
+      },
+      {
+        "src": "sliders/Detectives_ingles/2.png",
+        "alt": "Introduction and game rules",
+        "buttonText": "Introduction"
+      },
+      {
+        "src": "sliders/Detectives_ingles/3.png",
+        "alt": "Clue 1: Matilda the Ant",
+        "buttonText": "Clue 1"
+      },
+      {
+        "src": "sliders/Detectives_ingles/4.png",
+        "alt": "Find Matilda the Ant",
+        "buttonText": "Matilda the Ant"
+      },
+      {
+        "src": "sliders/Detectives_ingles/5.png",
+        "alt": "Clue 2: Blue Dragonfly",
+        "buttonText": "Clue 2"
+      },
+      {
+        "src": "sliders/Detectives_ingles/6.png",
+        "alt": "Find the Blue Dragonfly",
+        "buttonText": "Blue Dragonfly"
+      },
+      {
+        "src": "sliders/Detectives_ingles/7.png",
+        "alt": "Clue 3: Pencil and Eraser",
+        "buttonText": "Clue 3"
+      },
+      {
+        "src": "sliders/Detectives_ingles/8.png",
+        "alt": "Find the Pencil and Eraser",
+        "buttonText": "Pencil and Eraser"
+      },
+      {
+        "src": "sliders/Detectives_ingles/9.png",
+        "alt": "Clue 4: German Shepherd",
+        "buttonText": "Clue 4"
+      },
+      {
+        "src": "sliders/Detectives_ingles/10.png",
+        "alt": "Find the German Shepherd",
+        "buttonText": "German Shepherd"
+      },
+      {
+        "src": "sliders/Detectives_ingles/11.png",
+        "alt": "Clue 5: Magic Door",
+        "buttonText": "Clue 5"
+      },
+      {
+        "src": "sliders/Detectives_ingles/12.png",
+        "alt": "Find the Magic Door",
+        "buttonText": "Magic Door"
+      },
+      {
+        "src": "sliders/Detectives_ingles/13.png",
+        "alt": "Clue 6: Crocodile",
+        "buttonText": "Clue 6"
+      },
+      {
+        "src": "sliders/Detectives_ingles/14.png",
+        "alt": "Find the Crocodile",
+        "buttonText": "Crocodile"
+      },
+      {
+        "src": "sliders/Detectives_ingles/15.png",
+        "alt": "Clue 7: Maya the Bee",
+        "buttonText": "Clue 7"
+      },
+      {
+        "src": "sliders/Detectives_ingles/16.png",
+        "alt": "Find Maya the Bee",
+        "buttonText": "Maya the Bee"
+      },
+      {
+        "src": "sliders/Detectives_ingles/17.png",
+        "alt": "Clue 8: Minion Bob",
+        "buttonText": "Clue 8"
+      },
+      {
+        "src": "sliders/Detectives_ingles/18.png",
+        "alt": "Find Minion Bob",
+        "buttonText": "Minion Bob"
+      },
+      {
+        "src": "sliders/Detectives_ingles/19.png",
+        "alt": "Congratulations! You've completed the adventure",
+        "buttonText": "Finish"
+      }
+    ]
+  },
+  "map": {
+    "visible": true,
+    "center": [40.95, -5.63],
+    "zoom": 15,
+    "locations": [
+      {
+        "coordinates": [40.95213693167115, -5.633651711086779],
+        "name": "1. Matilda the Ant",
+        "description": "First stop of the adventure"
+      },
+      {
+        "coordinates": [40.95223433666433, -5.6328778949975336],
+        "name": "2. Blue Dragonfly",
+        "description": "Second stop of the adventure"
+      },
+      {
+        "coordinates": [40.95215412080652, -5.631345435687536],
+        "name": "3. Pencil and Eraser",
+        "description": "Third stop of the adventure"
+      },
+      {
+        "coordinates": [40.94966564984236, -5.630538772517705],
+        "name": "4. German Shepherd",
+        "description": "Fourth stop of the adventure"
+      },
+      {
+        "coordinates": [40.94926668150299, -5.6299212122517],
+        "name": "5. Magic Door",
+        "description": "Fifth stop of the adventure"
+      },
+      {
+        "coordinates": [40.949195866626745, -5.628342662692132],
+        "name": "6. Crocodile",
+        "description": "Sixth stop of the adventure"
+      },
+      {
+        "coordinates": [40.94550226294406, -5.62565685440694],
+        "name": "7. Maya the Bee",
+        "description": "Seventh stop of the adventure"
+      },
+      {
+        "coordinates": [40.948626398674854, -5.627790205814891],
+        "name": "8. Minion Bob",
+        "description": "Last stop of the adventure"
+      }
+    ]
+  },
+  "downloadBrochure": {
+    "visible": true,
+    "title": "Download the adventure brochure",
+    "pdfPath": "adventures/Kingfisher Detectives - Brochure for kids.pdf",
+    "buttonText": "Download Detectives Brochure (PDF)"
+  },
+  "otherAdventures": {
+    "visible": true
+  }
+}

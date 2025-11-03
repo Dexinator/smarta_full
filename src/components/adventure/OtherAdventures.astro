@@ -11,10 +11,88 @@ interface Adventure {
 }
 
 interface Props {
-  adventures: Adventure[];
+  adventures?: Adventure[];
+  currentAdventure?: string;
+  lang?: string;
 }
 
-const { adventures } = Astro.props;
+const { adventures: propsAdventures, currentAdventure, lang = 'es' } = Astro.props;
+
+// Textos según idioma
+const texts = {
+  es: {
+    title: 'Vive más experiencias en Santa Marta',
+    subtitle: 'Descubre más aventuras disponibles'
+  },
+  en: {
+    title: 'Live more experiences in Santa Marta',
+    subtitle: 'Discover more available adventures'
+  }
+};
+
+const currentTexts = texts[lang] || texts.es;
+
+// Definir todas las aventuras disponibles con sus burbujas
+const allAdventures = {
+  detectives: {
+    es: {
+      title: 'Detectives en acción',
+      link: '/aventuras/detectives/espanol',
+      image: 'burbujas/burbuja_detectives.png' // Placeholder - esperando imagen
+    },
+    en: {
+      title: 'Kingfisher Detectives',
+      link: '/aventuras/detectives/ingles',
+      image: 'burbujas/burbuja_detectives_ingles.png'
+    }
+  },
+  'urban-escape': {
+    es: {
+      title: 'Santa Marta Urban Escape',
+      link: '/aventuras/urban-escape/espanol',
+      image: 'burbujas/burbuja_urban_escape.png'
+    },
+    en: {
+      title: 'Santa Marta Urban Escape',
+      link: '/aventuras/urban-escape/ingles',
+      image: 'burbujas/burbuja_urban_escape.png' // Misma imagen para ambos idiomas
+    }
+  },
+  'santa-martaxplora': {
+    es: {
+      title: 'Santa MartaXplora',
+      link: '/aventuras/santa-martaxplora/espanol',
+      image: 'burbujas/burbuja_xplora.png'
+    },
+    en: {
+      title: 'Santa MartaXplora',
+      link: '/aventuras/santa-martaxplora/ingles',
+      image: 'burbujas/burbuja_xplora.png' // Misma imagen para ambos idiomas
+    }
+  }
+};
+
+// Generar aventuras dinámicamente si no se proporcionan
+let adventures;
+if (propsAdventures && propsAdventures.length > 0) {
+  adventures = propsAdventures;
+} else if (currentAdventure) {
+  // Si tenemos currentAdventure, mostrar las otras 2
+  const adventureKeys = Object.keys(allAdventures);
+  const otherAdventures = adventureKeys.filter(key => key !== currentAdventure);
+
+  adventures = otherAdventures.map(key => {
+    const adventure = allAdventures[key];
+    const adventureData = adventure[lang] || adventure.es;
+    return adventureData;
+  });
+} else {
+  // Si no hay currentAdventure ni adventures, mostrar todas
+  adventures = Object.values(allAdventures).map(adventure => {
+    const adventureData = adventure[lang] || adventure.es;
+    return adventureData;
+  });
+}
 
 // Función para cargar las imágenes dinámicamente
 async function loadImage(imagePath: string) {
@@ -62,15 +140,17 @@ const validAdventures = adventuresWithImages.filter(a => a.img !== null);
       <!-- Título -->
       <div class="text-center mb-8 sm:mb-12">
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-3">
-          Otras aventuras
+          {currentTexts.title}
         </h2>
         <p class="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 mt-3">
-          Descubre más experiencias en Santa Marta
+          {currentTexts.subtitle}
         </p>
       </div>
 
       <!-- Grid de burbujas con imágenes optimizadas -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6">
+      <div class={validAdventures.length <= 2
+        ? "flex flex-wrap justify-center gap-8 sm:gap-12"
+        : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6"}>
         {validAdventures.map((adventure, index) => {
           // Las primeras 6 imágenes se cargan con prioridad alta
           const isEager = index < 6;
@@ -80,7 +160,9 @@ const validAdventures = adventuresWithImages.filter(a => a.img !== null);
               class="flex flex-col items-center group"
               aria-label={`Ir a ${adventure.title}`}
             >
-              <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full shadow-lg group-hover:shadow-xl group-active:scale-95 transform transition-all overflow-hidden mb-3 bg-gradient-to-br from-SM-blue to-blue-700">
+              <div class={validAdventures.length <= 2
+                ? "w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full shadow-lg group-hover:shadow-xl group-active:scale-95 transform transition-all overflow-hidden mb-3 bg-gradient-to-br from-SM-blue to-blue-700"
+                : "w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full shadow-lg group-hover:shadow-xl group-active:scale-95 transform transition-all overflow-hidden mb-3 bg-gradient-to-br from-SM-blue to-blue-700"}>
                 {adventure.img && (
                   <Image
                     src={adventure.img}

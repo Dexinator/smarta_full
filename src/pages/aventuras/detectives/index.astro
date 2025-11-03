@@ -1,0 +1,11 @@
+---
+// Página de menú para Detectives en acción
+import AdventureMenuLayout from '../../../layouts/AdventureMenuLayout.astro';
+import adventureConfig from '../../../content/adventures/detectives.json';
+
+const config = {
+  ...adventureConfig,
+};
+---
+
+<AdventureMenuLayout config={config} />
