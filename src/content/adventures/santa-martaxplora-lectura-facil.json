@@ -9,22 +9,12 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/1.png",
         "alt": "Empezamos la aventura",
-        "buttonText": "Inicio",
-        "mediaButton": {
-          "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/2191787379",
-          "label": "Escuchar audio fácil"
-        }
+        "buttonText": "Inicio"
       },
       {
         "src": "sliders/santa_martaxplora_lectura_facil/2.png",
         "alt": "Primera parada: Cómo empezó el pueblo",
-        "buttonText": "Parada 1",
-        "mediaButton": {
-          "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/2191787379",
-          "label": "Escuchar sobre el origen"
-        }
+        "buttonText": "Parada 1"
       },
       {
         "src": "sliders/santa_martaxplora_lectura_facil/3.png",
@@ -32,8 +22,8 @@
         "buttonText": "Parada 2",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/2191787367",
-          "label": "Escuchar sobre lo antiguo"
+          "url": "https://api.soundcloud.com/tracks/2191787379",
+          "label": "Escuchar sobre el origen"
         }
       },
       {
@@ -42,8 +32,8 @@
         "buttonText": "Parada 3",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/2191787371",
-          "label": "Escuchar sobre Santa Marta"
+          "url": "https://api.soundcloud.com/tracks/2191787367",
+          "label": "Escuchar sobre lo antiguo"
         }
       },
       {
@@ -52,8 +42,8 @@
         "buttonText": "Parada 4",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/2191787359",
-          "label": "Escuchar sobre el Ayuntamiento"
+          "url": "https://api.soundcloud.com/tracks/2191787371",
+          "label": "Escuchar sobre Santa Marta"
         }
       },
       {
@@ -62,8 +52,8 @@
         "buttonText": "Parada 5",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/2191787375",
-          "label": "Escuchar sobre el arte"
+          "url": "https://api.soundcloud.com/tracks/2191787359",
+          "label": "Escuchar sobre el Ayuntamiento"
         }
       },
       {
@@ -72,14 +62,19 @@
         "buttonText": "Parada 6",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/2191787363",
-          "label": "Escuchar sobre los murales"
+          "url": "https://api.soundcloud.com/tracks/2191787375",
+          "label": "Escuchar sobre el arte"
         }
       },
       {
         "src": "sliders/santa_martaxplora_lectura_facil/8.png",
         "alt": "Más información",
-        "buttonText": "Info"
+        "buttonText": "Info",
+        "mediaButton": {
+          "type": "audio",
+          "url": "https://api.soundcloud.com/tracks/2191787363",
+          "label": "Escuchar sobre los murales"
+        }
       },
       {
         "src": "sliders/santa_martaxplora_lectura_facil/9.png",

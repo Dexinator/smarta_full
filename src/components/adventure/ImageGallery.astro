@@ -128,87 +128,90 @@ const validImages = optimizedImages.filter(img => img !== null);
       </svg>
     </button>
 
-    <!-- Contenedor del Carousel -->
-    <div
-      class="gallery-carousel relative overflow-hidden"
-      role="region"
-      aria-roledescription="carousel"
-      aria-label="Galería de imágenes de la aventura. Desliza para navegar."
-    >
-      <!-- Track de imágenes -->
-      <div class="gallery-track flex transition-transform duration-300 ease-in-out">
-        {validImages.map((image, index) => (
-          <div
-            class="gallery-slide flex-shrink-0 w-full relative"
-            data-slide-index={index}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`Imagen ${index + 1} de ${validImages.length}`}
-          >
-            <!-- Contenedor de imagen con aspect ratio -->
-            <div class={`relative ${isLandscape ? 'aspect-video' : 'aspect-[9/16]'} bg-black`}>
-              <picture>
-                <source
-                  type="image/webp"
-                  srcset={image.srcsetWebp}
-                  sizes={image.sizes}
-                />
-                <source
-                  type="image/jpeg"
-                  srcset={image.fallback}
-                />
-                <img
-                  src={image.optimized.src}
-                  alt={image.alt}
-                  width={image.optimized.attributes.width}
-                  height={image.optimized.attributes.height}
-                  class="w-full h-full object-cover"
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  decoding={index === 0 ? 'sync' : 'async'}
-                  fetchpriority={index === 0 ? 'high' : 'auto'}
-                />
-              </picture>
+    <!-- Contenedor del Carousel con controles fuera del área scrolleable -->
+    <div class="gallery-wrapper relative">
+      <!-- Contenedor del Carousel -->
+      <div
+        class="gallery-carousel relative overflow-hidden"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Galería de imágenes de la aventura. Desliza para navegar."
+      >
+        <!-- Track de imágenes -->
+        <div class="gallery-track flex transition-transform duration-300 ease-in-out">
+          {validImages.map((image, index) => (
+            <div
+              class="gallery-slide flex-shrink-0 w-full relative"
+              data-slide-index={index}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Imagen ${index + 1} de ${validImages.length}`}
+            >
+              <!-- Contenedor de imagen con aspect ratio -->
+              <div class={`relative ${isLandscape ? 'aspect-video' : 'aspect-[9/16]'} bg-black`}>
+                <picture>
+                  <source
+                    type="image/webp"
+                    srcset={image.srcsetWebp}
+                    sizes={image.sizes}
+                  />
+                  <source
+                    type="image/jpeg"
+                    srcset={image.fallback}
+                  />
+                  <img
+                    src={image.optimized.src}
+                    alt={image.alt}
+                    width={image.optimized.attributes.width}
+                    height={image.optimized.attributes.height}
+                    class="w-full h-full object-cover"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding={index === 0 ? 'sync' : 'async'}
+                    fetchpriority={index === 0 ? 'high' : 'auto'}
+                  />
+                </picture>
 
-              <!-- Botón de Media (si aplica) -->
-              {image.mediaButton && (
-                <div class={`media-button-container absolute ${positionClasses} z-20`}>
-                  <button
-                    class="media-button bg-black/70 hover:bg-black/90 text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-SM-blue focus:ring-offset-2 flex items-center gap-2"
-                    data-media-type={image.mediaButton.type}
-                    data-media-url={image.mediaButton.url}
-                    data-slide-index={index}
-                    aria-label={image.mediaButton.label || 'Abrir reproductor multimedia'}
-                    style={image.buttonText ? 'border-radius: 9999px; padding: 0.5rem 1rem 0.5rem 0.75rem;' : 'border-radius: 9999px; padding: 0.75rem;'}
-                  >
-                    {image.buttonText && (
-                      <span class="button-text text-xs sm:text-sm font-medium whitespace-nowrap">
-                        {image.buttonText}
-                      </span>
-                    )}
-                    <div class="flex-shrink-0">
-                      {image.mediaButton.type === 'audio' ? (
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-                        </svg>
-                      ) : (
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                        </svg>
+                <!-- Botón de Media (si aplica) -->
+                {image.mediaButton && (
+                  <div class={`media-button-container absolute ${positionClasses} z-20`}>
+                    <button
+                      class="media-button bg-black/70 hover:bg-black/90 text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-SM-blue focus:ring-offset-2 flex items-center gap-3"
+                      data-media-type={image.mediaButton.type}
+                      data-media-url={image.mediaButton.url}
+                      data-slide-index={index}
+                      aria-label={image.mediaButton.label || 'Abrir reproductor multimedia'}
+                      style={image.buttonText ? 'border-radius: 9999px; padding: 0.75rem 1.25rem 0.75rem 1rem;' : 'border-radius: 9999px; padding: 1rem;'}
+                    >
+                      {image.buttonText && (
+                        <span class="button-text text-base sm:text-lg font-semibold whitespace-nowrap">
+                          {image.buttonText}
+                        </span>
                       )}
-                    </div>
-                  </button>
-                </div>
-              )}
+                      <div class="flex-shrink-0">
+                        {image.mediaButton.type === 'audio' ? (
+                          <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="#FBBF24" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                          </svg>
+                        ) : (
+                          <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="#FBBF24" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                          </svg>
+                        )}
+                      </div>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      <!-- Controles de navegación para desktop y móvil -->
+      <!-- Controles de navegación fuera del carousel para que se mantengan fijos -->
       <button
-        class="gallery-prev absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-10 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+        class="gallery-prev absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-30 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="Imagen anterior"
         disabled
       >
@@ -218,7 +221,7 @@ const validImages = optimizedImages.filter(img => img !== null);
       </button>
 
       <button
-        class="gallery-next absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-10 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+        class="gallery-next absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-30 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="Imagen siguiente"
         disabled={validImages.length <= 1}
       >
@@ -269,6 +272,11 @@ const validImages = optimizedImages.filter(img => img !== null);
 <MediaModal client:load />
 
 <style>
+  /* Contenedor wrapper necesita position relative para las flechas */
+  .gallery-wrapper {
+    position: relative;
+  }
+
   /* Estilos base para móvil con snap scroll mejorado */
   @media (max-width: 768px) {
     .gallery-carousel {
@@ -302,6 +310,13 @@ const validImages = optimizedImages.filter(img => img !== null);
   }
 
   /* Estilos para botones de navegación en móvil */
+  .gallery-prev,
+  .gallery-next {
+    /* Asegurar que siempre estén encima del contenido */
+    z-index: 30 !important;
+    pointer-events: auto;
+  }
+
   @media (max-width: 768px) {
     .gallery-prev,
     .gallery-next {
@@ -501,18 +516,18 @@ const validImages = optimizedImages.filter(img => img !== null);
 
     /* Botones más pequeños en horizontal */
     .fullscreen-active .media-button {
-      padding: 0.25rem 0.5rem !important;
-      font-size: 0.75rem !important;
+      padding: 0.5rem 0.75rem !important;
+      font-size: 0.875rem !important;
     }
 
     .fullscreen-active .button-text {
-      font-size: 0.625rem !important;
-      max-width: 70px !important;
+      font-size: 0.875rem !important;
+      max-width: 120px !important;
     }
 
     .fullscreen-active .media-button svg {
-      width: 0.875rem !important;
-      height: 0.875rem !important;
+      width: 1.5rem !important;
+      height: 1.5rem !important;
     }
 
     /* Indicadores más pequeños */
@@ -609,11 +624,12 @@ const validImages = optimizedImages.filter(img => img !== null);
 
     galleries.forEach(wrapper => {
       const gallery = wrapper.querySelector('.adventure-gallery-container');
+      const galleryWrapper = gallery.querySelector('.gallery-wrapper');
       const carousel = gallery.querySelector('.gallery-carousel');
       const track = gallery.querySelector('.gallery-track');
       const slides = gallery.querySelectorAll('.gallery-slide');
-      const prevButton = gallery.querySelector('.gallery-prev');
-      const nextButton = gallery.querySelector('.gallery-next');
+      const prevButton = galleryWrapper.querySelector('.gallery-prev');
+      const nextButton = galleryWrapper.querySelector('.gallery-next');
       const indicators = gallery.querySelectorAll('.indicator');
       const mediaButtons = gallery.querySelectorAll('.media-button');
       const fullscreenButton = wrapper.querySelector('.fullscreen-button');

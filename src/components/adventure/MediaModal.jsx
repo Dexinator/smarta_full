@@ -114,10 +114,11 @@ const MediaModal = () => {
         });
       }
 
-      // Crear iframe para SoundCloud
+      // Crear iframe para SoundCloud (oculto, solo para control)
       const iframe = document.createElement('iframe');
       iframe.width = '100%';
-      iframe.height = '166';
+      iframe.height = '0'; // Altura 0 para ocultar el iframe
+      iframe.style.display = 'none'; // Ocultar completamente el iframe
       iframe.scrolling = 'no';
       iframe.frameBorder = 'no';
       iframe.allow = 'autoplay';
