@@ -152,9 +152,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Ver el folleto fácil",
+    "title": "Ver el Lectura Fácil",
     "pdfPath": "adventures/LF Santa Marta Urban Escape - Aventura.pdf",
-    "buttonText": "Ver Folleto Fácil"
+    "buttonText": "Ver folleto Lectura Fácil"
   },
   "otherAdventures": {
     "visible": true

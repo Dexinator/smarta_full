@@ -206,23 +206,23 @@ const validImages = optimizedImages.filter(img => img !== null);
         ))}
       </div>
 
-      <!-- Controles de navegación para desktop -->
+      <!-- Controles de navegación para desktop y móvil -->
       <button
-        class="gallery-prev hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all z-10 items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+        class="gallery-prev absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-10 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="Imagen anterior"
         disabled
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
 
       <button
-        class="gallery-next hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all z-10 items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+        class="gallery-next absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-10 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="Imagen siguiente"
         disabled={validImages.length <= 1}
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
       </button>
@@ -269,14 +269,17 @@ const validImages = optimizedImages.filter(img => img !== null);
 <MediaModal client:load />
 
 <style>
-  /* Estilos base para móvil con snap scroll */
+  /* Estilos base para móvil con snap scroll mejorado */
   @media (max-width: 768px) {
     .gallery-carousel {
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      overflow-x: auto;
+      overflow-x: scroll;
       overflow-y: hidden;
       scrollbar-width: none;
+      scroll-behavior: smooth;
+      /* Prevenir el problema de quedarse entre slides */
+      scroll-padding: 0;
     }
 
     .gallery-carousel::-webkit-scrollbar {
@@ -286,11 +289,35 @@ const validImages = optimizedImages.filter(img => img !== null);
     .gallery-track {
       display: flex;
       transition: none;
+      /* Asegurar que no haya espacios entre slides */
+      gap: 0;
     }
 
     .gallery-slide {
-      scroll-snap-align: start;
+      scroll-snap-align: center;
       scroll-snap-stop: always;
+      flex: 0 0 100%;
+      width: 100%;
+    }
+  }
+
+  /* Estilos para botones de navegación en móvil */
+  @media (max-width: 768px) {
+    .gallery-prev,
+    .gallery-next {
+      /* Hacer los botones más visibles en móvil */
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    /* Ajustar posición para evitar conflicto con botones de media */
+    .gallery-prev {
+      left: 0.5rem;
+    }
+
+    .gallery-next {
+      right: 0.5rem;
     }
   }
 
@@ -378,19 +405,33 @@ const validImages = optimizedImages.filter(img => img !== null);
   /* En fullscreen móvil, mantener botones visibles */
   @media (max-width: 768px) {
     .fullscreen-active .gallery-carousel {
-      overflow-x: auto !important;
+      overflow-x: scroll !important;
       scroll-snap-type: x mandatory !important;
       -webkit-overflow-scrolling: touch !important;
+      scroll-behavior: smooth !important;
+      scrollbar-width: none !important;
+    }
+
+    .fullscreen-active .gallery-carousel::-webkit-scrollbar {
+      display: none !important;
     }
 
     .fullscreen-active .gallery-track {
       display: flex !important;
+      gap: 0 !important;
     }
 
     .fullscreen-active .gallery-slide {
-      flex-shrink: 0 !important;
+      flex: 0 0 100vw !important;
       width: 100vw !important;
       scroll-snap-align: center !important;
+      scroll-snap-stop: always !important;
+    }
+
+    /* Mantener flechas visibles en fullscreen */
+    .fullscreen-active .gallery-prev,
+    .fullscreen-active .gallery-next {
+      z-index: 10001 !important;
     }
   }
 
@@ -518,16 +559,41 @@ const validImages = optimizedImages.filter(img => img !== null);
     aspect-ratio: 9 / 16;
   }
 
-  /* Limitar altura en móviles con imágenes portrait */
+  /* Optimizar visualización según orientación del dispositivo y de las imágenes */
   @media (max-width: 768px) {
+    /* Para imágenes portrait en móvil */
     [data-orientation="portrait"] .gallery-slide {
-      max-height: 80vh;
+      max-height: 85vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     [data-orientation="portrait"] .aspect-\[9\/16\] {
-      max-height: 80vh;
+      max-height: 85vh;
       width: auto;
       margin: 0 auto;
+    }
+
+    /* Para imágenes landscape en móvil */
+    [data-orientation="landscape"] .gallery-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  /* En dispositivo horizontal (landscape) */
+  @media (max-width: 768px) and (orientation: landscape) {
+    [data-orientation="portrait"] .aspect-\[9\/16\] {
+      max-height: 90vh;
+      width: auto;
+    }
+
+    [data-orientation="landscape"] .aspect-video {
+      width: 100%;
+      height: auto;
+      max-height: 90vh;
     }
   }
 
@@ -562,7 +628,7 @@ const validImages = optimizedImages.filter(img => img !== null);
       let wasInFullscreenBeforeModal = false;
 
       // Función para actualizar la posición del carousel
-      const updateCarousel = (index) => {
+      const updateCarousel = (index, smooth = true) => {
         if (index < 0 || index >= totalSlides) return;
 
         currentIndex = index;
@@ -580,11 +646,13 @@ const validImages = optimizedImages.filter(img => img !== null);
         if (window.innerWidth > 768) {
           track.style.transform = `translateX(-${currentIndex * 100}%)`;
         } else {
-          // En móvil (normal o fullscreen), usar scroll
-          const slideWidth = slides[0].offsetWidth;
+          // En móvil usar scroll nativo mejorado
+          const slideWidth = carousel.offsetWidth;
+          const targetScroll = slideWidth * currentIndex;
+
           carousel.scrollTo({
-            left: slideWidth * currentIndex,
-            behavior: 'smooth'
+            left: targetScroll,
+            behavior: smooth ? 'smooth' : 'auto'
           });
         }
 
@@ -607,12 +675,22 @@ const validImages = optimizedImages.filter(img => img !== null);
       };
 
       // Event listeners para botones de navegación
-      prevButton?.addEventListener('click', () => {
-        updateCarousel(currentIndex - 1);
+      prevButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (currentIndex > 0) {
+          updateCarousel(currentIndex - 1);
+        }
       });
 
-      nextButton?.addEventListener('click', () => {
-        updateCarousel(currentIndex + 1);
+      nextButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (currentIndex < totalSlides - 1) {
+          updateCarousel(currentIndex + 1);
+        }
       });
 
       // Event listeners para indicadores
@@ -622,139 +700,32 @@ const validImages = optimizedImages.filter(img => img !== null);
         });
       });
 
-      // Sistema mejorado de navegación touch
-      let touchStartX = 0;
-      let touchStartY = 0;
-      let touchEndX = 0;
-      let touchEndY = 0;
-      let touchStartTime = 0;
-      let isDragging = false;
-      let startTranslateX = 0;
-      let currentTranslateX = 0;
+      // Sistema simplificado de navegación para móvil con scroll nativo
+      let scrollTimer = null;
+      let isScrolling = false;
 
-      // Función para obtener la posición X actual del track
-      const getCurrentTranslateX = () => {
-        const transform = track.style.transform;
-        const match = transform.match(/translateX\((-?\d+(?:\.\d+)?)%\)/);
-        return match ? parseFloat(match[1]) : 0;
-      };
-
-      // Manejar inicio del touch
-      const handleTouchStart = (e) => {
-        // No interferir con botones de media
-        if (e.target.closest('.media-button')) return;
-
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        touchStartTime = Date.now();
-        isDragging = true;
-        startTranslateX = getCurrentTranslateX();
-
-        // Quitar transición durante el arrastre
-        track.style.transition = 'none';
-      };
-
-      // Manejar movimiento del touch
-      const handleTouchMove = (e) => {
-        if (!isDragging) return;
-
-        const currentX = e.touches[0].clientX;
-        const currentY = e.touches[0].clientY;
-        const deltaX = currentX - touchStartX;
-        const deltaY = currentY - touchStartY;
-
-        // Si el movimiento es más vertical que horizontal, no hacer nada
-        if (Math.abs(deltaY) > Math.abs(deltaX)) {
-          isDragging = false;
-          return;
-        }
-
-        // Prevenir el scroll vertical
-        e.preventDefault();
-
-        // Calcular el desplazamiento en porcentaje
-        const slideWidth = slides[0].offsetWidth;
-        const deltaPercent = (deltaX / slideWidth) * 100;
-
-        // Aplicar resistencia en los extremos
-        let newTranslateX = startTranslateX + deltaPercent;
-
-        // Resistencia en el primer slide
-        if (newTranslateX > 0) {
-          newTranslateX = newTranslateX * 0.3; // Efecto elástico
-        }
-
-        // Resistencia en el último slide
-        const maxTranslate = -(totalSlides - 1) * 100;
-        if (newTranslateX < maxTranslate) {
-          const overflow = newTranslateX - maxTranslate;
-          newTranslateX = maxTranslate + (overflow * 0.3);
-        }
-
-        currentTranslateX = newTranslateX;
-        track.style.transform = `translateX(${newTranslateX}%)`;
-      };
-
-      // Manejar fin del touch
-      const handleTouchEnd = (e) => {
-        if (!isDragging) return;
-
-        isDragging = false;
-        touchEndX = e.changedTouches[0].clientX;
-        touchEndY = e.changedTouches[0].clientY;
-
-        const deltaX = touchEndX - touchStartX;
-        const deltaY = touchEndY - touchStartY;
-        const deltaTime = Date.now() - touchStartTime;
-        const velocity = Math.abs(deltaX) / deltaTime;
-
-        // Restaurar transición
-        track.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
-        // Si el movimiento es más vertical que horizontal, no hacer nada
-        if (Math.abs(deltaY) > Math.abs(deltaX)) {
-          updateCarousel(currentIndex);
-          return;
-        }
-
-        // Determinar si es un swipe válido
-        const minSwipeDistance = 50; // píxeles mínimos para considerar swipe
-        const minVelocity = 0.3; // velocidad mínima para swipe rápido
-
-        let targetIndex = currentIndex;
-
-        if (Math.abs(deltaX) > minSwipeDistance || velocity > minVelocity) {
-          if (deltaX > 0 && currentIndex > 0) {
-            // Swipe hacia la derecha - slide anterior
-            targetIndex = currentIndex - 1;
-          } else if (deltaX < 0 && currentIndex < totalSlides - 1) {
-            // Swipe hacia la izquierda - siguiente slide
-            targetIndex = currentIndex + 1;
-          }
-        } else {
-          // Si no es un swipe válido, determinar por posición
-          const slideWidth = slides[0].offsetWidth;
-          const currentPosition = Math.abs(currentTranslateX / 100);
-          targetIndex = Math.round(currentPosition);
-          targetIndex = Math.max(0, Math.min(targetIndex, totalSlides - 1));
-        }
-
-        updateCarousel(targetIndex);
-      };
-
-      // Touch/swipe para móvil - simplificado (mantener para compatibilidad con scroll)
       const handleMobileScroll = () => {
-        // Solo procesar en móvil y si no estamos usando el sistema touch mejorado
-        if (window.innerWidth > 768 || isDragging) return;
+        // Solo procesar en móvil
+        if (window.innerWidth > 768) return;
 
-        const slideWidth = slides[0].offsetWidth;
-        const newIndex = Math.round(carousel.scrollLeft / slideWidth);
+        isScrolling = true;
 
-        if (newIndex !== currentIndex && newIndex >= 0 && newIndex < totalSlides) {
-          currentIndex = newIndex;
+        // Clear timer anterior
+        clearTimeout(scrollTimer);
 
-          // Solo actualizar active-slide en modo normal (no fullscreen)
-          if (!gallery.classList.contains('fullscreen-active')) {
+        // Set timer para detectar fin del scroll
+        scrollTimer = setTimeout(() => {
+          isScrolling = false;
+
+          // Calcular el índice actual basado en la posición del scroll
+          const slideWidth = carousel.offsetWidth;
+          const scrollPosition = carousel.scrollLeft;
+          const newIndex = Math.round(scrollPosition / slideWidth);
+
+          if (newIndex !== currentIndex && newIndex >= 0 && newIndex < totalSlides) {
+            currentIndex = newIndex;
+
+            // Actualizar UI
             slides.forEach((slide, i) => {
               if (i === currentIndex) {
                 slide.classList.add('active-slide');
@@ -762,30 +733,50 @@ const validImages = optimizedImages.filter(img => img !== null);
                 slide.classList.remove('active-slide');
               }
             });
-          }
 
-          // Actualizar indicadores siempre
-          indicators.forEach((indicator, i) => {
-            if (i === currentIndex) {
-              indicator.classList.add('bg-white', 'w-8');
-              indicator.classList.remove('bg-white/50', 'w-2');
-              indicator.setAttribute('aria-selected', 'true');
-            } else {
-              indicator.classList.remove('bg-white', 'w-8');
-              indicator.classList.add('bg-white/50', 'w-2');
-              indicator.setAttribute('aria-selected', 'false');
+            // Actualizar indicadores
+            indicators.forEach((indicator, i) => {
+              if (i === currentIndex) {
+                indicator.classList.add('bg-white', 'w-8');
+                indicator.classList.remove('bg-white/50', 'w-2');
+                indicator.setAttribute('aria-selected', 'true');
+              } else {
+                indicator.classList.remove('bg-white', 'w-8');
+                indicator.classList.add('bg-white/50', 'w-2');
+                indicator.setAttribute('aria-selected', 'false');
+              }
+            });
+
+            // Actualizar botones
+            if (prevButton) prevButton.disabled = currentIndex === 0;
+            if (nextButton) nextButton.disabled = currentIndex === totalSlides - 1;
+          }
+        }, 150); // Esperar 150ms después del último evento de scroll
+      };
+
+      // Event listener único para scroll en móvil
+      if (window.innerWidth <= 768) {
+        carousel.addEventListener('scroll', handleMobileScroll, { passive: true });
+
+        // También escuchar scrollend si está disponible (mejor soporte en navegadores modernos)
+        if ('onscrollend' in window) {
+          carousel.addEventListener('scrollend', () => {
+            if (window.innerWidth > 768) return;
+
+            const slideWidth = carousel.offsetWidth;
+            const scrollPosition = carousel.scrollLeft;
+            const targetIndex = Math.round(scrollPosition / slideWidth);
+
+            // Asegurar que estamos exactamente en una slide
+            if (targetIndex >= 0 && targetIndex < totalSlides) {
+              carousel.scrollTo({
+                left: slideWidth * targetIndex,
+                behavior: 'smooth'
+              });
             }
           });
         }
-      };
-
-      // Agregar event listeners para touch
-      carousel.addEventListener('touchstart', handleTouchStart, { passive: true });
-      carousel.addEventListener('touchmove', handleTouchMove, { passive: false });
-      carousel.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-      // Detectar cambio de slide con scroll en móvil (como fallback)
-      carousel.addEventListener('scroll', handleMobileScroll);
+      }
 
       // Navegación con teclado
       carousel.addEventListener('keydown', (e) => {

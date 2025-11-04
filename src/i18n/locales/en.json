@@ -83,17 +83,17 @@
       {
         "id": "detectives",
         "title": "Kingfisher Detectives",
-        "link": "/aventuras/detectives/english"
+        "link": "/aventuras/detectives/ingles"
       },
       {
         "id": "urban-scape",
         "title": "Santa Marta Urban Escape",
-        "link": "/en/adventure-urban-scape"
+        "link": "/aventuras/urban-scape/ingles"
       },
       {
         "id": "xplora",
         "title": "Santa MartaXplora",
-        "link": "/en/adventure-xplora"
+        "link": "/aventuras/santa-martaxplora/ingles"
       }
     ],
     "hint": "Tap or click one to start your adventure!"
