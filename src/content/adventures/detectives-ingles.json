@@ -152,9 +152,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "View the adventure brochure",
+    "title": "View brochure",
     "pdfPath": "adventures/Kingfisher Detectives - Brochure for kids.pdf",
-    "buttonText": "View Detectives Brochure"
+    "buttonText": "Click here"
   },
   "otherAdventures": {
     "visible": true

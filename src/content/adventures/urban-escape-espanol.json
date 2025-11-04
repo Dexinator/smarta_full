@@ -152,9 +152,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Ver el folleto de Urban Escape",
+    "title": "Abrir el folleto",
     "pdfPath": "adventures/Santa Marta Urban Escape - Aventura.pdf",
-    "buttonText": "Ver Folleto Urban Escape"
+    "buttonText": "Clic aquí"
   },
   "otherAdventures": {
     "visible": true

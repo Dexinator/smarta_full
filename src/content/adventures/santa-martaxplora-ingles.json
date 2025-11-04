@@ -122,9 +122,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "View the Santa MartaXplora brochure",
+    "title": "Open brochure",
     "pdfPath": "adventures/English Santa MartaXplora adventure .pdf",
-    "buttonText": "View Santa MartaXplora Brochure"
+    "buttonText": "Click here"
   },
   "otherAdventures": {
     "visible": true

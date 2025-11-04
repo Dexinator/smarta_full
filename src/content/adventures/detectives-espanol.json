@@ -152,9 +152,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Ver el folleto de la aventura",
+    "title": "Abrir el folleto",
     "pdfPath": "adventures/Detectives en Acción - Aventura.pdf",
-    "buttonText": "Ver Folleto Detectives"
+    "buttonText": "Clic aquí"
   },
   "otherAdventures": {
     "visible": true

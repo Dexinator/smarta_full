@@ -122,9 +122,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Ver el folleto con información en LSE",
+    "title": "Abrir el folleto",
     "pdfPath": "adventures/Aventura Santa MartaXplora.pdf",
-    "buttonText": "Ver Folleto LSE"
+    "buttonText": "Clic aquí"
   },
   "otherAdventures": {
     "visible": true

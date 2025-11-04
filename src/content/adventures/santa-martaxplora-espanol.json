@@ -122,9 +122,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Ver el folleto de Santa MartaXplora",
+    "title": "Abrir el folleto",
     "pdfPath": "adventures/Aventura Santa MartaXplora.pdf",
-    "buttonText": "Ver Folleto Santa MartaXplora"
+    "buttonText": "Clic aquí"
   },
   "otherAdventures": {
     "visible": true

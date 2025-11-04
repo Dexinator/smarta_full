@@ -152,9 +152,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "View the Urban Escape brochure",
+    "title": "Open brochure",
     "pdfPath": "adventures/English  Santa Marta Urban Escape.pdf",
-    "buttonText": "View Urban Escape Brochure"
+    "buttonText": "Click here"
   },
   "otherAdventures": {
     "visible": true
