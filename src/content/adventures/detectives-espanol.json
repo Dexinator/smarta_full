@@ -3,7 +3,7 @@
   "description": "Una emocionante aventura familiar en Santa Marta donde los niños se convierten en detectives para descubrir los secretos de la ciudad",
   "imageGallery": {
     "visible": true,
-    "orientation": "landscape",
+    "orientation": "portrait",
     "buttonsPosition": "bottom-left",
     "images": [
       {
@@ -152,9 +152,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Descarga el folleto de la aventura",
+    "title": "Ver el folleto de la aventura",
     "pdfPath": "adventures/Detectives en Acción - Aventura.pdf",
-    "buttonText": "Descargar Folleto Detectives (PDF)"
+    "buttonText": "Ver Folleto Detectives"
   },
   "otherAdventures": {
     "visible": true

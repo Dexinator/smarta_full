@@ -36,14 +36,14 @@ const pdfUrl = pdfModule || '#'; // Fallback a # si no se encuentra
 // Textos según idioma
 const texts = {
   es: {
-    defaultDescription: 'Obtén la aventura en un práctico folleto PDF que puedes llevar contigo durante tu recorrido.',
-    defaultButton: 'Descargar Folleto',
-    opensInNewTab: 'Se abre en una nueva pestaña'
+    defaultDescription: 'Visualiza y descarga la aventura en un práctico folleto PDF que puedes llevar contigo durante tu recorrido.',
+    defaultButton: 'Ver Folleto',
+    opensInNewTab: 'Se abre en una nueva pestaña. Puedes descargarlo desde ahí.'
   },
   en: {
-    defaultDescription: 'Get the adventure in a handy PDF brochure that you can take with you during your tour.',
-    defaultButton: 'Download Brochure',
-    opensInNewTab: 'Opens in a new tab'
+    defaultDescription: 'View and download the adventure in a handy PDF brochure that you can take with you during your tour.',
+    defaultButton: 'View Brochure',
+    opensInNewTab: 'Opens in a new tab. You can download it from there.'
   }
 };
 
@@ -53,7 +53,7 @@ const currentTexts = texts[lang] || texts.es;
 const finalDescription = description || currentTexts.defaultDescription;
 
 // Texto por defecto del botón
-const downloadButtonText = buttonText || currentTexts.defaultButton;
+const viewButtonText = buttonText || currentTexts.defaultButton;
 ---
 
 <div class="download-brochure bg-gradient-to-br from-SM-blue/5 to-SM-yellow/5 rounded-2xl p-8 sm:p-10 text-center">
@@ -78,23 +78,22 @@ const downloadButtonText = buttonText || currentTexts.defaultButton;
     {finalDescription}
   </p>
 
-  <!-- Botón de descarga -->
+  <!-- Botón de ver folleto -->
   <a
     href={pdfUrl}
-    download
     target="_blank"
     rel="noopener noreferrer"
     class="download-button inline-flex items-center px-8 py-4 bg-gradient-to-r from-SM-blue to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-SM-blue transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-SM-blue/50"
-    aria-label={`${downloadButtonText} - ${currentTexts.opensInNewTab}`}
+    aria-label={`${viewButtonText} - ${currentTexts.opensInNewTab}`}
   >
-    <!-- Icono de descarga -->
+    <!-- Icono de documento -->
     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10">
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
       </path>
     </svg>
 
-    <span class="text-lg">{downloadButtonText}</span>
+    <span class="text-lg">{viewButtonText}</span>
 
     <!-- Badge PDF -->
     <span class="ml-3 px-2 py-1 bg-white/20 rounded-md text-sm font-medium">

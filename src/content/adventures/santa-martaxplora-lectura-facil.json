@@ -127,9 +127,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Descarga el folleto fácil",
+    "title": "Ver el folleto fácil",
     "pdfPath": "adventures/Lectura Fácil SANTA MARTAXPLORA .pdf",
-    "buttonText": "Descargar Folleto Fácil (PDF)"
+    "buttonText": "Ver Folleto Fácil"
   },
   "otherAdventures": {
     "visible": true

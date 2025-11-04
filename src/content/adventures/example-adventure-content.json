@@ -107,10 +107,10 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Descargar Folleto de la Aventura",
-    "description": "Obtén toda la información de la aventura, mapas detallados, horarios y recomendaciones en un práctico folleto PDF que puedes llevar contigo durante tu recorrido.",
+    "title": "Ver Folleto de la Aventura",
+    "description": "Visualiza toda la información de la aventura, mapas detallados, horarios y recomendaciones en un práctico folleto PDF que puedes llevar contigo durante tu recorrido.",
     "pdfPath": "adventures/santa-marta-adventure-es.pdf",
-    "buttonText": "Descargar Folleto (PDF - 2.5 MB)"
+    "buttonText": "Ver Folleto (PDF)"
   },
   "otherAdventures": {
     "visible": true,

@@ -3,7 +3,7 @@
   "description": "An exciting family adventure in Santa Marta where children become detectives to discover the city's secrets",
   "imageGallery": {
     "visible": true,
-    "orientation": "landscape",
+    "orientation": "portrait",
     "buttonsPosition": "bottom-left",
     "images": [
       {
@@ -152,9 +152,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Download the adventure brochure",
+    "title": "View the adventure brochure",
     "pdfPath": "adventures/Kingfisher Detectives - Brochure for kids.pdf",
-    "buttonText": "Download Detectives Brochure (PDF)"
+    "buttonText": "View Detectives Brochure"
   },
   "otherAdventures": {
     "visible": true

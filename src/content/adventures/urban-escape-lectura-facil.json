@@ -3,7 +3,7 @@
   "description": "Descubre el arte de las calles de Santa Marta. Una aventura fácil de entender para todos",
   "imageGallery": {
     "visible": true,
-    "orientation": "landscape",
+    "orientation": "portrait",
     "buttonsPosition": "bottom-left",
     "images": [
       {
@@ -152,9 +152,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Descarga el folleto fácil",
+    "title": "Ver el folleto fácil",
     "pdfPath": "adventures/LF Santa Marta Urban Escape - Aventura.pdf",
-    "buttonText": "Descargar Folleto Fácil (PDF)"
+    "buttonText": "Ver Folleto Fácil"
   },
   "otherAdventures": {
     "visible": true

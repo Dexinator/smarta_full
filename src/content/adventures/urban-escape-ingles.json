@@ -3,7 +3,7 @@
   "description": "Discover the urban art and murals of Santa Marta de Tormes in this cultural adventure",
   "imageGallery": {
     "visible": true,
-    "orientation": "landscape",
+    "orientation": "portrait",
     "buttonsPosition": "bottom-left",
     "images": [
       {
@@ -152,9 +152,9 @@
   },
   "downloadBrochure": {
     "visible": true,
-    "title": "Download the Urban Escape brochure",
+    "title": "View the Urban Escape brochure",
     "pdfPath": "adventures/English  Santa Marta Urban Escape.pdf",
-    "buttonText": "Download Urban Escape Brochure (PDF)"
+    "buttonText": "View Urban Escape Brochure"
   },
   "otherAdventures": {
     "visible": true
