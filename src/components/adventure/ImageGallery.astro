@@ -302,9 +302,10 @@ const validImages = optimizedImages.filter(img => img !== null);
     }
 
     .gallery-slide {
-      scroll-snap-align: center;
+      scroll-snap-align: start;
       scroll-snap-stop: always;
       flex: 0 0 100%;
+      min-width: 100%;
       width: 100%;
     }
   }
@@ -402,6 +403,9 @@ const validImages = optimizedImages.filter(img => img !== null);
     aspect-ratio: unset !important;
     height: 100vh !important;
     width: 100vw !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .fullscreen-active img {
@@ -412,19 +416,46 @@ const validImages = optimizedImages.filter(img => img !== null);
     object-fit: contain !important;
   }
 
+  /* Específico para móvil en fullscreen */
+  @media (max-width: 768px) {
+    .fullscreen-active .gallery-slide {
+      /* Asegurar que cada slide ocupe exactamente el viewport */
+      flex: 0 0 auto !important;
+      min-width: 100vw !important;
+      width: 100vw !important;
+    }
+
+    /* Para imágenes landscape en fullscreen móvil */
+    .fullscreen-active[data-orientation="landscape"] .gallery-slide {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    /* Para imágenes portrait en fullscreen móvil */
+    .fullscreen-active[data-orientation="portrait"] .gallery-slide {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+  }
+
   /* Mostrar botón de salir en fullscreen */
   .fullscreen-active .exit-fullscreen-button {
     display: flex !important;
   }
 
-  /* En fullscreen móvil, mantener botones visibles */
+  /* En fullscreen móvil, mantener scroll funcionando correctamente */
   @media (max-width: 768px) {
     .fullscreen-active .gallery-carousel {
       overflow-x: scroll !important;
+      overflow-y: hidden !important;
       scroll-snap-type: x mandatory !important;
       -webkit-overflow-scrolling: touch !important;
       scroll-behavior: smooth !important;
       scrollbar-width: none !important;
+      height: 100vh !important;
+      width: 100vw !important;
     }
 
     .fullscreen-active .gallery-carousel::-webkit-scrollbar {
@@ -434,19 +465,44 @@ const validImages = optimizedImages.filter(img => img !== null);
     .fullscreen-active .gallery-track {
       display: flex !important;
       gap: 0 !important;
+      height: 100vh !important;
+      align-items: center !important;
     }
 
     .fullscreen-active .gallery-slide {
       flex: 0 0 100vw !important;
+      min-width: 100vw !important;
       width: 100vw !important;
-      scroll-snap-align: center !important;
+      height: 100vh !important;
+      scroll-snap-align: start !important;
       scroll-snap-stop: always !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    /* Contenedor de imagen en fullscreen */
+    .fullscreen-active .gallery-slide > div {
+      width: 100vw !important;
+      height: 100vh !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
     }
 
     /* Mantener flechas visibles en fullscreen */
     .fullscreen-active .gallery-prev,
     .fullscreen-active .gallery-next {
       z-index: 10001 !important;
+      position: fixed !important;
+    }
+
+    .fullscreen-active .gallery-prev {
+      left: 0.5rem !important;
+    }
+
+    .fullscreen-active .gallery-next {
+      right: 0.5rem !important;
     }
   }
 
@@ -904,9 +960,18 @@ const validImages = optimizedImages.filter(img => img !== null);
 
           gallery.classList.add('fullscreen-active');
 
-          // Re-configurar botones de media después de entrar en fullscreen
+          // Re-configurar botones de media y actualizar carousel después de entrar en fullscreen
           setTimeout(() => {
             setupMediaButtons();
+
+            // Forzar actualización del carousel en móvil para asegurar posición correcta
+            if (window.innerWidth <= 768) {
+              const slideWidth = carousel.offsetWidth;
+              carousel.scrollTo({
+                left: slideWidth * currentIndex,
+                behavior: 'auto'
+              });
+            }
           }, 100);
 
         } catch (err) {
@@ -958,8 +1023,19 @@ const validImages = optimizedImages.filter(img => img !== null);
           // Re-configurar botones después de salir de fullscreen
           setTimeout(() => {
             setupMediaButtons();
-            updateCarousel(currentIndex); // Re-establecer el estado
+            updateCarousel(currentIndex, false); // Re-establecer el estado sin animación
           }, 100);
+        } else {
+          // Si entramos en fullscreen, asegurar posición correcta
+          setTimeout(() => {
+            if (window.innerWidth <= 768) {
+              const slideWidth = carousel.offsetWidth;
+              carousel.scrollTo({
+                left: slideWidth * currentIndex,
+                behavior: 'auto'
+              });
+            }
+          }, 150);
         }
       };
 
