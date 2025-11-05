@@ -98,6 +98,23 @@
     ],
     "hint": "Tap or click one to start your adventure!"
   },
+  "virtualOffice": {
+    "lecturaFacil": {
+      "title": "Easy Reading",
+      "readInfo": "Read Information",
+      "downloadPdf": "Download PDF",
+      "tapToRead": "Tap to read the information",
+      "ariaReadInfo": "Read easy reading information",
+      "ariaDownloadPdf": "Download easy reading PDF"
+    },
+    "moreInfo": {
+      "title": "More information and schedules",
+      "subtitle": "Tap or click the image to visit"
+    },
+    "banner": {
+      "tapToExplore": "Tap to explore"
+    }
+  },
   "aria": {
     "skipToContent": "Skip to main content",
     "navigation": {

@@ -5,6 +5,7 @@ import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
 import MapSection from '../components/adventure/MapSection.astro';
 import VimeoHeroPlayer from '../components/react/VimeoHeroPlayer.jsx';
+import { getTranslations } from '../i18n/utils';
 
 // Importar componente Image y getImage de Astro para optimización automática
 import { Image, getImage } from 'astro:assets';
@@ -46,6 +47,9 @@ const {
   actividades,
   burbujas: burbujasFiltradas,
 } = config;
+
+// Obtener traducciones
+const t = await getTranslations(lang);
 
 // Obtener el tema del banner (por defecto blue)
 const bannerTheme = bannerCTA?.bgGradientTheme || 'blue';
@@ -132,7 +136,7 @@ if (lang === 'es') {
         <div class="w-full px-4 sm:container sm:mx-auto sm:max-w-4xl">
           <div class="text-center mb-8">
             <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4 sm:mb-6">
-              Lectura Fácil
+              {t.virtualOffice.lecturaFacil.title}
             </h2>
             {lecturaFacil.subtitle && (
               <p class="text-lg sm:text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-6 sm:mb-8">
@@ -145,10 +149,10 @@ if (lang === 'es') {
               <button
                 onclick="document.getElementById('transcripcion-lectura-facil').scrollIntoView({ behavior: 'smooth', block: 'start' })"
                 class="w-full sm:w-64 md:w-72 h-32 sm:h-36 md:h-40 bg-SM-blue hover:bg-blue-700 active:bg-blue-800 text-white rounded-2xl font-bold text-xl sm:text-2xl transition-all transform active:scale-95 shadow-xl hover:shadow-2xl flex flex-col items-center justify-center gap-2"
-                aria-label="Leer información de lectura fácil"
+                aria-label={t.virtualOffice.lecturaFacil.ariaReadInfo}
               >
                 <span class="text-4xl sm:text-5xl" aria-hidden="true">📖</span>
-                <span>Leer Información</span>
+                <span>{t.virtualOffice.lecturaFacil.readInfo}</span>
               </button>
 
               {lecturaFacil.pdfUrl && (
@@ -157,10 +161,10 @@ if (lang === 'es') {
                   target="_blank"
                   rel="noopener noreferrer"
                   class="w-full sm:w-64 md:w-72 h-32 sm:h-36 md:h-40 bg-SM-yellow hover:bg-yellow-500 active:bg-yellow-600 text-slate-900 rounded-2xl font-bold text-xl sm:text-2xl transition-all transform active:scale-95 shadow-xl hover:shadow-2xl flex flex-col items-center justify-center gap-2"
-                  aria-label="Descargar PDF de lectura fácil"
+                  aria-label={t.virtualOffice.lecturaFacil.ariaDownloadPdf}
                 >
                   <span class="text-4xl sm:text-5xl" aria-hidden="true">📄</span>
-                  <span>Descargar PDF</span>
+                  <span>{t.virtualOffice.lecturaFacil.downloadPdf}</span>
                 </a>
               )}
             </div>
@@ -178,6 +182,7 @@ if (lang === 'es') {
             locations={mapa.locations}
             center={mapa.center}
             zoom={mapa.zoom}
+            lang={lang}
           />
         </div>
       </section>
@@ -220,7 +225,7 @@ if (lang === 'es') {
 
               <!-- Texto "Toca para explorar" en móvil -->
               <div class="sm:hidden text-white/80 text-sm flex items-center gap-2">
-                <span>Toca para explorar</span>
+                <span>{t.virtualOffice.banner.tapToExplore}</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
@@ -238,10 +243,10 @@ if (lang === 'es') {
         <!-- Título -->
         <div class="text-center mb-8 sm:mb-12">
           <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-3">
-            Más información y horarios
+            {t.virtualOffice.moreInfo.title}
           </h2>
           <p class="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 mt-3">
-            Toca o haz click en la imagen para visitar
+            {t.virtualOffice.moreInfo.subtitle}
           </p>
         </div>
 
@@ -288,7 +293,7 @@ if (lang === 'es') {
         <div class="w-full px-4 sm:container sm:mx-auto sm:max-w-4xl">
           <div class="text-center mb-8">
             <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
-              Lectura Fácil
+              {t.virtualOffice.lecturaFacil.title}
             </h2>
             {lecturaFacil.subtitleLecturaFacil && (
               <div class="text-xl sm:text-2xl md:text-3xl text-slate-600 dark:text-slate-300 pb-12 sm:pb-16 md:pb-20 subtitle-lectura-facil [&_ul]:list-disc [&_ul]:list-outside [&_ul]:pl-6 [&_ul]:mt-2 [&_ul]:mb-0 [&_ul]:text-left [&_li]:ml-0" set:html={lecturaFacil.subtitleLecturaFacil} />
@@ -299,7 +304,7 @@ if (lang === 'es') {
               aria-expanded="false"
               aria-controls="contenido-lectura-facil"
             >
-              <span>Toca para leer la información</span>
+              <span>{t.virtualOffice.lecturaFacil.tapToRead}</span>
               <svg id="icon-lectura-facil" class="w-6 h-6 sm:w-8 sm:h-8 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>

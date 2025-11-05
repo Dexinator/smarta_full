@@ -98,6 +98,23 @@
     ],
     "hint": "Toca o haz clic en una tarjeta para comenzar tu aventura"
   },
+  "virtualOffice": {
+    "lecturaFacil": {
+      "title": "Lectura Fácil",
+      "readInfo": "Leer Información",
+      "downloadPdf": "Descargar PDF",
+      "tapToRead": "Toca para leer la información",
+      "ariaReadInfo": "Leer información de lectura fácil",
+      "ariaDownloadPdf": "Descargar PDF de lectura fácil"
+    },
+    "moreInfo": {
+      "title": "Más información y horarios",
+      "subtitle": "Toca o haz click en la imagen para visitar"
+    },
+    "banner": {
+      "tapToExplore": "Toca para explorar"
+    }
+  },
   "aria": {
     "skipToContent": "Saltar al contenido principal",
     "navigation": {
