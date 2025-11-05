@@ -108,8 +108,8 @@ const MediaModal = () => {
   useEffect(() => {
     if (!playerRef.current || mediaType !== 'video') return;
 
-    const container = playerRef.current.querySelector('div');
-    if (!container) return;
+    // playerRef.current es directamente el contenedor del player
+    const container = playerRef.current;
 
     if (isFullscreen) {
       // En fullscreen, eliminar padding-bottom y hacer el contenedor ocupar todo
@@ -195,9 +195,17 @@ const MediaModal = () => {
         mediaUrl
       )}&color=%230072c0&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false`;
 
-      if (playerRef.current) {
-        playerRef.current.innerHTML = '';
-        playerRef.current.appendChild(iframe);
+      // Crear contenedor para el player
+      const playerContainer = document.createElement('div');
+      playerContainer.appendChild(iframe);
+
+      // Guardar referencia al contenedor
+      playerRef.current = playerContainer;
+
+      // Montar en el contenedor normal (siempre empezamos en modo normal)
+      if (normalPlayerContainerRef.current) {
+        normalPlayerContainerRef.current.innerHTML = '';
+        normalPlayerContainerRef.current.appendChild(playerContainer);
       }
 
       const widget = window.SC.Widget(iframe);
@@ -258,9 +266,13 @@ const MediaModal = () => {
 
       container.appendChild(playerDiv);
 
-      if (playerRef.current) {
-        playerRef.current.innerHTML = '';
-        playerRef.current.appendChild(container);
+      // Guardar referencia al contenedor
+      playerRef.current = container;
+
+      // Montar en el contenedor normal (siempre empezamos en modo normal)
+      if (normalPlayerContainerRef.current) {
+        normalPlayerContainerRef.current.innerHTML = '';
+        normalPlayerContainerRef.current.appendChild(container);
       }
 
       const player = new window.Vimeo.Player(playerDiv, {
