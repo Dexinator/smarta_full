@@ -136,21 +136,7 @@ const viewButtonText = buttonText || currentTexts.defaultButton;
     height: 300px;
   }
 
-  /* Animación de pulso para el icono principal - solo en dispositivos con hover */
-  @keyframes pulse {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  @media (hover: hover) {
-    .download-brochure:hover .transform {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-  }
+  /* Animación de pulso eliminada para evitar parpadeo continuo */
 
   /* Accesibilidad - Focus visible */
   .download-button:focus-visible {

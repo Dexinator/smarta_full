@@ -285,9 +285,11 @@ const validImages = optimizedImages.filter(img => img !== null);
       overflow-x: scroll;
       overflow-y: hidden;
       scrollbar-width: none;
-      scroll-behavior: smooth;
+      /* Importante: NO usar scroll-behavior smooth aquí para evitar conflictos */
+      /* scroll-behavior será controlado por JavaScript */
       /* Prevenir el problema de quedarse entre slides */
       scroll-padding: 0;
+      overscroll-behavior-x: contain; /* Prevenir el bounce en iOS */
     }
 
     .gallery-carousel::-webkit-scrollbar {
@@ -299,6 +301,7 @@ const validImages = optimizedImages.filter(img => img !== null);
       transition: none;
       /* Asegurar que no haya espacios entre slides */
       gap: 0;
+      will-change: transform; /* Optimización de rendimiento */
     }
 
     .gallery-slide {
@@ -307,6 +310,7 @@ const validImages = optimizedImages.filter(img => img !== null);
       flex: 0 0 100%;
       min-width: 100%;
       width: 100%;
+      backface-visibility: hidden; /* Prevenir parpadeos */
     }
   }
 
@@ -451,11 +455,12 @@ const validImages = optimizedImages.filter(img => img !== null);
     overflow-y: hidden !important;
     scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch !important;
-    scroll-behavior: smooth !important;
+    /* NO usar scroll-behavior smooth aquí, dejar que JavaScript lo controle */
     scrollbar-width: none !important;
     height: 100vh !important;
     width: 100vw !important;
     position: relative !important;
+    overscroll-behavior-x: contain !important;
   }
 
   .fullscreen-active .gallery-carousel::-webkit-scrollbar {
@@ -798,12 +803,16 @@ const validImages = optimizedImages.filter(img => img !== null);
       // Sistema simplificado de navegación para móvil con scroll nativo
       let scrollTimer = null;
       let isScrolling = false;
+      let lastScrollLeft = 0;
 
       const handleMobileScroll = () => {
         // Solo procesar en móvil
         if (window.innerWidth > 768) return;
 
         isScrolling = true;
+
+        // Guardar la posición actual del scroll
+        lastScrollLeft = carousel.scrollLeft;
 
         // Clear timer anterior
         clearTimeout(scrollTimer);
@@ -815,38 +824,29 @@ const validImages = optimizedImages.filter(img => img !== null);
           // Calcular el índice actual basado en la posición del scroll
           const slideWidth = carousel.offsetWidth;
           const scrollPosition = carousel.scrollLeft;
-          const newIndex = Math.round(scrollPosition / slideWidth);
 
-          if (newIndex !== currentIndex && newIndex >= 0 && newIndex < totalSlides) {
+          // Usar Math.round para mejor detección del slide actual
+          let newIndex = Math.round(scrollPosition / slideWidth);
+
+          // Asegurar que el índice esté dentro de los límites
+          newIndex = Math.max(0, Math.min(newIndex, totalSlides - 1));
+
+          if (newIndex !== currentIndex) {
             currentIndex = newIndex;
 
-            // Actualizar UI
-            slides.forEach((slide, i) => {
-              if (i === currentIndex) {
-                slide.classList.add('active-slide');
-              } else {
-                slide.classList.remove('active-slide');
-              }
-            });
-
-            // Actualizar indicadores
-            indicators.forEach((indicator, i) => {
-              if (i === currentIndex) {
-                indicator.classList.add('bg-white', 'w-8');
-                indicator.classList.remove('bg-white/50', 'w-2');
-                indicator.setAttribute('aria-selected', 'true');
-              } else {
-                indicator.classList.remove('bg-white', 'w-8');
-                indicator.classList.add('bg-white/50', 'w-2');
-                indicator.setAttribute('aria-selected', 'false');
-              }
-            });
-
-            // Actualizar botones
-            if (prevButton) prevButton.disabled = currentIndex === 0;
-            if (nextButton) nextButton.disabled = currentIndex === totalSlides - 1;
+            // Actualizar todos los elementos UI
+            updateUIElements(currentIndex);
           }
-        }, 150); // Esperar 150ms después del último evento de scroll
+
+          // Asegurar que estamos exactamente en una slide (snap correction)
+          const targetScroll = slideWidth * currentIndex;
+          if (Math.abs(scrollPosition - targetScroll) > 1) {
+            carousel.scrollTo({
+              left: targetScroll,
+              behavior: 'smooth'
+            });
+          }
+        }, 100); // Reducido a 100ms para mejor respuesta
       };
 
       // Event listener único para scroll en móvil
@@ -974,29 +974,67 @@ const validImages = optimizedImages.filter(img => img !== null);
 
           gallery.classList.add('fullscreen-active');
 
-          // Usar un único setTimeout con tiempo suficiente para que se apliquen los estilos
-          setTimeout(() => {
-            setupMediaButtons();
+          // Usar requestAnimationFrame para asegurar que el layout está actualizado
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              setupMediaButtons();
 
-            // Restaurar posición con el índice guardado
-            if (window.innerWidth <= 768) {
-              const slideWidth = carousel.offsetWidth;
-              if (slideWidth > 0) { // Verificar que el width sea válido
-                carousel.scrollTo({
-                  left: slideWidth * savedIndex,
-                  behavior: 'auto'
-                });
-                currentIndex = savedIndex; // Asegurar que el índice se mantiene
+              // Siempre mantener el índice, no importa si es móvil o desktop
+              currentIndex = savedIndex;
+
+              if (window.innerWidth <= 768) {
+                // En móvil, calcular y establecer la posición de scroll correcta
+                const newSlideWidth = carousel.offsetWidth;
+
+                if (newSlideWidth > 0) {
+                  const targetScroll = newSlideWidth * savedIndex;
+                  carousel.scrollTo({
+                    left: targetScroll,
+                    behavior: 'instant' // Usar 'instant' en lugar de 'auto' para evitar animaciones
+                  });
+                }
+              } else {
+                // En desktop mantener la posición con transform
+                track.style.transform = `translateX(-${savedIndex * 100}%)`;
               }
-            } else {
-              // En desktop también mantener la posición
-              updateCarousel(savedIndex, false);
-            }
-          }, 200); // Aumentado a 200ms para mejor estabilidad
+
+              // Actualizar indicadores y botones
+              updateUIElements(savedIndex);
+            });
+          });
 
         } catch (err) {
           console.error('Error al entrar en pantalla completa:', err);
         }
+      };
+
+      // Función auxiliar para actualizar solo los elementos UI
+      const updateUIElements = (index) => {
+        // Actualizar botones de navegación
+        if (prevButton) prevButton.disabled = index === 0;
+        if (nextButton) nextButton.disabled = index === totalSlides - 1;
+
+        // Actualizar indicadores
+        indicators.forEach((indicator, i) => {
+          if (i === index) {
+            indicator.classList.add('bg-white', 'w-8');
+            indicator.classList.remove('bg-white/50', 'w-2');
+            indicator.setAttribute('aria-selected', 'true');
+          } else {
+            indicator.classList.remove('bg-white', 'w-8');
+            indicator.classList.add('bg-white/50', 'w-2');
+            indicator.setAttribute('aria-selected', 'false');
+          }
+        });
+
+        // Actualizar active-slide
+        slides.forEach((slide, i) => {
+          if (i === index) {
+            slide.classList.add('active-slide');
+          } else {
+            slide.classList.remove('active-slide');
+          }
+        });
       };
 
       const exitFullscreen = async () => {

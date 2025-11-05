@@ -18,6 +18,8 @@ const MediaModal = () => {
   const widgetRef = useRef(null);
   const fullscreenContainerRef = useRef(null);
   const exitFullscreenButtonRef = useRef(null);
+  const normalPlayerContainerRef = useRef(null);
+  const fullscreenPlayerContainerRef = useRef(null);
 
   // Escuchar evento para abrir el modal
   useEffect(() => {
@@ -121,6 +123,19 @@ const MediaModal = () => {
       container.style.width = '100%';
     }
   }, [isFullscreen, mediaType]);
+
+  // Mover el player entre contenedores cuando cambia fullscreen
+  useEffect(() => {
+    if (!playerRef.current) return;
+
+    if (isFullscreen && fullscreenPlayerContainerRef.current) {
+      // Mover el player al contenedor fullscreen
+      fullscreenPlayerContainerRef.current.appendChild(playerRef.current);
+    } else if (!isFullscreen && normalPlayerContainerRef.current) {
+      // Mover el player de vuelta al modal normal
+      normalPlayerContainerRef.current.appendChild(playerRef.current);
+    }
+  }, [isFullscreen]);
 
   // Cargar el player cuando se abre el modal
   useEffect(() => {
@@ -388,21 +403,63 @@ const MediaModal = () => {
   if (!isOpen) return null;
 
   return (
-    <div
-      ref={modalRef}
-      className="fixed inset-0 z-[10002] bg-black/90 flex items-center justify-center p-4"
-      onClick={handleClose}
-      role="dialog"
-      aria-modal="true"
-      aria-label={mediaType === 'audio' ? 'Reproductor de audio' : 'Reproductor de video'}
-      style={isFullscreen ? { display: 'none' } : {}}
-    >
+    <>
+      {/* Contenedor Fullscreen - Fuera del modal */}
       <div
-        className="modal-content bg-white dark:bg-slate-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-auto"
-        onClick={(e) => e.stopPropagation()}
+        ref={fullscreenContainerRef}
+        style={{
+          display: isFullscreen ? 'flex' : 'none',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: '#000',
+          zIndex: 10003,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
       >
-        {/* Header */}
-        {!isFullscreen && (
+        {/* Exit Fullscreen Button */}
+        <button
+          ref={exitFullscreenButtonRef}
+          onClick={exitVideoFullscreen}
+          className="fixed top-4 right-4 z-[10004] bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all duration-300"
+          aria-label="Salir de pantalla completa"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        {/* Contenedor del player para fullscreen */}
+        <div
+          ref={fullscreenPlayerContainerRef}
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        ></div>
+      </div>
+
+      {/* Modal Normal */}
+      <div
+        ref={modalRef}
+        className="fixed inset-0 z-[10002] bg-black/90 flex items-center justify-center p-4"
+        onClick={handleClose}
+        role="dialog"
+        aria-modal="true"
+        aria-label={mediaType === 'audio' ? 'Reproductor de audio' : 'Reproductor de video'}
+        style={{ display: isFullscreen ? 'none' : 'flex' }}
+      >
+        <div
+          className="modal-content bg-white dark:bg-slate-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
           <div className="flex justify-end p-4 border-b border-slate-200 dark:border-slate-700">
             <button
               ref={closeButtonRef}
@@ -415,159 +472,117 @@ const MediaModal = () => {
               </svg>
             </button>
           </div>
-        )}
 
-        {/* Player Container */}
-        <div className={isFullscreen ? '' : 'p-6'}>
-          {isLoading && !isFullscreen && (
-            <div className="flex items-center justify-center py-12">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-SM-blue border-t-transparent mb-4"></div>
-                <p className="text-slate-600 dark:text-slate-400">Cargando...</p>
-              </div>
-            </div>
-          )}
-
-          {error && !isFullscreen && (
-            <div className="text-center py-12">
-              <p className="text-red-500 mb-4">{error}</p>
-              <button
-                onClick={() => {
-                  setError(null);
-                  setIsLoading(true);
-                  if (mediaType === 'audio') loadSoundCloud();
-                  else if (mediaType === 'video') loadVimeo();
-                }}
-                className="px-4 py-2 bg-SM-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Reintentar
-              </button>
-            </div>
-          )}
-
-          {!error && (
-            <>
-              {/* Fullscreen Container - wraps player and controls */}
-              <div
-                ref={fullscreenContainerRef}
-                className={isFullscreen ? 'fullscreen-video-container' : ''}
-                style={isFullscreen ? {
-                  position: 'fixed',
-                  top: 0,
-                  left: 0,
-                  width: '100vw',
-                  height: '100vh',
-                  backgroundColor: '#000',
-                  zIndex: 10003,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                } : {}}
-              >
-                {/* Exit Fullscreen Button (only visible in fullscreen) */}
-                {isFullscreen && (
-                  <button
-                    ref={exitFullscreenButtonRef}
-                    onClick={exitVideoFullscreen}
-                    className="fixed top-4 right-4 z-[10004] bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all duration-300"
-                    aria-label="Salir de pantalla completa"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                )}
-
-                {/* Media Player Container */}
-                <div
-                  ref={playerRef}
-                  className={isFullscreen ? '' : 'mb-6'}
-                  style={isFullscreen ? {
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  } : {}}
-                ></div>
-              </div>
-
-              {/* Custom Controls - only visible when NOT in fullscreen */}
-              {!isLoading && !isFullscreen && (
-                <div className="space-y-4">
-                  {/* Progress Bar */}
-                  <div>
-                    <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-2">
-                      <span>{formatTime(currentTime)}</span>
-                      <span>{formatTime(duration)}</span>
-                    </div>
-                    <div
-                      className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full cursor-pointer"
-                      onClick={handleSeek}
-                    >
-                      <div
-                        className="h-full bg-SM-blue rounded-full transition-all"
-                        style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Controls */}
-                  <div className="flex items-center justify-between">
-                    {/* Play/Pause */}
-                    <button
-                      onClick={handlePlayPause}
-                      className="p-3 bg-SM-blue hover:bg-blue-700 text-white rounded-full transition-colors"
-                      aria-label={isPlaying ? "Pausar" : "Reproducir"}
-                    >
-                      {isPlaying ? (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
-                        </svg>
-                      ) : (
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                        </svg>
-                      )}
-                    </button>
-
-                    {/* Volume */}
-                    <div className="flex items-center space-x-2">
-                      <svg className="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                      </svg>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        value={volume}
-                        onChange={handleVolumeChange}
-                        className="w-24 h-1 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer"
-                        aria-label="Volumen"
-                      />
-                      <span className="text-sm text-slate-600 dark:text-slate-400 w-10">{volume}%</span>
-                    </div>
-
-                    {/* Fullscreen (solo para video) */}
-                    {mediaType === 'video' && (
-                      <button
-                        onClick={toggleFullscreen}
-                        className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                        aria-label="Pantalla completa"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
+          {/* Player Container */}
+          <div className="p-6">
+            {isLoading && (
+              <div className="flex items-center justify-center py-12">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-4 border-SM-blue border-t-transparent mb-4"></div>
+                  <p className="text-slate-600 dark:text-slate-400">Cargando...</p>
                 </div>
-              )}
-            </>
-          )}
+              </div>
+            )}
+
+            {error && (
+              <div className="text-center py-12">
+                <p className="text-red-500 mb-4">{error}</p>
+                <button
+                  onClick={() => {
+                    setError(null);
+                    setIsLoading(true);
+                    if (mediaType === 'audio') loadSoundCloud();
+                    else if (mediaType === 'video') loadVimeo();
+                  }}
+                  className="px-4 py-2 bg-SM-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Reintentar
+                </button>
+              </div>
+            )}
+
+            {!error && (
+              <>
+                {/* Contenedor del player para modo normal */}
+                <div ref={normalPlayerContainerRef} className="mb-6"></div>
+
+                {/* Custom Controls - only visible when NOT in fullscreen */}
+                {!isLoading && (
+                  <div className="space-y-4">
+                    {/* Progress Bar */}
+                    <div>
+                      <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-2">
+                        <span>{formatTime(currentTime)}</span>
+                        <span>{formatTime(duration)}</span>
+                      </div>
+                      <div
+                        className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full cursor-pointer"
+                        onClick={handleSeek}
+                      >
+                        <div
+                          className="h-full bg-SM-blue rounded-full transition-all"
+                          style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Controls */}
+                    <div className="flex items-center justify-between">
+                      {/* Play/Pause */}
+                      <button
+                        onClick={handlePlayPause}
+                        className="p-3 bg-SM-blue hover:bg-blue-700 text-white rounded-full transition-colors"
+                        aria-label={isPlaying ? "Pausar" : "Reproducir"}
+                      >
+                        {isPlaying ? (
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
+                          </svg>
+                        ) : (
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                          </svg>
+                        )}
+                      </button>
+
+                      {/* Volume */}
+                      <div className="flex items-center space-x-2">
+                        <svg className="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        </svg>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={volume}
+                          onChange={handleVolumeChange}
+                          className="w-24 h-1 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer"
+                          aria-label="Volumen"
+                        />
+                        <span className="text-sm text-slate-600 dark:text-slate-400 w-10">{volume}%</span>
+                      </div>
+
+                      {/* Fullscreen (solo para video) */}
+                      {mediaType === 'video' && (
+                        <button
+                          onClick={toggleFullscreen}
+                          className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          aria-label="Pantalla completa"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
