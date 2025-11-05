@@ -234,6 +234,250 @@ The site includes multiple accessibility formats for adventures:
 
 Each variant has its own JSON config and page.
 
+---
+
+## Accessibility Guidelines
+
+Santa Marta Full is committed to WCAG 2.1 Level AA compliance. Follow these guidelines when developing new features or modifying existing components.
+
+### Core Principles
+
+1. **Perceivable**: Information must be presentable to users in ways they can perceive
+2. **Operable**: UI components must be operable by all users
+3. **Understandable**: Information and UI operation must be understandable
+4. **Robust**: Content must be robust enough for assistive technologies
+
+### Key Components
+
+#### LiveRegion Component
+**Location**: `src/components/ui/LiveRegion.jsx`
+
+Use for announcing dynamic content changes to screen readers:
+
+```jsx
+import LiveRegion from '../ui/LiveRegion';
+
+// In your component
+const [liveMessage, setLiveMessage] = useState('');
+
+// Update message when content changes
+setLiveMessage('Image 3 of 5: Plaza Mayor');
+
+// Render
+<LiveRegion
+  message={liveMessage}
+  politeness="polite"  // or "assertive" for critical updates
+  atomic={true}
+/>
+```
+
+#### Translations for ARIA
+**Location**: `src/i18n/locales/es.json` and `en.json`
+
+All ARIA labels must be translated. Access via:
+
+```astro
+---
+import { getTranslations } from '../i18n/utils';
+const t = await getTranslations(lang);
+---
+
+<button aria-label={t.aria.video.play}>Play</button>
+```
+
+Available categories in `t.aria`:
+- `navigation` - Skip links, menu labels, current page
+- `map` - Map interactions, locations, directions
+- `video` - Player controls, states, progress
+- `gallery` - Image carousel, navigation, media buttons
+- `slider` - Carousel controls and announcements
+- `modal` - Dialog labels and states
+- `controls` - Accessibility controls (theme, font size, contrast)
+- `sections` - Page section labels
+- `contact` - Contact link labels
+- `download` - Download button labels
+- `breadcrumb` - Breadcrumb navigation
+- `status` - Dynamic status messages
+
+### Implementation Patterns
+
+#### Images
+
+**Decorative images** (icons, backgrounds):
+```astro
+<Image src={icon} alt="" role="presentation" />
+<!-- or for SVG -->
+<svg aria-hidden="true">...</svg>
+```
+
+**Functional images** (logos, buttons):
+```astro
+<!-- Image inside link - put label on link -->
+<a href="/" aria-label="Go to homepage">
+  <Image src={logo} alt="" role="presentation" />
+</a>
+
+<!-- Standalone informative image -->
+<Image src={photo} alt="Descriptive text of the image content" />
+```
+
+#### Buttons
+
+**Icon buttons**:
+```astro
+<button aria-label={t.aria.video.play}>
+  <svg aria-hidden="true">...</svg>
+</button>
+```
+
+**Toggle buttons**:
+```astro
+<button
+  aria-pressed={isActive}
+  aria-label={isActive ? t.aria.map.unlocked : t.aria.map.locked}
+>
+  Toggle Map
+</button>
+```
+
+**Buttons with emojis**:
+```astro
+<button aria-label={t.aria.controls.darkMode}>
+  <span aria-hidden="true">🌙</span>
+</button>
+```
+
+#### Links
+
+**External links**:
+```astro
+<a
+  href="https://external.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Visit external site (opens in new tab)"
+>
+  Link Text
+</a>
+```
+
+**Current page**:
+```astro
+<a
+  href="/page"
+  aria-current={currentPage === 'page' ? 'page' : undefined}
+>
+  Page Name
+</a>
+```
+
+#### Interactive Maps
+
+Maps use `MapComponent.jsx` with built-in accessibility:
+
+```astro
+<MapComponent
+  center={[lat, lng]}
+  zoom={15}
+  locations={[
+    {
+      coordinates: [lat, lng],
+      name: "Location Name",
+      description: "Brief description"
+    }
+  ]}
+  language={lang}
+  client:load
+/>
+```
+
+Features:
+- Scroll lock/unlock with `aria-pressed` state
+- Accessible markers with descriptions
+- LiveRegion announcements for state changes
+- Screen reader accessible location list
+
+#### Video Players
+
+Videos use `VimeoHeroPlayer.jsx` with full keyboard and screen reader support:
+
+```astro
+<VimeoHeroPlayer
+  vimeoId="video-id"
+  language={lang}
+  client:load
+/>
+```
+
+Features:
+- All controls have descriptive `aria-label`
+- Progress bar uses `role="slider"` with keyboard navigation
+- State changes announced via LiveRegion
+- Fullscreen mode accessible
+
+#### Image Galleries
+
+Galleries use `ImageGallery.astro` with comprehensive accessibility:
+
+```astro
+<ImageGallery
+  images={[
+    {
+      src: "path/to/image.jpg",
+      alt: "Detailed description",
+      mediaButton: {
+        type: "audio",
+        url: "path/to/audio.mp3",
+        label: "Listen to audio description"
+      }
+    }
+  ]}
+  orientation="landscape"
+  buttonsPosition="top-right"
+  language={lang}
+/>
+```
+
+Features:
+- Slide changes announced via LiveRegion
+- Navigation buttons with clear labels
+- Indicators describe which image they navigate to
+- Media buttons contextualized with image description
+- Full keyboard navigation
+
+### Testing Checklist
+
+Before committing accessibility changes:
+
+- [ ] All images have appropriate `alt` text or `alt=""` + `role="presentation"`
+- [ ] All buttons have `aria-label` if text content isn't sufficient
+- [ ] All interactive SVGs/icons have `aria-hidden="true"`
+- [ ] External links indicate they open in new tab
+- [ ] Toggle buttons have `aria-pressed` or `aria-expanded`
+- [ ] Dynamic content changes use LiveRegion or `role="status"`
+- [ ] Keyboard navigation works completely (test with Tab)
+- [ ] Focus is always visible
+- [ ] All ARIA labels are translated (check both `/` and `/en`)
+- [ ] Test with screen reader (NVDA, VoiceOver, or TalkBack)
+- [ ] Run Lighthouse accessibility audit (target: ≥95)
+
+### Documentation
+
+Refer to these files for detailed information:
+
+- **ACCESSIBILITY_CHANGELOG.md** - Complete log of all accessibility improvements
+- **ACCESSIBILITY_TESTING.md** - Comprehensive testing guide with screen readers
+- **src/i18n/locales/es.json** - Spanish ARIA labels
+- **src/i18n/locales/en.json** - English ARIA labels
+
+### Resources
+
+- **WCAG 2.1 Quick Reference**: https://www.w3.org/WAI/WCAG21/quickref/
+- **ARIA Authoring Practices**: https://www.w3.org/WAI/ARIA/apg/
+- **WebAIM**: https://webaim.org/
+
+---
+
 ## Git Workflow
 
 **Current branch**: master

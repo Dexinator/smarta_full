@@ -15,11 +15,44 @@ interface Props {
   }>;
   orientation: 'landscape' | 'portrait';
   buttonsPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  language?: 'es' | 'en';
 }
 
-const { images, orientation, buttonsPosition = 'top-right' } = Astro.props;
+const { images, orientation, buttonsPosition = 'top-right', language = 'es' } = Astro.props;
 
 const isLandscape = orientation === 'landscape';
+
+// Textos de accesibilidad bilingües
+const ariaTexts = {
+  es: {
+    galleryLabel: 'Galería de imágenes de la aventura. Desliza para navegar.',
+    imageLabel: (current: number, total: number) => `Imagen ${current} de ${total}`,
+    previousImage: 'Imagen anterior',
+    nextImage: 'Imagen siguiente',
+    goToImage: (index: number, alt: string) => `Ir a imagen ${index}: ${alt}`,
+    playAudio: (alt: string) => `Escuchar audio sobre: ${alt}`,
+    playVideo: (alt: string) => `Ver video sobre: ${alt}`,
+    fullscreen: 'Ver galería en pantalla completa',
+    exitFullscreen: 'Salir de pantalla completa',
+    indicatorsLabel: 'Navegación de galería',
+    currentImage: (current: number, total: number, alt: string) => `Imagen ${current} de ${total}: ${alt}`
+  },
+  en: {
+    galleryLabel: 'Adventure image gallery. Swipe to navigate.',
+    imageLabel: (current: number, total: number) => `Image ${current} of ${total}`,
+    previousImage: 'Previous image',
+    nextImage: 'Next image',
+    goToImage: (index: number, alt: string) => `Go to image ${index}: ${alt}`,
+    playAudio: (alt: string) => `Play audio about: ${alt}`,
+    playVideo: (alt: string) => `Play video about: ${alt}`,
+    fullscreen: 'View gallery in fullscreen',
+    exitFullscreen: 'Exit fullscreen',
+    indicatorsLabel: 'Gallery navigation',
+    currentImage: (current: number, total: number, alt: string) => `Image ${current} of ${total}: ${alt}`
+  }
+};
+
+const t = ariaTexts[language];
 
 // Determinar las clases de posición para los botones
 const positionClasses = {
@@ -120,9 +153,9 @@ const validImages = optimizedImages.filter(img => img !== null);
     <!-- Botón de salir de pantalla completa (oculto por defecto) -->
     <button
       class="exit-fullscreen-button hidden fixed top-4 right-4 z-[10001] bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all duration-300"
-      aria-label="Salir de pantalla completa"
+      aria-label={t.exitFullscreen}
     >
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M6 18L18 6M6 6l12 12"/>
       </svg>
@@ -135,7 +168,7 @@ const validImages = optimizedImages.filter(img => img !== null);
         class="gallery-carousel relative overflow-hidden"
         role="region"
         aria-roledescription="carousel"
-        aria-label="Galería de imágenes de la aventura. Desliza para navegar."
+        aria-label={t.galleryLabel}
       >
         <!-- Track de imágenes -->
         <div class="gallery-track flex transition-transform duration-300 ease-in-out">
@@ -145,7 +178,7 @@ const validImages = optimizedImages.filter(img => img !== null);
               data-slide-index={index}
               role="group"
               aria-roledescription="slide"
-              aria-label={`Imagen ${index + 1} de ${validImages.length}`}
+              aria-label={t.imageLabel(index + 1, validImages.length)}
             >
               <!-- Contenedor de imagen con aspect ratio -->
               <div class={`relative ${isLandscape ? 'aspect-video' : 'aspect-[9/16]'} bg-black`}>
@@ -179,7 +212,7 @@ const validImages = optimizedImages.filter(img => img !== null);
                       data-media-type={image.mediaButton.type}
                       data-media-url={image.mediaButton.url}
                       data-slide-index={index}
-                      aria-label={image.mediaButton.label || 'Abrir reproductor multimedia'}
+                      aria-label={image.mediaButton.type === 'audio' ? t.playAudio(image.alt) : t.playVideo(image.alt)}
                       style={image.buttonText ? 'border-radius: 9999px; padding: 0.75rem 1.25rem 0.75rem 1rem;' : 'border-radius: 9999px; padding: 1rem;'}
                     >
                       {image.buttonText && (
@@ -189,12 +222,12 @@ const validImages = optimizedImages.filter(img => img !== null);
                       )}
                       <div class="flex-shrink-0">
                         {image.mediaButton.type === 'audio' ? (
-                          <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="#FBBF24" viewBox="0 0 24 24">
+                          <svg aria-hidden="true" class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="#FBBF24" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
                           </svg>
                         ) : (
-                          <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="#FBBF24" viewBox="0 0 24 24">
+                          <svg aria-hidden="true" class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="#FBBF24" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                           </svg>
@@ -212,20 +245,20 @@ const validImages = optimizedImages.filter(img => img !== null);
       <!-- Controles de navegación fuera del carousel para que se mantengan fijos -->
       <button
         class="gallery-prev absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-30 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
-        aria-label="Imagen anterior"
+        aria-label={t.previousImage}
         disabled
       >
-        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg aria-hidden="true" class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
       </button>
 
       <button
         class="gallery-next absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-30 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
-        aria-label="Imagen siguiente"
+        aria-label={t.nextImage}
         disabled={validImages.length <= 1}
       >
-        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg aria-hidden="true" class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
         </svg>
       </button>
@@ -236,9 +269,9 @@ const validImages = optimizedImages.filter(img => img !== null);
       <div
         class="gallery-indicators absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10"
         role="tablist"
-        aria-label="Navegación de galería"
+        aria-label={t.indicatorsLabel}
       >
-        {validImages.map((_, index) => (
+        {validImages.map((image, index) => (
           <button
             class={`indicator w-2 h-2 rounded-full transition-all duration-300 ${
               index === 0 ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/70'
@@ -246,7 +279,7 @@ const validImages = optimizedImages.filter(img => img !== null);
             data-slide-target={index}
             role="tab"
             aria-selected={index === 0}
-            aria-label={`Imagen ${index + 1}`}
+            aria-label={t.goToImage(index + 1, image.alt)}
           />
         ))}
       </div>
@@ -257,15 +290,18 @@ const validImages = optimizedImages.filter(img => img !== null);
   <div class="fullscreen-button-container mt-4 flex justify-center">
     <button
       class="fullscreen-button bg-SM-blue hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-SM-blue focus:ring-offset-2 flex items-center gap-2 shadow-lg"
-      aria-label="Ver galería en pantalla completa"
+      aria-label={t.fullscreen}
     >
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
       </svg>
-      <span>Ver en pantalla completa</span>
+      <span>{t.fullscreen}</span>
     </button>
   </div>
+
+  <!-- Live Region para anunciar cambios de slide -->
+  <div role="status" aria-live="polite" aria-atomic="true" class="sr-only gallery-live-region"></div>
 </div>
 
 <!-- Modal para Media -->
@@ -1035,6 +1071,20 @@ const validImages = optimizedImages.filter(img => img !== null);
             slide.classList.remove('active-slide');
           }
         });
+
+        // Anunciar cambio de slide para lectores de pantalla
+        const liveRegion = wrapper.querySelector('.gallery-live-region');
+        if (liveRegion && slides[index]) {
+          const slideLabel = slides[index].getAttribute('aria-label');
+          const img = slides[index].querySelector('img');
+          const imgAlt = img ? img.alt : '';
+          // Usar el idioma del documento para el anuncio
+          const lang = document.documentElement.lang || 'es';
+          const message = lang === 'en'
+            ? `Image ${index + 1} of ${totalSlides}: ${imgAlt}`
+            : `Imagen ${index + 1} de ${totalSlides}: ${imgAlt}`;
+          liveRegion.textContent = message;
+        }
       };
 
       const exitFullscreen = async () => {

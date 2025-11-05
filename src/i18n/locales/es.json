@@ -97,5 +97,103 @@
       }
     ],
     "hint": "Toca o haz clic en una tarjeta para comenzar tu aventura"
+  },
+  "aria": {
+    "skipToContent": "Saltar al contenido principal",
+    "navigation": {
+      "main": "Navegación principal",
+      "goToHome": "Ir a la página principal de Santa Marta de Tormes",
+      "toggleMenu": "Abrir o cerrar menú",
+      "currentPage": "Página actual",
+      "externalLink": "se abre en nueva pestaña"
+    },
+    "map": {
+      "title": "Mapa interactivo de ubicaciones",
+      "locked": "Mapa bloqueado. Haz clic para activar zoom con scroll",
+      "unlocked": "Mapa desbloqueado. Haz clic para bloquear zoom con scroll",
+      "location": "Ubicación: {{name}}. {{description}}. Coordenadas: {{coordinates}}",
+      "howToGet": "Cómo llegar a {{name}}",
+      "listTitle": "Lista de ubicaciones en el mapa",
+      "interactiveMap": "Mapa interactivo mostrando {{count}} ubicaciones"
+    },
+    "video": {
+      "play": "Reproducir video",
+      "pause": "Pausar video",
+      "mute": "Silenciar video",
+      "unmute": "Activar sonido del video",
+      "fullscreen": "Ver en pantalla completa",
+      "exitFullscreen": "Salir de pantalla completa",
+      "loading": "Cargando video...",
+      "error": "Error al cargar el video",
+      "ended": "El video ha terminado",
+      "progress": "Barra de progreso del video",
+      "currentTime": "{{current}} de {{duration}}",
+      "volume": "Control de volumen",
+      "volumeLevel": "Volumen al {{level}} por ciento"
+    },
+    "gallery": {
+      "title": "Galería de imágenes",
+      "description": "Galería de {{count}} imágenes",
+      "currentImage": "Imagen {{current}} de {{total}}: {{description}}",
+      "previousImage": "Imagen anterior",
+      "nextImage": "Imagen siguiente",
+      "goToImage": "Ir a imagen {{index}}: {{description}}",
+      "playAudio": "Escuchar audio sobre: {{description}}",
+      "playVideo": "Ver video sobre: {{description}}",
+      "fullscreen": "Ver galería en pantalla completa",
+      "exitFullscreen": "Salir de pantalla completa de la galería"
+    },
+    "slider": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "goTo": "Ir a diapositiva {{index}}",
+      "currentSlide": "Diapositiva {{current}} de {{total}}",
+      "partner": "Colaborador: {{name}}"
+    },
+    "modal": {
+      "close": "Cerrar ventana",
+      "audioPlayer": "Reproductor de audio",
+      "videoPlayer": "Reproductor de video",
+      "loading": "Cargando contenido multimedia..."
+    },
+    "controls": {
+      "darkMode": "Activar modo oscuro",
+      "lightMode": "Activar modo claro",
+      "highContrast": "Activar alto contraste",
+      "normalContrast": "Desactivar alto contraste",
+      "increaseFontSize": "Aumentar tamaño de fuente",
+      "decreaseFontSize": "Disminuir tamaño de fuente"
+    },
+    "sections": {
+      "hero": "Sección principal de bienvenida",
+      "touristInfo": "Información turística",
+      "audioGuides": "Audioguías interactivas",
+      "adventures": "Aventuras gamificadas",
+      "partners": "Colaboradores",
+      "footer": "Pie de página con información de contacto"
+    },
+    "contact": {
+      "phone": "Llamar al teléfono {{number}}",
+      "email": "Enviar correo electrónico a {{address}}",
+      "address": "Ver ubicación en el mapa"
+    },
+    "download": {
+      "pdf": "Descargar folleto en formato PDF",
+      "viewPdf": "{{text}} (se abre en nueva pestaña)"
+    },
+    "breadcrumb": {
+      "navigation": "Ruta de navegación",
+      "home": "Inicio",
+      "adventures": "Aventuras",
+      "current": "Página actual"
+    },
+    "category": {
+      "explore": "Explorar {{title}}: {{description}}"
+    },
+    "status": {
+      "expanded": "Contenido expandido",
+      "collapsed": "Contenido colapsado",
+      "showing": "Mostrando {{current}} de {{total}}"
+    }
   }
 }

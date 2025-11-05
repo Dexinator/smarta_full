@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
+import LiveRegion from '../ui/LiveRegion';
 
 const VimeoHeroPlayer = ({
   vimeoId,
-  className = ''
+  className = '',
+  language = 'es'
 }) => {
   const [player, setPlayer] = useState(null);
   const [duration, setDuration] = useState(0);
@@ -16,9 +18,46 @@ const VimeoHeroPlayer = ({
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [vimeoSDKReady, setVimeoSDKReady] = useState(false);
+  const [liveMessage, setLiveMessage] = useState('');
 
   const containerRef = useRef(null);
   const playerRef = useRef(null);
+
+  // Textos de accesibilidad bilingües
+  const ariaTexts = {
+    es: {
+      play: 'Reproducir video',
+      pause: 'Pausar video',
+      mute: 'Silenciar video',
+      unmute: 'Activar sonido del video',
+      fullscreen: 'Ver en pantalla completa',
+      exitFullscreen: 'Salir de pantalla completa',
+      loading: 'Cargando video...',
+      error: 'Error al cargar el video',
+      ended: 'El video ha terminado',
+      progress: 'Barra de progreso del video',
+      currentTime: (current, total) => `${current} de ${total}`,
+      volume: 'Control de volumen',
+      volumeLevel: (level) => `Volumen al ${level} por ciento`
+    },
+    en: {
+      play: 'Play video',
+      pause: 'Pause video',
+      mute: 'Mute video',
+      unmute: 'Unmute video',
+      fullscreen: 'View fullscreen',
+      exitFullscreen: 'Exit fullscreen',
+      loading: 'Loading video...',
+      error: 'Error loading video',
+      ended: 'Video has ended',
+      progress: 'Video progress bar',
+      currentTime: (current, total) => `${current} of ${total}`,
+      volume: 'Volume control',
+      volumeLevel: (level) => `Volume at ${level} percent`
+    }
+  };
+
+  const t = ariaTexts[language] || ariaTexts.es;
 
   // Detectar cambios en pantalla completa y dispositivo móvil
   useEffect(() => {
@@ -203,15 +242,18 @@ const VimeoHeroPlayer = ({
 
       newPlayer.on('play', () => {
         setIsPlaying(true);
+        setLiveMessage(t.play);
       });
 
       newPlayer.on('pause', () => {
         setIsPlaying(false);
+        setLiveMessage(t.pause);
       });
 
       newPlayer.on('ended', () => {
         // Con loop=true no debería llegar aquí
         setIsPlaying(false);
+        setLiveMessage(t.ended);
       });
 
       newPlayer.on('timeupdate', (data) => {
@@ -311,18 +353,19 @@ const VimeoHeroPlayer = ({
 
   if (error) {
     return (
-      <div className={`w-full h-full flex items-center justify-center bg-slate-900 ${className}`}>
+      <div className={`w-full h-full flex items-center justify-center bg-slate-900 ${className}`} role="alert" aria-live="assertive">
         <div className="text-center p-6">
-          <p className="text-white mb-4">Error al cargar el video</p>
+          <p className="text-white mb-4">{t.error}</p>
           {vimeoId && (
             <a
               href={`https://vimeo.com/${getVimeoVideoId(vimeoId)?.split('?')[0]}`}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${language === 'es' ? 'Ver en Vimeo (se abre en nueva pestaña)' : 'View on Vimeo (opens in new tab)'}`}
               className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
-              <span>Ver en Vimeo</span>
-              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span>{language === 'es' ? 'Ver en Vimeo' : 'View on Vimeo'}</span>
+              <svg aria-hidden="true" className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
             </a>
@@ -342,27 +385,27 @@ const VimeoHeroPlayer = ({
       {/* Video container */}
       <div className={`relative ${isFullscreen ? 'w-full h-full' : 'w-full h-full'}`}>
         {isLoading && (
-          <div className="absolute inset-0 flex items-end justify-center pb-20 bg-slate-900 z-20">
+          <div className="absolute inset-0 flex items-end justify-center pb-20 bg-slate-900 z-20" role="status" aria-live="polite">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-4 border-SM-blue border-t-transparent mb-4 mx-auto"></div>
-              <p className="text-white">Cargando video...</p>
+              <div aria-hidden="true" className="animate-spin rounded-full h-12 w-12 border-4 border-SM-blue border-t-transparent mb-4 mx-auto"></div>
+              <p className="text-white">{t.loading}</p>
             </div>
           </div>
         )}
 
-        <div ref={playerRef} className="vimeo-hero-container absolute inset-0 w-full h-full" />
+        <div ref={playerRef} className="vimeo-hero-container absolute inset-0 w-full h-full" aria-label={language === 'es' ? 'Reproductor de video' : 'Video player'} />
 
         {/* Controles flotantes arriba a la derecha (solo cuando NO está en fullscreen) */}
         {!isFullscreen && isReady && (
           <div className="absolute top-[100px] sm:top-[112px] md:top-4 z-[45]" style={{ right: isMobile ? '16px' : 'max(16px, calc(50% - min(100vh * 9 / 32, 50vw) + 16px))' }}>
-            <div className="flex items-center gap-3 bg-transparent rounded-full px-4 py-3">
+            <div className="flex items-center gap-3 bg-transparent rounded-full px-4 py-3" role="group" aria-label={language === 'es' ? 'Controles de video' : 'Video controls'}>
               {/* Play/Pause */}
               <button
                 onClick={handlePlayPause}
                 className="p-2 text-white dark:text-black hover:text-SM-yellow transition-colors flex-shrink-0"
-                aria-label={isPlaying ? "Pausar" : "Reproducir"}
+                aria-label={isPlaying ? t.pause : t.play}
               >
-                <svg className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {isPlaying ? (
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6"/>
                   ) : (
@@ -375,15 +418,16 @@ const VimeoHeroPlayer = ({
               <button
                 onClick={() => setIsMuted(!isMuted)}
                 className={`p-2 text-white dark:text-black hover:text-SM-yellow transition-colors flex-shrink-0 relative ${isMuted ? 'animate-pulse' : ''}`}
-                aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+                aria-label={isMuted ? t.unmute : t.mute}
+                aria-pressed={!isMuted}
               >
                 {isMuted && (
-                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span aria-hidden="true" className="absolute -top-1 -right-1 flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-SM-yellow opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-SM-yellow"></span>
                   </span>
                 )}
-                <svg className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {isMuted ? (
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd"/>
                   ) : (
@@ -396,9 +440,9 @@ const VimeoHeroPlayer = ({
               <button
                 onClick={toggleFullscreen}
                 className="p-2 text-white dark:text-black hover:text-SM-yellow transition-colors flex-shrink-0"
-                aria-label="Pantalla completa"
+                aria-label={t.fullscreen}
               >
-                <svg className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
                 </svg>
               </button>
@@ -413,9 +457,9 @@ const VimeoHeroPlayer = ({
             <button
               onClick={toggleFullscreen}
               className="absolute top-4 right-4 z-40 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-2xl transition-all"
-              aria-label="Salir de pantalla completa"
+              aria-label={t.exitFullscreen}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg aria-hidden="true" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </button>
@@ -423,8 +467,24 @@ const VimeoHeroPlayer = ({
             {/* Controles en pantalla completa */}
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6 z-30">
               <div
+                role="slider"
+                aria-label={t.progress}
+                aria-valuemin={0}
+                aria-valuemax={duration}
+                aria-valuenow={currentTime}
+                aria-valuetext={t.currentTime(formatTime(currentTime), formatTime(duration))}
+                tabIndex={0}
                 className="h-2 bg-white/30 rounded-full cursor-pointer mb-4 relative"
                 onClick={handleSeek}
+                onKeyDown={(e) => {
+                  if (e.key === 'ArrowLeft') {
+                    const newTime = Math.max(0, currentTime - 5);
+                    player?.setCurrentTime(newTime);
+                  } else if (e.key === 'ArrowRight') {
+                    const newTime = Math.min(duration, currentTime + 5);
+                    player?.setCurrentTime(newTime);
+                  }
+                }}
               >
                 <div
                   className="h-full bg-SM-blue rounded-full transition-all duration-100"
@@ -432,13 +492,13 @@ const VimeoHeroPlayer = ({
                 />
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between" role="group" aria-label={language === 'es' ? 'Controles de video en pantalla completa' : 'Fullscreen video controls'}>
                 <button
                   onClick={handlePlayPause}
                   className="p-3 text-white hover:text-SM-yellow transition-colors"
-                  aria-label={isPlaying ? "Pausar" : "Reproducir"}
+                  aria-label={isPlaying ? t.pause : t.play}
                 >
-                  <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {isPlaying ? (
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6"/>
                     ) : (
@@ -447,16 +507,17 @@ const VimeoHeroPlayer = ({
                   </svg>
                 </button>
 
-                <span className="text-white text-lg">
+                <span className="text-white text-lg" aria-live="off">
                   {formatTime(currentTime)} / {formatTime(duration)}
                 </span>
 
                 <button
                   onClick={() => setIsMuted(!isMuted)}
                   className="p-3 text-white hover:text-SM-yellow transition-colors"
-                  aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+                  aria-label={isMuted ? t.unmute : t.mute}
+                  aria-pressed={!isMuted}
                 >
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {isMuted ? (
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd"/>
                     ) : (
@@ -469,6 +530,12 @@ const VimeoHeroPlayer = ({
           </>
         )}
       </div>
+
+      <LiveRegion
+        message={liveMessage}
+        politeness="polite"
+        atomic={true}
+      />
 
       {/* Estilos CSS */}
       <style dangerouslySetInnerHTML={{ __html: `

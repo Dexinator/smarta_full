@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import LiveRegion from '../ui/LiveRegion';
 
 const MapComponent = ({
   center = [40.9505, -5.6300],
@@ -15,6 +16,7 @@ const MapComponent = ({
   const [error, setError] = useState(null);
   const [scrollZoomEnabled, setScrollZoomEnabled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [liveMessage, setLiveMessage] = useState('');
 
   const content = {
     es: {
@@ -58,12 +60,15 @@ const MapComponent = ({
     console.log('toggleScrollZoom llamado', { scrollZoomEnabled, hasMap: !!mapInstanceRef.current });
 
     if (mapInstanceRef.current) {
+      const newState = !scrollZoomEnabled;
+
       if (scrollZoomEnabled) {
         // Deshabilitar scroll zoom y paneo/arrastre
         mapInstanceRef.current.scrollWheelZoom.disable();
         mapInstanceRef.current.dragging.disable();
         mapInstanceRef.current.touchZoom.disable();
         console.log('Mapa BLOQUEADO');
+        setLiveMessage(t.mapLockedTitle);
       } else {
         // Habilitar scroll zoom y paneo/arrastre
         mapInstanceRef.current.scrollWheelZoom.enable();
@@ -73,8 +78,9 @@ const MapComponent = ({
         console.log('dragging enabled:', mapInstanceRef.current.dragging.enabled());
         console.log('touchZoom enabled:', mapInstanceRef.current.touchZoom.enabled());
         console.log('scrollWheelZoom enabled:', mapInstanceRef.current.scrollWheelZoom.enabled());
+        setLiveMessage(t.mapUnlockedTitle);
       }
-      setScrollZoomEnabled(!scrollZoomEnabled);
+      setScrollZoomEnabled(newState);
     } else {
       console.error('mapInstanceRef.current es null!');
     }
@@ -112,7 +118,7 @@ const MapComponent = ({
             className: 'map-tiles-muted'
           }).addTo(map);
 
-          const createCustomIcon = (isMain = false) => {
+          const createCustomIcon = (isMain = false, locationName = '') => {
             return L.divIcon({
               className: 'custom-marker',
               html: `
@@ -120,7 +126,7 @@ const MapComponent = ({
                   isMain
                     ? 'bg-SM-yellow animate-pulse shadow-yellow-400/50'
                     : 'bg-SM-blue hover:bg-blue-700 shadow-blue-500/50'
-                } transition-all duration-300 transform hover:scale-110">
+                } transition-all duration-300 transform hover:scale-110" role="button" tabindex="0" aria-label="${locationName}">
                   <span aria-hidden="true">📍</span>
                 </div>
               `,
@@ -131,12 +137,16 @@ const MapComponent = ({
           };
 
           locations.forEach((location, index) => {
+            const locationLabel = location.name || `${t.title} ${index + 1}`;
+
             const marker = L.marker(location.coordinates, {
-              icon: createCustomIcon(index === 0),
-              alt: location.name
+              icon: createCustomIcon(index === 0, locationLabel),
+              alt: locationLabel,
+              title: locationLabel
             }).addTo(map);
 
             if (location.name || location.description) {
+              const directionsLabel = `${t.getDirections}${language === 'es' ? ' a ' : ' to '}${location.name}`;
               const popupContent = `
                 <div class="p-3 min-w-48">
                   ${location.name ? `<h3 class="font-semibold text-SM-blue mb-1">${location.name}</h3>` : ''}
@@ -145,9 +155,11 @@ const MapComponent = ({
                     <a
                       href="https://maps.google.com/maps?daddr=${location.coordinates[0]},${location.coordinates[1]}"
                       target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="${directionsLabel}"
                       class="bg-SM-yellow text-SM-black px-3 py-1 rounded text-xs text-center hover:bg-yellow-500 transition-colors block"
                     >
-                      📍 ${t.getDirections}
+                      <span aria-hidden="true">📍</span> ${t.getDirections}
                     </a>
                   ` : ''}
                 </div>
@@ -257,15 +269,17 @@ const MapComponent = ({
             </h3>
             <button
               onClick={toggleScrollZoom}
+              aria-pressed={scrollZoomEnabled}
+              aria-label={scrollZoomEnabled ? t.mapUnlockedTitle : t.mapLockedTitle}
               className={`px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
                 scrollZoomEnabled
                   ? 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
                   : 'bg-SM-blue text-white hover:bg-blue-700 active:bg-blue-800'
               }`}
-              title={scrollZoomEnabled ? t.mapUnlockedTitle : t.mapLockedTitle}
             >
-              <span className="hidden sm:inline">{scrollZoomEnabled ? t.lockMap : t.unlockMap}</span>
-              <span className="sm:hidden">{scrollZoomEnabled ? '🔒' : '🔓'}</span>
+              <span className="hidden sm:inline">{scrollZoomEnabled ? t.lockMap.replace('🔒 ', '') : t.unlockMap.replace('🔓 ', '')}</span>
+              <span aria-hidden="true" className="hidden sm:inline ml-1">{scrollZoomEnabled ? '🔒' : '🔓'}</span>
+              <span aria-hidden="true" className="sm:hidden">{scrollZoomEnabled ? '🔒' : '🔓'}</span>
             </button>
           </div>
         </div>
@@ -273,9 +287,9 @@ const MapComponent = ({
 
       <div className="relative">
         {isLoading && (
-          <div className="absolute inset-0 bg-slate-100 dark:bg-slate-700 flex items-center justify-center z-10">
+          <div className="absolute inset-0 bg-slate-100 dark:bg-slate-700 flex items-center justify-center z-10" role="status" aria-live="polite">
             <div className="text-center">
-              <div className="animate-spin w-8 h-8 border-4 border-SM-blue border-t-transparent rounded-full mx-auto mb-2"></div>
+              <div className="animate-spin w-8 h-8 border-4 border-SM-blue border-t-transparent rounded-full mx-auto mb-2" aria-hidden="true"></div>
               <p className="text-sm text-slate-600 dark:text-slate-400">{t.loading}</p>
             </div>
           </div>
@@ -289,12 +303,13 @@ const MapComponent = ({
             zIndex: 1
           }}
           role="application"
-          aria-label={`${t.title} - ${t.scrollLockMessage}`}
+          aria-label={`${t.title}. ${locations.length} ${language === 'es' ? 'ubicaciones' : 'locations'}. ${scrollZoomEnabled ? t.mapUnlockedTitle : t.mapLockedTitle}`}
         />
         {!scrollZoomEnabled && !isLoading && showControls && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
             <button
               onClick={toggleScrollZoom}
+              aria-label={t.mapLockedTitle}
               className="pointer-events-auto bg-white dark:bg-slate-800 border-2 border-SM-blue px-4 sm:px-6 py-2 sm:py-3 rounded-lg shadow-xl hover:shadow-2xl transform active:scale-95 sm:hover:scale-105 transition-all"
             >
               <span className="text-xl sm:text-2xl mr-1 sm:mr-2" aria-hidden="true">🔓</span>
@@ -313,6 +328,12 @@ const MapComponent = ({
           </p>
         </div>
       )}
+
+      <LiveRegion
+        message={liveMessage}
+        politeness="polite"
+        atomic={true}
+      />
     </div>
   );
 };

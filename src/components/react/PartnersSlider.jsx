@@ -1,21 +1,60 @@
 import React, { useState, useEffect } from 'react';
+import LiveRegion from '../ui/LiveRegion';
 
-const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false }) => {
+const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false, language = 'es' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [liveMessage, setLiveMessage] = useState('');
+
+  // Textos bilingües de accesibilidad
+  const ariaTexts = {
+    es: {
+      partnersGrid: 'Colaboradores y patrocinadores',
+      partnersSlider: 'Carrusel de colaboradores',
+      previous: 'Colaborador anterior',
+      next: 'Siguiente colaborador',
+      pause: 'Pausar rotación automática',
+      play: 'Reanudar rotación automática',
+      goToPartner: (index, name) => `Ir a ${name || `colaborador ${index + 1}`}`,
+      currentPartner: (index, total, name) => `${name || `Colaborador ${index + 1}`} de ${total}`,
+      slide: (index, total) => `Diapositiva ${index} de ${total}`
+    },
+    en: {
+      partnersGrid: 'Partners and sponsors',
+      partnersSlider: 'Partners carousel',
+      previous: 'Previous partner',
+      next: 'Next partner',
+      pause: 'Pause automatic rotation',
+      play: 'Resume automatic rotation',
+      goToPartner: (index, name) => `Go to ${name || `partner ${index + 1}`}`,
+      currentPartner: (index, total, name) => `${name || `Partner ${index + 1}`} of ${total}`,
+      slide: (index, total) => `Slide ${index} of ${total}`
+    }
+  };
+
+  const t = ariaTexts[language] || ariaTexts.es;
 
   // Auto-play functionality for slider mode
   useEffect(() => {
     if (gridLayout || !isPlaying || partners.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
+      setCurrentIndex((prevIndex) =>
         prevIndex === partners.length - 1 ? 0 : prevIndex + 1
       );
     }, autoPlayInterval);
 
     return () => clearInterval(interval);
   }, [currentIndex, isPlaying, partners.length, autoPlayInterval, gridLayout]);
+
+  // Announce slide changes
+  useEffect(() => {
+    if (gridLayout || partners.length === 0) return;
+
+    const partner = partners[currentIndex];
+    const partnerName = partner?.name || partner?.alt;
+    setLiveMessage(t.currentPartner(currentIndex + 1, partners.length, partnerName));
+  }, [currentIndex, partners, gridLayout, t]);
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
@@ -40,12 +79,12 @@ const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false 
   // Grid layout for two rows
   if (gridLayout) {
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto" role="group" aria-label={t.partnersGrid}>
         <div className="space-y-6">
           {partners.map((row, rowIndex) => (
             <div key={rowIndex} className="flex justify-center items-center gap-4 md:gap-8">
               {row.map((partner, index) => (
-                <div 
+                <div
                   key={index}
                   className="flex flex-col items-center"
                 >
@@ -70,16 +109,24 @@ const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false 
   return (
     <div className="relative w-full max-w-md mx-auto">
       {/* Main slider container */}
-      <div className="relative h-20 md:h-24 overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800">
+      <div
+        className="relative h-20 md:h-24 overflow-hidden rounded-lg bg-slate-50 dark:bg-slate-800"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={t.partnersSlider}
+      >
         {/* Slides */}
-        <div 
+        <div
           className="flex transition-transform duration-500 ease-in-out h-full"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {partners.map((partner, index) => (
-            <div 
+            <div
               key={index}
               className="w-full flex-shrink-0 flex items-center justify-center p-4"
+              role="group"
+              aria-roledescription="slide"
+              aria-label={t.slide(index + 1, partners.length)}
             >
               <img
                 src={partner.src}
@@ -95,9 +142,9 @@ const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false 
         <button
           onClick={goToPrevious}
           className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-SM-blue"
-          aria-label="Colaborador anterior"
+          aria-label={t.previous}
         >
-          <svg className="w-4 h-4 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
@@ -105,9 +152,9 @@ const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false 
         <button
           onClick={goToNext}
           className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-SM-blue"
-          aria-label="Siguiente colaborador"
+          aria-label={t.next}
         >
-          <svg className="w-4 h-4 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -116,14 +163,15 @@ const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false 
         <button
           onClick={togglePlayPause}
           className="absolute top-2 right-2 bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 rounded-full p-1.5 shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-SM-blue"
-          aria-label={isPlaying ? "Pausar rotación automática" : "Reanudar rotación automática"}
+          aria-label={isPlaying ? t.pause : t.play}
+          aria-pressed={!isPlaying}
         >
           {isPlaying ? (
-            <svg className="w-3 h-3 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
             </svg>
           ) : (
-            <svg className="w-3 h-3 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m-9 4h10a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v12a1 1 0 001 1z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5l4 4-4 4" />
             </svg>
@@ -132,8 +180,8 @@ const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false 
       </div>
 
       {/* Dots indicator */}
-      <div className="flex justify-center mt-4 space-x-2">
-        {partners.map((_, index) => (
+      <div className="flex justify-center mt-4 space-x-2" role="group" aria-label={language === 'es' ? 'Navegación de colaboradores' : 'Partners navigation'}>
+        {partners.map((partner, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
@@ -142,7 +190,8 @@ const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false 
                 ? 'bg-SM-blue scale-125'
                 : 'bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'
             }`}
-            aria-label={`Ir al colaborador ${index + 1}`}
+            aria-label={t.goToPartner(index, partner?.name || partner?.alt)}
+            aria-current={index === currentIndex ? 'true' : 'false'}
           />
         ))}
       </div>
@@ -153,6 +202,13 @@ const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false 
           {partners[currentIndex]?.name || partners[currentIndex]?.alt}
         </p>
       </div>
+
+      {/* Live Region for announcing slide changes */}
+      <LiveRegion
+        message={liveMessage}
+        politeness="polite"
+        atomic={true}
+      />
     </div>
   );
 };

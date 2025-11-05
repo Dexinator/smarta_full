@@ -56,6 +56,23 @@ interface Props {
 }
 
 const { title, description, config, lang = 'es', currentAdventure } = Astro.props;
+
+// Calcular URL para el cambio de idioma
+let languageSwitchUrl: string;
+
+if (lang === 'en') {
+  // Desde inglés, el comportamiento varía según la aventura
+  if (currentAdventure === 'detectives') {
+    // Detectives: ir directamente a la versión en español
+    languageSwitchUrl = `/aventuras/${currentAdventure}/espanol`;
+  } else {
+    // Otras aventuras: ir al menú de selección
+    languageSwitchUrl = `/aventuras/${currentAdventure}/`;
+  }
+} else {
+  // Desde cualquier versión en español (espanol, lectura-facil, descriptivo, signoguia), ir a inglés
+  languageSwitchUrl = `/aventuras/${currentAdventure}/ingles`;
+}
 ---
 
 <Layout title={title} description={description}>
@@ -87,7 +104,7 @@ const { title, description, config, lang = 'es', currentAdventure } = Astro.prop
   </div>
 
   <!-- Header -->
-  <Header />
+  <Header lang={lang} languageSwitchUrl={languageSwitchUrl} />
 
   <!-- Contenido Principal -->
   <main id="main-content" class="min-h-screen bg-white dark:bg-slate-900">

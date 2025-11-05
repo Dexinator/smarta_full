@@ -76,6 +76,19 @@ const todasBurbujas = {
 const burbujas = burbujasFiltradas
   ? burbujasFiltradas.map((nombre: string) => todasBurbujas[nombre]).filter(Boolean)
   : Object.values(todasBurbujas);
+
+// Calcular URL para el cambio de idioma
+// Extraer el pathname actual y construir la URL correspondiente
+const currentPath = Astro.url.pathname;
+let languageSwitchUrl: string;
+
+if (lang === 'es') {
+  // Estamos en español, agregar prefijo /en
+  languageSwitchUrl = `/en${currentPath}`;
+} else {
+  // Estamos en inglés, remover prefijo /en
+  languageSwitchUrl = currentPath.replace(/^\/en/, '');
+}
 ---
 
 <Layout
@@ -83,7 +96,7 @@ const burbujas = burbujasFiltradas
   description={description}
   lang={lang}
 >
-  <Header currentPage="ofi_virtual" lang={lang} />
+  <Header currentPage="ofi_virtual" lang={lang} languageSwitchUrl={languageSwitchUrl} />
 
   <main id="main-content" class="flex-1">
     <!-- Sección 1: Video Hero -->

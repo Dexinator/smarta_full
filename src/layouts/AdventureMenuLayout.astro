@@ -39,6 +39,11 @@ const {
 // Este template siempre se muestra en español
 const lang = 'es';
 
+// Calcular URL para el cambio de idioma
+// En los menús de aventura, el botón "English" debe llevar a la versión /ingles de la aventura
+const currentPath = Astro.url.pathname;
+const languageSwitchUrl = `${currentPath.replace(/\/$/, '')}/ingles`;
+
 // Mapa de imágenes hero disponibles (móvil)
 const heroImages = {
   'santa-marta-explora': imgHeroSantaMarta,
@@ -101,7 +106,7 @@ const badgeTexts = {
   description={description}
   lang={lang}
 >
-  <Header currentPage="aventuras" lang={lang} />
+  <Header currentPage="aventuras" lang={lang} languageSwitchUrl={languageSwitchUrl} />
 
   <main id="main-content" class="flex-1">
     <!-- Sección Hero con imagen -->

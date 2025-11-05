@@ -9,9 +9,13 @@ import turismoSantaMarta from '../../assets/images/turismo-santa-marta.png';
 export interface Props {
   currentPage?: string;
   lang?: string;
+  languageSwitchUrl?: string;
 }
 
-const { currentPage = "", lang = "es" } = Astro.props;
+const { currentPage = "", lang = "es", languageSwitchUrl } = Astro.props;
+
+// URL para el cambio de idioma: usar la personalizada si existe, si no usar la lógica por defecto
+const languageUrl = languageSwitchUrl || (lang === "es" ? "/en" : "/");
 
 // Contenido bilingüe
 const content = {
@@ -70,20 +74,22 @@ const t = content[lang as keyof typeof content];
       <div class="flex-shrink-0">
         <div class="flex items-center space-x-2 md:space-x-3">
           <!-- Logo Santa Marta Full (principal) -->
-          <a href="/" class="focus-visible">
+          <a href={lang === "es" ? "/" : "/en"} class="focus-visible" aria-label={lang === "es" ? "Ir a la página principal de Santa Marta de Tormes" : "Go to Santa Marta de Tormes homepage"}>
             <Image
               src={iconoSmartaFull}
-              alt="Logotipo Santa Marta de Tormes ir a página principal"
+              alt=""
+              role="presentation"
               class="h-14 sm:h-16 md:h-20 w-auto object-contain"
               loading="eager"
               quality={90}
             />
           </a>
           <!-- Logo Turismo Santa Marta -->
-          <a href="https://www.turismosantamartadetormes.com/" target="_blank" rel="noopener noreferrer" class="focus-visible">
+          <a href="https://www.turismosantamartadetormes.com/" target="_blank" rel="noopener noreferrer" class="focus-visible" aria-label={lang === "es" ? "Visitar web de Turismo Santa Marta de Tormes (se abre en nueva pestaña)" : "Visit Tourism Santa Marta de Tormes website (opens in new tab)"}>
             <Image
               src={turismoSantaMarta}
-              alt="Logotipo Turismo Santa Marta de Tormes ir a página Turismo Santa Marta de Tormes"
+              alt=""
+              role="presentation"
               class="h-12 sm:h-14 md:h-16 w-auto object-contain"
               loading="eager"
               quality={90}
@@ -122,7 +128,7 @@ const t = content[lang as keyof typeof content];
         </a>
 
         <a
-          href={lang === "es" ? "/en" : "/"}
+          href={languageUrl}
           class="text-base md:text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-SM-blue transition-colors focus-visible"
         >
           {t.languageSwitch}
@@ -137,7 +143,7 @@ const t = content[lang as keyof typeof content];
           aria-label={t.menu}
           aria-expanded="false"
         >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor">
+          <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
@@ -169,7 +175,7 @@ const t = content[lang as keyof typeof content];
         </a>
 
         <a
-          href={lang === "es" ? "/en" : "/"}
+          href={languageUrl}
           class="block px-3 py-3 text-lg font-medium text-slate-600 dark:text-slate-300 hover:text-SM-blue hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
         >
           {t.languageSwitch}
@@ -183,7 +189,7 @@ const t = content[lang as keyof typeof content];
         <div class="flex items-center justify-between w-full space-x-1">
           <!-- Selector de idioma -->
           <a
-            href={lang === "es" ? "/en" : "/"}
+            href={languageUrl}
             class="flex-1 px-2 py-2 rounded-lg bg-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 focus-visible text-sm font-medium shadow-sm text-center h-10 flex items-center justify-center"
             aria-label={t.language}
           >
@@ -196,7 +202,7 @@ const t = content[lang as keyof typeof content];
             class="flex-1 px-2 py-2 rounded-lg bg-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 focus-visible shadow-sm h-10 flex items-center justify-center"
             aria-label={t.lightMode}
           >
-            <span class="text-base leading-none">🔆</span>
+            <span aria-hidden="true" class="text-base leading-none">🔆</span>
           </button>
 
           <!-- Modo oscuro -->
@@ -205,7 +211,7 @@ const t = content[lang as keyof typeof content];
             class="flex-1 px-2 py-2 rounded-lg bg-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 focus-visible shadow-sm h-10 flex items-center justify-center"
             aria-label={t.darkMode}
           >
-            <span class="text-base leading-none">🌙</span>
+            <span aria-hidden="true" class="text-base leading-none">🌙</span>
           </button>
 
           <!-- Alto contraste -->
@@ -214,7 +220,7 @@ const t = content[lang as keyof typeof content];
             class="flex-1 px-2 py-2 rounded-lg bg-white dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 focus-visible shadow-sm h-10 flex items-center justify-center"
             aria-label={t.highContrast}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 508.47" class="w-4 h-4 fill-current">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 508.47" class="w-4 h-4 fill-current">
               <path fill-rule="nonzero" d="M254.23 508.47c-3.94 0-7.87-.1-11.77-.28h-1.54v-.07c-64.9-3.34-123.37-31.04-166.45-74.12C28.46 387.99 0 324.42 0 254.23c0-70.19 28.46-133.75 74.47-179.76C117.55 31.39 176.03 3.69 240.92.34V.27h1.54c3.9-.18 7.83-.27 11.77-.27l3.46.02.08-.02c70.19 0 133.75 28.46 179.76 74.47 46 46.01 74.47 109.57 74.47 179.76S483.53 387.99 437.53 434c-46.01 46.01-109.57 74.47-179.76 74.47l-.08-.03-3.46.03zm-13.31-30.56V30.56C184.33 33.87 133.4 58.17 95.79 95.79c-40.55 40.54-65.62 96.56-65.62 158.44 0 61.89 25.07 117.91 65.62 158.45 37.61 37.61 88.54 91.91 145.13 65.23z"/>
             </svg>
           </button>
