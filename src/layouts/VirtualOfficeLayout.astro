@@ -198,7 +198,7 @@ if (lang === 'es') {
             <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-6 sm:gap-4 text-center sm:text-left">
               <!-- Icono y texto -->
               <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 flex-1">
-                <div class="w-20 h-20 sm:w-24 sm:h-24 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0" aria-hidden="true">
                   <span class="text-5xl sm:text-6xl">{bannerCTA.emoji}</span>
                 </div>
                 <div class="text-white">
@@ -212,8 +212,8 @@ if (lang === 'es') {
               </div>
 
               <!-- Flecha (solo visible en desktop) -->
-              <div class="hidden sm:flex flex-shrink-0">
-                <svg class="w-10 h-10 md:w-12 md:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="hidden sm:flex flex-shrink-0" aria-hidden="true">
+                <svg class="w-10 h-10 md:w-12 md:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
               </div>
@@ -221,7 +221,7 @@ if (lang === 'es') {
               <!-- Texto "Toca para explorar" en móvil -->
               <div class="sm:hidden text-white/80 text-sm flex items-center gap-2">
                 <span>Toca para explorar</span>
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
               </div>

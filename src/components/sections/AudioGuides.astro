@@ -94,8 +94,8 @@ const t = useTranslations(lang as Locale).audioGuides;
               <span class="text-SM-blue dark:text-blue-400 font-semibold group-hover:underline">
                 {t.cta}
               </span>
-              <div class="w-10 h-10 rounded-full bg-SM-blue/10 dark:bg-SM-blue/20 flex items-center justify-center group-hover:bg-SM-blue group-hover:text-white transition-all duration-300">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-10 h-10 rounded-full bg-SM-blue/10 dark:bg-SM-blue/20 flex items-center justify-center group-hover:bg-SM-blue group-hover:text-white transition-all duration-300" aria-hidden="true">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
               </div>
@@ -103,7 +103,7 @@ const t = useTranslations(lang as Locale).audioGuides;
           </div>
 
           <!-- Número decorativo -->
-          <div class="absolute top-4 left-6 text-6xl font-bold text-white/20">
+          <div class="absolute top-4 left-6 text-6xl font-bold text-white/20" aria-hidden="true">
             {(index + 1).toString().padStart(2, '0')}
           </div>
 
@@ -120,19 +120,19 @@ const t = useTranslations(lang as Locale).audioGuides;
       </p>
       <div class="flex justify-center gap-4">
         <div class="flex items-center gap-2">
-          <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center">
+          <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center" aria-hidden="true">
             🎧
           </span>
           <span class="text-sm text-slate-600 dark:text-slate-400">{t.accessibilityFeatures.audio}</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center">
+          <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center" aria-hidden="true">
             📱
           </span>
           <span class="text-sm text-slate-600 dark:text-slate-400">{t.accessibilityFeatures.mobile}</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center">
+          <span class="w-8 h-8 rounded-full bg-SM-yellow/20 flex items-center justify-center" aria-hidden="true">
             ♿
           </span>
           <span class="text-sm text-slate-600 dark:text-slate-400">{t.accessibilityFeatures.accessible}</span>

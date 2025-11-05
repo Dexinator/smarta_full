@@ -40,10 +40,11 @@ const t = useTranslations(lang as Locale).adventures;
     <!-- Contenedor principal con imagen de fondo -->
     <div class="relative max-w-5xl mx-auto">
       <!-- Imagen de fondo (solo visible en desktop) -->
-      <div class="hidden md:block relative mx-8 md:mx-12 h-[400px] md:h-[450px] rounded-3xl overflow-hidden">
+      <div class="hidden md:block relative mx-8 md:mx-12 h-[400px] md:h-[450px] rounded-3xl overflow-hidden" role="presentation" aria-hidden="true">
         <Image
           src={fondoAventurasImg}
-          alt="Fondo de aventuras gamificadas"
+          alt=""
+          role="presentation"
           class="w-full h-full object-cover"
           widths={[800, 1200, 1600]}
           sizes="(max-width: 768px) 100vw, 80vw"
@@ -236,21 +237,24 @@ const t = useTranslations(lang as Locale).adventures;
         </div>
 
         <!-- Indicadores de navegación (dots) -->
-        <div class="flex justify-center gap-2 mt-6">
+        <div class="flex justify-center gap-2 mt-6" role="group" aria-label={lang === "es" ? "Navegación de aventuras" : "Adventures navigation"}>
           <button
             class="carousel-dot w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 transition-all duration-300 active"
             data-slide="0"
-            aria-label="Ir a aventura 1"
+            aria-label={lang === "es" ? `Ir a ${t.adventures[0].title}` : `Go to ${t.adventures[0].title}`}
+            aria-current="true"
           ></button>
           <button
             class="carousel-dot w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 transition-all duration-300"
             data-slide="1"
-            aria-label="Ir a aventura 2"
+            aria-label={lang === "es" ? `Ir a ${t.adventures[1].title}` : `Go to ${t.adventures[1].title}`}
+            aria-current="false"
           ></button>
           <button
             class="carousel-dot w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 transition-all duration-300"
             data-slide="2"
-            aria-label="Ir a aventura 3"
+            aria-label={lang === "es" ? `Ir a ${t.adventures[2].title}` : `Go to ${t.adventures[2].title}`}
+            aria-current="false"
           ></button>
         </div>
       </div>
@@ -355,8 +359,10 @@ const t = useTranslations(lang as Locale).adventures;
       dots.forEach((dot, i) => {
         if (i === index) {
           dot.classList.add('active');
+          dot.setAttribute('aria-current', 'true');
         } else {
           dot.classList.remove('active');
+          dot.setAttribute('aria-current', 'false');
         }
       });
     }

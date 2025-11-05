@@ -166,7 +166,8 @@ const validAdventures = adventuresWithImages.filter(a => a.img !== null);
                 {adventure.img && (
                   <Image
                     src={adventure.img}
-                    alt={adventure.title}
+                    alt=""
+                    role="presentation"
                     width={256}
                     height={256}
                     widths={[96, 128, 192, 256]}

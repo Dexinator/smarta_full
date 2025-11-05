@@ -58,9 +58,9 @@ const viewButtonText = buttonText || currentTexts.defaultButton;
 
 <div class="download-brochure bg-gradient-to-br from-SM-blue/5 to-SM-yellow/5 rounded-2xl p-8 sm:p-10 text-center">
   <!-- Icono decorativo -->
-  <div class="mb-6 flex justify-center">
+  <div class="mb-6 flex justify-center" aria-hidden="true">
     <div class="w-20 h-20 bg-gradient-to-br from-SM-blue to-blue-700 rounded-full flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
-      <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
         </path>
@@ -87,7 +87,7 @@ const viewButtonText = buttonText || currentTexts.defaultButton;
     aria-label={`${viewButtonText} - ${currentTexts.opensInNewTab}`}
   >
     <!-- Icono de documento -->
-    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
       </path>
@@ -96,14 +96,14 @@ const viewButtonText = buttonText || currentTexts.defaultButton;
     <span class="text-lg">{viewButtonText}</span>
 
     <!-- Badge PDF -->
-    <span class="ml-3 px-2 py-1 bg-white/20 rounded-md text-sm font-medium">
+    <span class="ml-3 px-2 py-1 bg-white/20 rounded-md text-sm font-medium" aria-hidden="true">
       PDF
     </span>
   </a>
 
   <!-- Texto adicional -->
   <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">
-    <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
       </path>

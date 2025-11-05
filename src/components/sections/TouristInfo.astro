@@ -63,7 +63,7 @@ const t = useTranslations(lang as Locale).touristInfo;
           <!-- Contenido -->
           <div class="relative h-full flex flex-col justify-end p-6 text-white">
             <!-- Icono (oculto en móvil) -->
-            <div class="hidden md:block text-3xl md:text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-110">
+            <div class="hidden md:block text-3xl md:text-4xl mb-3 transform transition-transform duration-300 group-hover:scale-110" aria-hidden="true">
               {category.icon}
             </div>
 
@@ -78,8 +78,8 @@ const t = useTranslations(lang as Locale).touristInfo;
             </p>
 
             <!-- Indicador de hover (oculto en móvil) -->
-            <div class="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="hidden md:block absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
               </svg>
             </div>
