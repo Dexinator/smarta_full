@@ -10,11 +10,14 @@ const MediaModal = () => {
   const [duration, setDuration] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const playerRef = useRef(null);
   const widgetRef = useRef(null);
+  const fullscreenContainerRef = useRef(null);
+  const exitFullscreenButtonRef = useRef(null);
 
   // Escuchar evento para abrir el modal
   useEffect(() => {
@@ -43,11 +46,16 @@ const MediaModal = () => {
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
-        handleClose();
+        // Si estamos en fullscreen, salir de fullscreen primero
+        if (isFullscreen) {
+          exitVideoFullscreen();
+        } else {
+          handleClose();
+        }
       }
 
-      // Focus trap
-      if (e.key === 'Tab' && modalRef.current) {
+      // Focus trap (solo si no estamos en fullscreen)
+      if (e.key === 'Tab' && modalRef.current && !isFullscreen) {
         const focusableElements = modalRef.current.querySelectorAll(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
@@ -66,7 +74,53 @@ const MediaModal = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen]);
+  }, [isOpen, isFullscreen]);
+
+  // Listener para cambios de fullscreen
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement
+      );
+
+      setIsFullscreen(isCurrentlyFullscreen);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    };
+  }, []);
+
+  // Ajustar el player cuando cambia el estado de fullscreen
+  useEffect(() => {
+    if (!playerRef.current || mediaType !== 'video') return;
+
+    const container = playerRef.current.querySelector('div');
+    if (!container) return;
+
+    if (isFullscreen) {
+      // En fullscreen, eliminar padding-bottom y hacer el contenedor ocupar todo
+      container.style.paddingBottom = '0';
+      container.style.height = '100%';
+      container.style.width = '100%';
+    } else {
+      // Modo normal, restaurar aspect ratio 16:9
+      container.style.paddingBottom = '56.25%';
+      container.style.height = '';
+      container.style.width = '100%';
+    }
+  }, [isFullscreen, mediaType]);
 
   // Cargar el player cuando se abre el modal
   useEffect(() => {
@@ -284,16 +338,43 @@ const MediaModal = () => {
     setCurrentTime(newTime);
   };
 
-  const toggleFullscreen = () => {
-    if (!modalRef.current) return;
+  const toggleFullscreen = async () => {
+    if (!fullscreenContainerRef.current) return;
 
-    const modalContent = modalRef.current.querySelector('.modal-content');
-    if (!modalContent) return;
+    try {
+      if (!document.fullscreenElement) {
+        // Entrar en modo fullscreen (solo el video)
+        if (fullscreenContainerRef.current.requestFullscreen) {
+          await fullscreenContainerRef.current.requestFullscreen();
+        } else if (fullscreenContainerRef.current.webkitRequestFullscreen) {
+          await fullscreenContainerRef.current.webkitRequestFullscreen();
+        } else if (fullscreenContainerRef.current.mozRequestFullScreen) {
+          await fullscreenContainerRef.current.mozRequestFullScreen();
+        } else if (fullscreenContainerRef.current.msRequestFullscreen) {
+          await fullscreenContainerRef.current.msRequestFullscreen();
+        }
+      } else {
+        // Salir de fullscreen
+        await exitVideoFullscreen();
+      }
+    } catch (err) {
+      console.error('Error toggling fullscreen:', err);
+    }
+  };
 
-    if (!document.fullscreenElement) {
-      modalContent.requestFullscreen();
-    } else {
-      document.exitFullscreen();
+  const exitVideoFullscreen = async () => {
+    try {
+      if (document.exitFullscreen) {
+        await document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        await document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        await document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        await document.msExitFullscreen();
+      }
+    } catch (err) {
+      console.error('Error exiting fullscreen:', err);
     }
   };
 
@@ -314,28 +395,31 @@ const MediaModal = () => {
       role="dialog"
       aria-modal="true"
       aria-label={mediaType === 'audio' ? 'Reproductor de audio' : 'Reproductor de video'}
+      style={isFullscreen ? { display: 'none' } : {}}
     >
       <div
         className="modal-content bg-white dark:bg-slate-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex justify-end p-4 border-b border-slate-200 dark:border-slate-700">
-          <button
-            ref={closeButtonRef}
-            onClick={handleClose}
-            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-            aria-label="Cerrar"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+        {!isFullscreen && (
+          <div className="flex justify-end p-4 border-b border-slate-200 dark:border-slate-700">
+            <button
+              ref={closeButtonRef}
+              onClick={handleClose}
+              className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              aria-label="Cerrar"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {/* Player Container */}
-        <div className="p-6">
-          {isLoading && (
+        <div className={isFullscreen ? '' : 'p-6'}>
+          {isLoading && !isFullscreen && (
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-4 border-SM-blue border-t-transparent mb-4"></div>
@@ -344,7 +428,7 @@ const MediaModal = () => {
             </div>
           )}
 
-          {error && (
+          {error && !isFullscreen && (
             <div className="text-center py-12">
               <p className="text-red-500 mb-4">{error}</p>
               <button
@@ -363,11 +447,53 @@ const MediaModal = () => {
 
           {!error && (
             <>
-              {/* Media Player Container */}
-              <div ref={playerRef} className="mb-6"></div>
+              {/* Fullscreen Container - wraps player and controls */}
+              <div
+                ref={fullscreenContainerRef}
+                className={isFullscreen ? 'fullscreen-video-container' : ''}
+                style={isFullscreen ? {
+                  position: 'fixed',
+                  top: 0,
+                  left: 0,
+                  width: '100vw',
+                  height: '100vh',
+                  backgroundColor: '#000',
+                  zIndex: 10003,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                } : {}}
+              >
+                {/* Exit Fullscreen Button (only visible in fullscreen) */}
+                {isFullscreen && (
+                  <button
+                    ref={exitFullscreenButtonRef}
+                    onClick={exitVideoFullscreen}
+                    className="fixed top-4 right-4 z-[10004] bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all duration-300"
+                    aria-label="Salir de pantalla completa"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
 
-              {/* Custom Controls */}
-              {!isLoading && (
+                {/* Media Player Container */}
+                <div
+                  ref={playerRef}
+                  className={isFullscreen ? '' : 'mb-6'}
+                  style={isFullscreen ? {
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  } : {}}
+                ></div>
+              </div>
+
+              {/* Custom Controls - only visible when NOT in fullscreen */}
+              {!isLoading && !isFullscreen && (
                 <div className="space-y-4">
                   {/* Progress Bar */}
                   <div>

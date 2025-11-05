@@ -446,63 +446,86 @@ const validImages = optimizedImages.filter(img => img !== null);
   }
 
   /* En fullscreen móvil, mantener scroll funcionando correctamente */
+  .fullscreen-active .gallery-carousel {
+    overflow-x: scroll !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-behavior: smooth !important;
+    scrollbar-width: none !important;
+    height: 100vh !important;
+    width: 100vw !important;
+    position: relative !important;
+  }
+
+  .fullscreen-active .gallery-carousel::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .fullscreen-active .gallery-track {
+    display: flex !important;
+    gap: 0 !important;
+    height: 100vh !important;
+    align-items: center !important;
+  }
+
+  .fullscreen-active .gallery-slide {
+    flex: 0 0 100vw !important;
+    min-width: 100vw !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Contenedor de imagen en fullscreen */
+  .fullscreen-active .gallery-slide > div {
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Mantener flechas visibles en fullscreen */
+  .fullscreen-active .gallery-prev,
+  .fullscreen-active .gallery-next {
+    z-index: 10001 !important;
+    position: fixed !important;
+  }
+
   @media (max-width: 768px) {
-    .fullscreen-active .gallery-carousel {
-      overflow-x: scroll !important;
-      overflow-y: hidden !important;
-      scroll-snap-type: x mandatory !important;
-      -webkit-overflow-scrolling: touch !important;
-      scroll-behavior: smooth !important;
-      scrollbar-width: none !important;
-      height: 100vh !important;
-      width: 100vw !important;
-    }
-
-    .fullscreen-active .gallery-carousel::-webkit-scrollbar {
-      display: none !important;
-    }
-
-    .fullscreen-active .gallery-track {
-      display: flex !important;
-      gap: 0 !important;
-      height: 100vh !important;
-      align-items: center !important;
-    }
-
-    .fullscreen-active .gallery-slide {
-      flex: 0 0 100vw !important;
-      min-width: 100vw !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      scroll-snap-align: start !important;
-      scroll-snap-stop: always !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-    }
-
-    /* Contenedor de imagen en fullscreen */
-    .fullscreen-active .gallery-slide > div {
-      width: 100vw !important;
-      height: 100vh !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-    }
-
-    /* Mantener flechas visibles en fullscreen */
-    .fullscreen-active .gallery-prev,
-    .fullscreen-active .gallery-next {
-      z-index: 10001 !important;
-      position: fixed !important;
-    }
-
     .fullscreen-active .gallery-prev {
       left: 0.5rem !important;
     }
 
     .fullscreen-active .gallery-next {
       right: 0.5rem !important;
+    }
+  }
+
+  /* Ajustes específicos para diferentes orientaciones en fullscreen */
+  @media screen and (orientation: portrait) {
+    .fullscreen-active .gallery-slide {
+      flex: 0 0 100vw !important;
+      width: 100vw !important;
+    }
+  }
+
+  @media screen and (orientation: landscape) {
+    .fullscreen-active .gallery-slide {
+      flex: 0 0 100vw !important;
+      width: 100vw !important;
+    }
+
+    /* En landscape móvil, ajustar botones para que no interfieran */
+    @media (max-width: 768px) {
+      .fullscreen-active .media-button {
+        padding: 0.5rem 0.75rem !important;
+      }
     }
   }
 
@@ -935,17 +958,8 @@ const validImages = optimizedImages.filter(img => img !== null);
       // Funcionalidad de pantalla completa
       const enterFullscreen = async () => {
         try {
-          // En móvil, intentar bloquear orientación
-          if (window.innerWidth <= 768) {
-            const isLandscapeImage = gallery.dataset.orientation === 'landscape';
-            if (screen.orientation && screen.orientation.lock) {
-              try {
-                await screen.orientation.lock(isLandscapeImage ? 'landscape' : 'portrait');
-              } catch (err) {
-                console.log('No se pudo bloquear la orientación:', err);
-              }
-            }
-          }
+          // Guardar el índice actual antes de entrar en fullscreen
+          const savedIndex = currentIndex;
 
           // Solicitar pantalla completa
           if (gallery.requestFullscreen) {
@@ -960,19 +974,25 @@ const validImages = optimizedImages.filter(img => img !== null);
 
           gallery.classList.add('fullscreen-active');
 
-          // Re-configurar botones de media y actualizar carousel después de entrar en fullscreen
+          // Usar un único setTimeout con tiempo suficiente para que se apliquen los estilos
           setTimeout(() => {
             setupMediaButtons();
 
-            // Forzar actualización del carousel en móvil para asegurar posición correcta
+            // Restaurar posición con el índice guardado
             if (window.innerWidth <= 768) {
               const slideWidth = carousel.offsetWidth;
-              carousel.scrollTo({
-                left: slideWidth * currentIndex,
-                behavior: 'auto'
-              });
+              if (slideWidth > 0) { // Verificar que el width sea válido
+                carousel.scrollTo({
+                  left: slideWidth * savedIndex,
+                  behavior: 'auto'
+                });
+                currentIndex = savedIndex; // Asegurar que el índice se mantiene
+              }
+            } else {
+              // En desktop también mantener la posición
+              updateCarousel(savedIndex, false);
             }
-          }, 100);
+          }, 200); // Aumentado a 200ms para mejor estabilidad
 
         } catch (err) {
           console.error('Error al entrar en pantalla completa:', err);
@@ -990,15 +1010,6 @@ const validImages = optimizedImages.filter(img => img !== null);
           } else if (document.msExitFullscreen) {
             await document.msExitFullscreen();
           }
-
-          // Desbloquear orientación
-          if (screen.orientation && screen.orientation.unlock) {
-            try {
-              screen.orientation.unlock();
-            } catch (err) {
-              console.log('No se pudo desbloquear la orientación:', err);
-            }
-          }
         } catch (err) {
           console.error('Error al salir de pantalla completa:', err);
         }
@@ -1010,6 +1021,21 @@ const validImages = optimizedImages.filter(img => img !== null);
       // Event listener para botón de salir de pantalla completa
       exitFullscreenButton?.addEventListener('click', exitFullscreen);
 
+      // Función para actualizar posición del carousel
+      const updateCarouselPosition = () => {
+        if (window.innerWidth <= 768) {
+          const slideWidth = carousel.offsetWidth;
+          if (slideWidth > 0) {
+            carousel.scrollTo({
+              left: slideWidth * currentIndex,
+              behavior: 'auto'
+            });
+          }
+        } else {
+          updateCarousel(currentIndex, false);
+        }
+      };
+
       // Listener para cambios de pantalla completa
       const handleFullscreenChange = () => {
         const isFullscreen = document.fullscreenElement ||
@@ -1020,22 +1046,36 @@ const validImages = optimizedImages.filter(img => img !== null);
         if (!isFullscreen) {
           gallery.classList.remove('fullscreen-active');
 
-          // Re-configurar botones después de salir de fullscreen
+          // Re-configurar después de salir de fullscreen
           setTimeout(() => {
             setupMediaButtons();
-            updateCarousel(currentIndex, false); // Re-establecer el estado sin animación
-          }, 100);
-        } else {
-          // Si entramos en fullscreen, asegurar posición correcta
+            updateCarouselPosition();
+          }, 200);
+        }
+        // Nota: La entrada a fullscreen ya se maneja en enterFullscreen()
+      };
+
+      // Listener para cambios de orientación
+      const handleOrientationChange = () => {
+        const isFullscreen = document.fullscreenElement ||
+                           document.webkitFullscreenElement ||
+                           document.mozFullScreenElement ||
+                           document.msFullscreenElement;
+
+        if (isFullscreen) {
+          // Re-adjuntar event listeners y recalcular posición
           setTimeout(() => {
+            // Recalcular dimensiones y reposicionar
+            updateCarouselPosition();
+
+            // Re-configurar event listeners de scroll si es móvil
             if (window.innerWidth <= 768) {
-              const slideWidth = carousel.offsetWidth;
-              carousel.scrollTo({
-                left: slideWidth * currentIndex,
-                behavior: 'auto'
-              });
+              // Remover listener anterior si existe
+              carousel.removeEventListener('scroll', handleMobileScroll);
+              // Agregar nuevo listener
+              carousel.addEventListener('scroll', handleMobileScroll, { passive: true });
             }
-          }, 150);
+          }, 300); // Dar tiempo para que el navegador ajuste el layout
         }
       };
 
@@ -1044,12 +1084,30 @@ const validImages = optimizedImages.filter(img => img !== null);
       document.addEventListener('mozfullscreenchange', handleFullscreenChange);
       document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
+      // Agregar listeners de orientación
+      if (screen.orientation) {
+        screen.orientation.addEventListener('change', handleOrientationChange);
+      } else {
+        // Fallback para navegadores antiguos
+        window.addEventListener('orientationchange', handleOrientationChange);
+      }
+
       // Actualizar en resize
       let resizeTimer;
       window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-          updateCarousel(currentIndex);
+          const isFullscreen = document.fullscreenElement ||
+                             document.webkitFullscreenElement ||
+                             document.mozFullScreenElement ||
+                             document.msFullscreenElement;
+
+          // Si estamos en fullscreen, usar updateCarouselPosition para mantener consistencia
+          if (isFullscreen) {
+            updateCarouselPosition();
+          } else {
+            updateCarousel(currentIndex);
+          }
         }, 250);
       });
 
