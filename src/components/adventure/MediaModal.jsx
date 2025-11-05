@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import LiveRegion from '../ui/LiveRegion';
 
-const MediaModal = () => {
+const MediaModal = ({ language = 'es' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [mediaType, setMediaType] = useState(null);
   const [mediaUrl, setMediaUrl] = useState(null);
@@ -11,6 +12,52 @@ const MediaModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [liveMessage, setLiveMessage] = useState('');
+  const [triggerElementRef, setTriggerElementRef] = useState(null);
+
+  // Textos bilingües de accesibilidad
+  const ariaTexts = {
+    es: {
+      audioPlayer: 'Reproductor de audio',
+      videoPlayer: 'Reproductor de video',
+      close: 'Cerrar reproductor',
+      exitFullscreen: 'Salir de pantalla completa',
+      loading: 'Cargando contenido...',
+      error: 'Error al cargar el contenido',
+      retry: 'Reintentar',
+      play: 'Reproducir',
+      pause: 'Pausar',
+      volume: 'Control de volumen',
+      volumeLevel: (level) => `Volumen al ${level} por ciento`,
+      fullscreen: 'Ver en pantalla completa',
+      progress: 'Barra de progreso',
+      currentTime: (current, total) => `${current} de ${total}`,
+      playing: 'Reproduciendo',
+      paused: 'Pausado',
+      ended: 'Reproducción finalizada'
+    },
+    en: {
+      audioPlayer: 'Audio player',
+      videoPlayer: 'Video player',
+      close: 'Close player',
+      exitFullscreen: 'Exit fullscreen',
+      loading: 'Loading content...',
+      error: 'Error loading content',
+      retry: 'Retry',
+      play: 'Play',
+      pause: 'Pause',
+      volume: 'Volume control',
+      volumeLevel: (level) => `Volume at ${level} percent`,
+      fullscreen: 'View fullscreen',
+      progress: 'Progress bar',
+      currentTime: (current, total) => `${current} of ${total}`,
+      playing: 'Playing',
+      paused: 'Paused',
+      ended: 'Playback ended'
+    }
+  };
+
+  const t = ariaTexts[language] || ariaTexts.es;
 
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
@@ -25,17 +72,20 @@ const MediaModal = () => {
   useEffect(() => {
     const handleOpenModal = (event) => {
       const { type, url } = event.detail;
+      // Guardar el elemento que abrió el modal para restaurar el foco después
+      setTriggerElementRef(document.activeElement);
       setMediaType(type);
       setMediaUrl(url);
       setIsOpen(true);
       setIsPlaying(false);
       setError(null);
       setIsLoading(true);
+      setLiveMessage(t.loading);
     };
 
     window.addEventListener('openMediaModal', handleOpenModal);
     return () => window.removeEventListener('openMediaModal', handleOpenModal);
-  }, []);
+  }, [t.loading]);
 
   // Focus trap y tecla Escape
   useEffect(() => {
@@ -313,6 +363,13 @@ const MediaModal = () => {
     setCurrentTime(0);
     setDuration(0);
 
+    // Restaurar el foco al elemento que abrió el modal
+    setTimeout(() => {
+      if (triggerElementRef && typeof triggerElementRef.focus === 'function') {
+        triggerElementRef.focus();
+      }
+    }, 100);
+
     // Disparar evento para notificar que el modal se cerró
     window.dispatchEvent(new CustomEvent('closeMediaModal'));
     console.log('Modal closed event dispatched'); // Debug
@@ -324,14 +381,18 @@ const MediaModal = () => {
     if (mediaType === 'audio') {
       if (isPlaying) {
         widgetRef.current.pause();
+        setLiveMessage(t.paused);
       } else {
         widgetRef.current.play();
+        setLiveMessage(t.playing);
       }
     } else if (mediaType === 'video') {
       if (isPlaying) {
         widgetRef.current.pause();
+        setLiveMessage(t.paused);
       } else {
         widgetRef.current.play();
+        setLiveMessage(t.playing);
       }
     }
   };
@@ -437,9 +498,9 @@ const MediaModal = () => {
           ref={exitFullscreenButtonRef}
           onClick={exitVideoFullscreen}
           className="fixed top-4 right-4 z-[10004] bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all duration-300"
-          aria-label="Salir de pantalla completa"
+          aria-label={t.exitFullscreen}
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -464,7 +525,7 @@ const MediaModal = () => {
         onClick={handleClose}
         role="dialog"
         aria-modal="true"
-        aria-label={mediaType === 'audio' ? 'Reproductor de audio' : 'Reproductor de video'}
+        aria-label={mediaType === 'audio' ? t.audioPlayer : t.videoPlayer}
         style={{ display: isFullscreen ? 'none' : 'flex' }}
       >
         <div
@@ -477,9 +538,9 @@ const MediaModal = () => {
               ref={closeButtonRef}
               onClick={handleClose}
               className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-              aria-label="Cerrar"
+              aria-label={t.close}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -488,17 +549,17 @@ const MediaModal = () => {
           {/* Player Container */}
           <div className="p-6">
             {isLoading && (
-              <div className="flex items-center justify-center py-12">
+              <div className="flex items-center justify-center py-12" role="status" aria-live="polite">
                 <div className="text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-4 border-SM-blue border-t-transparent mb-4"></div>
-                  <p className="text-slate-600 dark:text-slate-400">Cargando...</p>
+                  <div className="animate-spin rounded-full h-12 w-12 border-4 border-SM-blue border-t-transparent mb-4" aria-hidden="true"></div>
+                  <p className="text-slate-600 dark:text-slate-400">{t.loading}</p>
                 </div>
               </div>
             )}
 
             {error && (
-              <div className="text-center py-12">
-                <p className="text-red-500 mb-4">{error}</p>
+              <div className="text-center py-12" role="alert" aria-live="assertive">
+                <p className="text-red-500 mb-4">{t.error}</p>
                 <button
                   onClick={() => {
                     setError(null);
@@ -508,7 +569,7 @@ const MediaModal = () => {
                   }}
                   className="px-4 py-2 bg-SM-blue text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Reintentar
+                  {t.retry}
                 </button>
               </div>
             )}
@@ -528,12 +589,31 @@ const MediaModal = () => {
                         <span>{formatTime(duration)}</span>
                       </div>
                       <div
+                        role="slider"
+                        aria-label={t.progress}
+                        aria-valuemin={0}
+                        aria-valuemax={duration}
+                        aria-valuenow={currentTime}
+                        aria-valuetext={t.currentTime(formatTime(currentTime), formatTime(duration))}
+                        tabIndex={0}
                         className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full cursor-pointer"
                         onClick={handleSeek}
+                        onKeyDown={(e) => {
+                          if (e.key === 'ArrowLeft') {
+                            const newTime = Math.max(0, currentTime - 5000);
+                            if (mediaType === 'audio') widgetRef.current?.seekTo(newTime);
+                            else widgetRef.current?.setCurrentTime(newTime / 1000);
+                          } else if (e.key === 'ArrowRight') {
+                            const newTime = Math.min(duration, currentTime + 5000);
+                            if (mediaType === 'audio') widgetRef.current?.seekTo(newTime);
+                            else widgetRef.current?.setCurrentTime(newTime / 1000);
+                          }
+                        }}
                       >
                         <div
                           className="h-full bg-SM-blue rounded-full transition-all"
                           style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                          aria-hidden="true"
                         />
                       </div>
                     </div>
@@ -544,14 +624,15 @@ const MediaModal = () => {
                       <button
                         onClick={handlePlayPause}
                         className="p-3 bg-SM-blue hover:bg-blue-700 text-white rounded-full transition-colors"
-                        aria-label={isPlaying ? "Pausar" : "Reproducir"}
+                        aria-label={isPlaying ? t.pause : t.play}
+                        aria-pressed={isPlaying}
                       >
                         {isPlaying ? (
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
                           </svg>
                         ) : (
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                           </svg>
                         )}
@@ -559,7 +640,7 @@ const MediaModal = () => {
 
                       {/* Volume */}
                       <div className="flex items-center space-x-2">
-                        <svg className="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                         </svg>
                         <input
@@ -569,9 +650,10 @@ const MediaModal = () => {
                           value={volume}
                           onChange={handleVolumeChange}
                           className="w-24 h-1 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer"
-                          aria-label="Volumen"
+                          aria-label={t.volume}
+                          aria-valuetext={t.volumeLevel(volume)}
                         />
-                        <span className="text-sm text-slate-600 dark:text-slate-400 w-10">{volume}%</span>
+                        <span className="text-sm text-slate-600 dark:text-slate-400 w-10" aria-hidden="true">{volume}%</span>
                       </div>
 
                       {/* Fullscreen (solo para video) */}
@@ -579,9 +661,9 @@ const MediaModal = () => {
                         <button
                           onClick={toggleFullscreen}
                           className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                          aria-label="Pantalla completa"
+                          aria-label={t.fullscreen}
                         >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
                           </svg>
                         </button>
@@ -593,6 +675,13 @@ const MediaModal = () => {
             )}
           </div>
         </div>
+
+        {/* Live Region for announcing state changes */}
+        <LiveRegion
+          message={liveMessage}
+          politeness="polite"
+          atomic={true}
+        />
       </div>
     </>
   );

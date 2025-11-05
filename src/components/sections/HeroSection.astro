@@ -23,11 +23,12 @@ const t = useTranslations(lang as Locale).hero;
   <!-- Imagen de fondo con overlay y carrusel -->
   <div class="absolute inset-0 z-0">
     <!-- Carrusel de imágenes -->
-    <div class="hero-carousel absolute inset-0">
+    <div class="hero-carousel absolute inset-0" role="presentation" aria-hidden="true">
       <div class="hero-slide active">
         <Image
           src={heroImage2}
-          alt="Santa Marta de Tormes"
+          alt=""
+          role="presentation"
           loading="eager"
           quality={90}
           widths={[640, 768, 1024, 1280, 1920]}
@@ -39,7 +40,8 @@ const t = useTranslations(lang as Locale).hero;
       <div class="hero-slide">
         <Image
           src={heroImage3}
-          alt="Santa Marta de Tormes"
+          alt=""
+          role="presentation"
           loading="eager"
           quality={90}
           widths={[640, 768, 1024, 1280, 1920]}
@@ -51,7 +53,8 @@ const t = useTranslations(lang as Locale).hero;
       <div class="hero-slide">
         <Image
           src={heroImage4}
-          alt="Santa Marta de Tormes"
+          alt=""
+          role="presentation"
           loading="eager"
           quality={90}
           widths={[640, 768, 1024, 1280, 1920]}
@@ -122,10 +125,10 @@ const t = useTranslations(lang as Locale).hero;
   </div>
 
   <!-- Indicador de scroll -->
-  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce" aria-hidden="true">
     <div class="flex flex-col items-center">
       <span class="text-base md:text-lg mb-2 opacity-75">{t.scrollText}</span>
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
       </svg>
     </div>
