@@ -181,7 +181,7 @@ const validImages = optimizedImages.filter(img => img !== null);
               aria-label={t.imageLabel(index + 1, validImages.length)}
             >
               <!-- Contenedor de imagen con aspect ratio -->
-              <div class={`relative ${isLandscape ? 'aspect-video' : 'h-[70vh] flex items-center justify-center'} bg-black`}>
+              <div class={`relative ${isLandscape ? 'aspect-video' : 'h-[70vh] flex items-center justify-center'} bg-white dark:bg-slate-900`}>
                 <picture>
                   <source
                     type="image/webp"
@@ -216,8 +216,7 @@ const validImages = optimizedImages.filter(img => img !== null);
                       style={image.buttonText ? 'border-radius: 9999px; padding: 0.75rem 1.25rem 0.75rem 1rem;' : 'border-radius: 9999px; padding: 1rem;'}
                     >
                       {image.buttonText && (
-                        <span class="button-text text-base sm:text-lg font-semibold whitespace-nowrap">
-                          {image.buttonText}
+                        <span class="button-text text-base sm:text-lg font-semibold whitespace-pre-line text-center" set:html={image.buttonText}>
                         </span>
                       )}
                       <div class="flex-shrink-0">
@@ -244,7 +243,7 @@ const validImages = optimizedImages.filter(img => img !== null);
 
       <!-- Controles de navegación fuera del carousel para que se mantengan fijos -->
       <button
-        class="gallery-prev absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-30 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+        class="gallery-prev absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/70 dark:bg-black/50 hover:bg-black/90 dark:hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-30 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed shadow-lg ring-2 ring-white/20"
         aria-label={t.previousImage}
         disabled
       >
@@ -254,7 +253,7 @@ const validImages = optimizedImages.filter(img => img !== null);
       </button>
 
       <button
-        class="gallery-next absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-30 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+        class="gallery-next absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/70 dark:bg-black/50 hover:bg-black/90 dark:hover:bg-black/70 text-white p-2 sm:p-3 rounded-full transition-all z-30 flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed shadow-lg ring-2 ring-white/20"
         aria-label={t.nextImage}
         disabled={validImages.length <= 1}
       >

@@ -314,8 +314,8 @@ const VimeoHeroPlayer = ({
     };
   }, [isFullscreen]);
 
-  // Manejar movimiento del mouse en pantalla completa
-  const handleMouseMove = () => {
+  // Manejar interacción (mouse o touch) en pantalla completa
+  const handleShowControls = () => {
     if (!isFullscreen) return;
 
     // Mostrar controles
@@ -428,7 +428,8 @@ const VimeoHeroPlayer = ({
       className={`relative bg-slate-900 ${className} ${
         isFullscreen ? 'fixed inset-0 z-[100] rounded-none bg-black' : ''
       }`}
-      onMouseMove={handleMouseMove}
+      onMouseMove={handleShowControls}
+      onTouchStart={handleShowControls}
     >
       {/* Video container */}
       <div className={`relative ${isFullscreen ? 'w-full h-full' : 'w-full h-full'}`}>
