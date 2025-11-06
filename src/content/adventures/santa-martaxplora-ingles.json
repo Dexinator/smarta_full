@@ -14,12 +14,12 @@
       {
         "src": "sliders/santa_martaxplora_ingles/2.png",
         "alt": "Stop 1: Origin of the Town",
-        "buttonText": "Stop 1"
+        "buttonText": "Click here to<br>listen to the introduction"
       },
       {
         "src": "sliders/santa_martaxplora_ingles/3.png",
         "alt": "Stop 2: Traces of the Past",
-        "buttonText": "Stop 2",
+        "buttonText": "1. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191786463",
@@ -29,7 +29,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/4.png",
         "alt": "Stop 3: Patron Saint of Santa Marta",
-        "buttonText": "Stop 3",
+        "buttonText": "2. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191786467",
@@ -39,7 +39,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/5.png",
         "alt": "Stop 4: Town Hall",
-        "buttonText": "Stop 4",
+        "buttonText": "3. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191786459",
@@ -49,7 +49,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/6.png",
         "alt": "Stop 5: Art",
-        "buttonText": "Stop 5",
+        "buttonText": "4. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191786475",
@@ -59,7 +59,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/7.png",
         "alt": "Stop 6: Mural Route",
-        "buttonText": "Stop 6",
+        "buttonText": "5. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191786471",
@@ -69,7 +69,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/8.png",
         "alt": "Additional information",
-        "buttonText": "Info",
+        "buttonText": "6. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191786479",

@@ -14,12 +14,12 @@
       {
         "src": "sliders/santa_martaxplora_espanol/2.png",
         "alt": "Parada 1: Origen de la Villa",
-        "buttonText": "Parada 1"
+        "buttonText": "Clic aquí para<br>escuchar la introducción"
       },
       {
         "src": "sliders/santa_martaxplora_espanol/3.png",
         "alt": "Parada 2: Vestigios del Pasado",
-        "buttonText": "Parada 2",
+        "buttonText": "1. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191788147",
@@ -29,7 +29,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/4.png",
         "alt": "Parada 3: Patrona de Santa Marta",
-        "buttonText": "Parada 3",
+        "buttonText": "2. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191788151",
@@ -39,7 +39,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/5.png",
         "alt": "Parada 4: Ayuntamiento",
-        "buttonText": "Parada 4",
+        "buttonText": "3. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191788167",
@@ -49,7 +49,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/6.png",
         "alt": "Parada 5: Arte",
-        "buttonText": "Parada 5",
+        "buttonText": "4. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191788159",
@@ -59,7 +59,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/7.png",
         "alt": "Parada 6: Ruta de los Murales",
-        "buttonText": "Parada 6",
+        "buttonText": "5. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191788155",
@@ -69,7 +69,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/8.png",
         "alt": "Información adicional",
-        "buttonText": "Info",
+        "buttonText": "6. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191788163",

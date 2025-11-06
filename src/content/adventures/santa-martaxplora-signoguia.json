@@ -14,12 +14,12 @@
       {
         "src": "sliders/santa_martaxplora_espanol/2.png",
         "alt": "Introducción con interpretación LSE",
-        "buttonText": "Introducción"
+        "buttonText": "Clic aquí para ver la introducción"
       },
       {
         "src": "sliders/santa_martaxplora_espanol/3.png",
         "alt": "Parada 1: Origen de la Villa con interpretación LSE",
-        "buttonText": "Parada 1",
+        "buttonText": "1. Clic aquí para<br>ver la respuesta",
         "mediaButton": {
           "type": "video",
           "url": "https://vimeo.com/1129278645",
@@ -29,7 +29,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/4.png",
         "alt": "Parada 2: Vestigios del Pasado con interpretación LSE",
-        "buttonText": "Parada 2",
+        "buttonText": "2. Clic aquí para<br>ver la respuesta",
         "mediaButton": {
           "type": "video",
           "url": "https://vimeo.com/1129278722",
@@ -39,7 +39,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/5.png",
         "alt": "Parada 3: Patrona de Santa Marta con interpretación LSE",
-        "buttonText": "Parada 3",
+        "buttonText": "3. Clic aquí para<br>ver la respuesta",
         "mediaButton": {
           "type": "video",
           "url": "https://vimeo.com/1129278806",
@@ -49,7 +49,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/6.png",
         "alt": "Parada 4: Ayuntamiento con interpretación LSE",
-        "buttonText": "Parada 4",
+        "buttonText": "4. Clic aquí para<br>ver la respuesta",
         "mediaButton": {
           "type": "video",
           "url": "https://vimeo.com/1129278878",
@@ -59,7 +59,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/7.png",
         "alt": "Parada 5: Arte con interpretación LSE",
-        "buttonText": "Parada 5",
+        "buttonText": "5. Clic aquí para<br>ver la respuesta",
         "mediaButton": {
           "type": "video",
           "url": "https://vimeo.com/1129278968",
@@ -69,7 +69,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/8.png",
         "alt": "Parada 6: Ruta de los Murales con interpretación LSE",
-        "buttonText": "Parada 6",
+        "buttonText": "6. Clic aquí para<br>ver la respuesta",
         "mediaButton": {
           "type": "video",
           "url": "https://vimeo.com/1129279041",

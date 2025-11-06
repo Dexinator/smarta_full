@@ -14,12 +14,12 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/2.png",
         "alt": "Primera parada: Cómo empezó el pueblo",
-        "buttonText": "Parada 1"
+        "buttonText": "Clic aquí para<br>escuchar la introducción"
       },
       {
         "src": "sliders/santa_martaxplora_lectura_facil/3.png",
         "alt": "Segunda parada: Cosas antiguas",
-        "buttonText": "Parada 2",
+        "buttonText": "1. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191787379",
@@ -29,7 +29,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/4.png",
         "alt": "Tercera parada: Santa Marta",
-        "buttonText": "Parada 3",
+        "buttonText": "2. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191787367",
@@ -39,7 +39,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/5.png",
         "alt": "Cuarta parada: El Ayuntamiento",
-        "buttonText": "Parada 4",
+        "buttonText": "3. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191787371",
@@ -49,7 +49,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/6.png",
         "alt": "Quinta parada: Arte bonito",
-        "buttonText": "Parada 5",
+        "buttonText": "4. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191787359",
@@ -59,7 +59,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/7.png",
         "alt": "Sexta parada: Dibujos en las paredes",
-        "buttonText": "Parada 6",
+        "buttonText": "5. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191787375",
@@ -69,7 +69,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/8.png",
         "alt": "Más información",
-        "buttonText": "Info",
+        "buttonText": "6. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/2191787363",

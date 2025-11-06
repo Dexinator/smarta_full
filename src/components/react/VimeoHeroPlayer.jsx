@@ -19,9 +19,11 @@ const VimeoHeroPlayer = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [vimeoSDKReady, setVimeoSDKReady] = useState(false);
   const [liveMessage, setLiveMessage] = useState('');
+  const [showFullscreenControls, setShowFullscreenControls] = useState(true);
 
   const containerRef = useRef(null);
   const playerRef = useRef(null);
+  const hideControlsTimer = useRef(null);
 
   // Textos de accesibilidad bilingües
   const ariaTexts = {
@@ -285,6 +287,51 @@ const VimeoHeroPlayer = ({
     }
   }, [volume, isMuted, player, isReady]);
 
+  // Auto-ocultar controles en pantalla completa
+  useEffect(() => {
+    if (isFullscreen) {
+      // Mostrar controles inicialmente
+      setShowFullscreenControls(true);
+
+      // Configurar temporizador para ocultar después de 3 segundos
+      hideControlsTimer.current = setTimeout(() => {
+        setShowFullscreenControls(false);
+      }, 3000);
+    } else {
+      // Limpiar temporizador si salimos de pantalla completa
+      if (hideControlsTimer.current) {
+        clearTimeout(hideControlsTimer.current);
+        hideControlsTimer.current = null;
+      }
+      setShowFullscreenControls(true);
+    }
+
+    // Limpiar temporizador al desmontar
+    return () => {
+      if (hideControlsTimer.current) {
+        clearTimeout(hideControlsTimer.current);
+      }
+    };
+  }, [isFullscreen]);
+
+  // Manejar movimiento del mouse en pantalla completa
+  const handleMouseMove = () => {
+    if (!isFullscreen) return;
+
+    // Mostrar controles
+    setShowFullscreenControls(true);
+
+    // Limpiar temporizador existente
+    if (hideControlsTimer.current) {
+      clearTimeout(hideControlsTimer.current);
+    }
+
+    // Configurar nuevo temporizador
+    hideControlsTimer.current = setTimeout(() => {
+      setShowFullscreenControls(false);
+    }, 3000);
+  };
+
   // Funciones de control
   const handlePlayPause = () => {
     if (!player || !isReady) return;
@@ -381,6 +428,7 @@ const VimeoHeroPlayer = ({
       className={`relative bg-slate-900 ${className} ${
         isFullscreen ? 'fixed inset-0 z-[100] rounded-none bg-black' : ''
       }`}
+      onMouseMove={handleMouseMove}
     >
       {/* Video container */}
       <div className={`relative ${isFullscreen ? 'w-full h-full' : 'w-full h-full'}`}>
@@ -395,14 +443,14 @@ const VimeoHeroPlayer = ({
 
         <div ref={playerRef} className="vimeo-hero-container absolute inset-0 w-full h-full" aria-label={language === 'es' ? 'Reproductor de video' : 'Video player'} />
 
-        {/* Controles flotantes arriba a la derecha (solo cuando NO está en fullscreen) */}
+        {/* Barra de controles debajo del video (solo cuando NO está en fullscreen) */}
         {!isFullscreen && isReady && (
-          <div className="absolute top-[100px] sm:top-[112px] md:top-4 z-[45]" style={{ right: isMobile ? '16px' : 'max(16px, calc(50% - min(100vh * 9 / 32, 50vw) + 16px))' }}>
-            <div className="flex items-center gap-3 bg-transparent rounded-full px-4 py-3" role="group" aria-label={language === 'es' ? 'Controles de video' : 'Video controls'}>
+          <div className="absolute bottom-0 left-0 right-0 z-[45] bg-gradient-to-t from-black/80 to-transparent p-4">
+            <div className="flex items-center justify-center gap-4" role="group" aria-label={language === 'es' ? 'Controles de video' : 'Video controls'}>
               {/* Play/Pause */}
               <button
                 onClick={handlePlayPause}
-                className="p-2 text-white dark:text-black hover:text-SM-yellow transition-colors flex-shrink-0"
+                className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
                 aria-label={isPlaying ? t.pause : t.play}
               >
                 <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -417,7 +465,7 @@ const VimeoHeroPlayer = ({
               {/* Volumen */}
               <button
                 onClick={() => setIsMuted(!isMuted)}
-                className={`p-2 text-white dark:text-black hover:text-SM-yellow transition-colors flex-shrink-0 relative ${isMuted ? 'animate-pulse' : ''}`}
+                className={`p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0 relative ${isMuted ? 'animate-pulse' : ''}`}
                 aria-label={isMuted ? t.unmute : t.mute}
                 aria-pressed={!isMuted}
               >
@@ -439,7 +487,7 @@ const VimeoHeroPlayer = ({
               {/* Pantalla completa */}
               <button
                 onClick={toggleFullscreen}
-                className="p-2 text-white dark:text-black hover:text-SM-yellow transition-colors flex-shrink-0"
+                className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
                 aria-label={t.fullscreen}
               >
                 <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -451,7 +499,7 @@ const VimeoHeroPlayer = ({
         )}
 
         {/* Controles en pantalla completa */}
-        {isFullscreen && isReady && (
+        {isFullscreen && isReady && showFullscreenControls && (
           <>
             {/* Botón salir de pantalla completa */}
             <button

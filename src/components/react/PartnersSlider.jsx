@@ -89,12 +89,29 @@ const PartnersSlider = ({ partners, autoPlayInterval = 3000, gridLayout = false,
                   className="flex flex-col items-center"
                 >
                   <div className="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <img
-                      src={partner.src}
-                      alt={partner.alt}
-                      className="h-16 md:h-20 w-auto object-contain"
-                      loading="lazy"
-                    />
+                    {partner.link ? (
+                      <a
+                        href={partner.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${language === 'es' ? 'Visitar sitio web de' : 'Visit website of'} ${partner.name || partner.alt} (${language === 'es' ? 'se abre en nueva pestaña' : 'opens in new tab'})`}
+                        className="inline-block transition-transform hover:scale-105"
+                      >
+                        <img
+                          src={partner.src}
+                          alt={partner.alt}
+                          className="h-16 md:h-20 w-auto object-contain"
+                          loading="lazy"
+                        />
+                      </a>
+                    ) : (
+                      <img
+                        src={partner.src}
+                        alt={partner.alt}
+                        className="h-16 md:h-20 w-auto object-contain"
+                        loading="lazy"
+                      />
+                    )}
                   </div>
                 </div>
               ))}

@@ -14,7 +14,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/2.png",
         "alt": "Imagen detallada del origen de la villa con fotografías históricas y mapas antiguos",
-        "buttonText": "Introducción",
+        "buttonText": "Clic aquí para<br>escuchar la introducción",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/253A2204947671",
@@ -24,7 +24,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/3.png",
         "alt": "Fotografías de los vestigios históricos, mostrando estructuras antiguas y elementos arquitectónicos",
-        "buttonText": "Parada 1",
+        "buttonText": "1. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/253A2204947683",
@@ -34,7 +34,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/4.png",
         "alt": "Imagen de la patrona Santa Marta, con detalles de la iglesia y elementos religiosos",
-        "buttonText": "Parada 2",
+        "buttonText": "2. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/253A2204947659",
@@ -44,7 +44,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/5.png",
         "alt": "Fotografía del edificio del Ayuntamiento, mostrando su fachada principal y detalles arquitectónicos",
-        "buttonText": "Parada 3",
+        "buttonText": "3. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/253A2204947663",
@@ -54,7 +54,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/6.png",
         "alt": "Collage de expresiones artísticas locales, incluyendo esculturas y obras de arte público",
-        "buttonText": "Parada 4",
+        "buttonText": "4. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/253A2204947675",
@@ -64,7 +64,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/7.png",
         "alt": "Fotografías de diversos murales urbanos, mostrando colores vibrantes y temáticas variadas",
-        "buttonText": "Parada 5",
+        "buttonText": "5. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/253A2204947667",
@@ -74,7 +74,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/8.png",
         "alt": "Información adicional con mapa completo del recorrido y datos de interés",
-        "buttonText": "Parada 6",
+        "buttonText": "6. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/253A2204947679",
