@@ -587,80 +587,91 @@ const VimeoHeroPlayer = ({
           </div>
         )}
 
-        <div ref={playerRef} className="vimeo-hero-container absolute inset-0 w-full h-full" aria-label={language === 'es' ? 'Reproductor de video' : 'Video player'} />
+        <div ref={playerRef} className="vimeo-hero-container absolute inset-0 w-full h-full" aria-label={language === 'es' ? 'Reproductor de video' : 'Video player'}>
+          {/* Overlay transparente para capturar clics sobre el video en fullscreen */}
+          {isFullscreen && (
+            <div
+              className="absolute inset-0 z-20 cursor-pointer"
+              onClick={handleShowControls}
+              onTouchStart={handleShowControls}
+              style={{ backgroundColor: 'transparent' }}
+              aria-hidden="true"
+            />
+          )}
 
-        {/* Barra de controles debajo del video (solo cuando NO está en fullscreen) */}
-        {!isFullscreen && isReady && (
-          <div className="absolute bottom-0 left-0 right-0 md:bottom-auto md:top-4 md:right-4 md:left-auto md:w-auto z-[45] bg-gradient-to-t md:bg-gradient-to-b from-black/80 to-transparent p-4 md:rounded-xl">
-            <div className="flex items-center justify-center gap-4" role="group" aria-label={language === 'es' ? 'Controles de video' : 'Video controls'}>
-              {/* Play/Pause */}
-              <button
-                onClick={handlePlayPause}
-                className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
-                aria-label={isPlaying ? t.pause : t.play}
-              >
-                <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  {isPlaying ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6"/>
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                  )}
-                </svg>
-              </button>
-
-              {/* Volumen */}
-              <button
-                onClick={() => setIsMuted(!isMuted)}
-                className={`p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0 relative ${isMuted ? 'animate-pulse' : ''}`}
-                aria-label={isMuted ? t.unmute : t.mute}
-                aria-pressed={!isMuted}
-              >
-                {isMuted && (
-                  <span aria-hidden="true" className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-SM-yellow opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-SM-yellow"></span>
-                  </span>
-                )}
-                <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  {isMuted ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd"/>
-                  ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
-                  )}
-                </svg>
-              </button>
-
-              {/* Pantalla completa */}
-              {isIOS && !fullscreenSupported ? (
-                // Botón alternativo para iOS
-                <a
-                  href={`https://vimeo.com/${getVimeoVideoId(vimeoId)?.split('?')[0]}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0 relative"
-                  aria-label={language === 'es' ? 'Ver video en Vimeo (se abre en nueva pestaña)' : 'View video on Vimeo (opens in new tab)'}
-                >
-                  <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                  {/* Indicador visual de enlace externo */}
-                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-SM-yellow rounded-full animate-pulse" aria-hidden="true"></span>
-                </a>
-              ) : (
-                // Botón estándar de fullscreen
+          {/* Barra de controles sobre el video (solo cuando NO está en fullscreen) */}
+          {!isFullscreen && isReady && (
+            <div className="video-controls-overlay">
+              <div className="flex items-center justify-center gap-3 md:gap-4" role="group" aria-label={language === 'es' ? 'Controles de video' : 'Video controls'}>
+                {/* Play/Pause */}
                 <button
-                  onClick={toggleFullscreen}
+                  onClick={handlePlayPause}
                   className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
-                  aria-label={t.fullscreen}
+                  aria-label={isPlaying ? t.pause : t.play}
                 >
                   <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
+                    {isPlaying ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6"/>
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                    )}
                   </svg>
                 </button>
-              )}
+
+                {/* Volumen */}
+                <button
+                  onClick={() => setIsMuted(!isMuted)}
+                  className={`p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0 relative ${isMuted ? 'animate-pulse' : ''}`}
+                  aria-label={isMuted ? t.unmute : t.mute}
+                  aria-pressed={!isMuted}
+                >
+                  {isMuted && (
+                    <span aria-hidden="true" className="absolute -top-1 -right-1 flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-SM-yellow opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-SM-yellow"></span>
+                    </span>
+                  )}
+                  <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {isMuted ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd"/>
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+                    )}
+                  </svg>
+                </button>
+
+                {/* Pantalla completa */}
+                {isIOS && !fullscreenSupported ? (
+                  // Botón alternativo para iOS
+                  <a
+                    href={`https://vimeo.com/${getVimeoVideoId(vimeoId)?.split('?')[0]}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0 relative"
+                    aria-label={language === 'es' ? 'Ver video en Vimeo (se abre en nueva pestaña)' : 'View video on Vimeo (opens in new tab)'}
+                  >
+                    <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    {/* Indicador visual de enlace externo */}
+                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-SM-yellow rounded-full animate-pulse" aria-hidden="true"></span>
+                  </a>
+                ) : (
+                  // Botón estándar de fullscreen
+                  <button
+                    onClick={toggleFullscreen}
+                    className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
+                    aria-label={t.fullscreen}
+                  >
+                    <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Controles en pantalla completa */}
         {isFullscreen && isReady && showFullscreenControls && (
@@ -766,7 +777,7 @@ const VimeoHeroPlayer = ({
            NOTA: Los videos son verticales (formato móvil/reel)
            Por eso NO forzamos orientación horizontal en fullscreen
            El usuario puede rotar su dispositivo si lo desea */
-        .vimeo-hero-container > div {
+        .vimeo-hero-container > div:first-child {
           position: relative !important;
           width: auto !important;
           height: 100% !important;
@@ -782,9 +793,34 @@ const VimeoHeroPlayer = ({
           height: 100% !important;
         }
 
+        /* Controles de video sobre el video */
+        .video-controls-overlay {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 45;
+          background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+          padding: 1rem;
+          pointer-events: all;
+        }
+
+        /* En desktop: arriba a la derecha */
+        @media (min-width: 768px) {
+          .video-controls-overlay {
+            top: 0;
+            bottom: auto;
+            left: auto;
+            right: 0;
+            width: auto;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+            border-radius: 0 0 0 0.75rem;
+          }
+        }
+
         /* En pantallas muy anchas, limitar el ancho basado en la altura */
         @media (min-aspect-ratio: 9/16) {
-          .vimeo-hero-container > div {
+          .vimeo-hero-container > div:first-child {
             height: 100% !important;
             width: auto !important;
           }
@@ -792,7 +828,7 @@ const VimeoHeroPlayer = ({
 
         /* En pantallas más altas que el video, ajustar por altura */
         @media (max-aspect-ratio: 9/16) {
-          .vimeo-hero-container > div {
+          .vimeo-hero-container > div:first-child {
             width: 100% !important;
             height: auto !important;
           }
