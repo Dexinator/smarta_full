@@ -14,7 +14,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/2.png",
         "alt": "Imagen detallada del origen de la villa con fotografías históricas y mapas antiguos",
-        "buttonText": "Clic aquí para<br>escuchar la introducción",
+        "buttonText": "Clic aquí para<br>escuchar la Introducción",
         "mediaButton": {
           "type": "audio",
           "url": "https://api.soundcloud.com/tracks/253A2204947671",

@@ -1120,6 +1120,54 @@ const validImages = optimizedImages.filter(img => img !== null);
         }
       };
 
+      // Función para recalcular completamente el carousel en fullscreen (móvil)
+      const recalculateFullscreenCarousel = (maintainIndex = true) => {
+        if (window.innerWidth > 768) return; // Solo para móvil
+
+        const savedIndex = maintainIndex ? currentIndex : 0;
+        const viewportWidth = window.innerWidth;
+
+        // Forzar recálculo del layout
+        const originalDisplay = carousel.style.display;
+        carousel.style.display = 'none';
+        carousel.offsetHeight; // Force reflow
+        carousel.style.display = originalDisplay || '';
+
+        // Resetear estilos inline que podrían interferir
+        track.style.width = '';
+        slides.forEach((slide) => {
+          slide.style.flexBasis = '';
+          slide.style.minWidth = '';
+          slide.style.width = '';
+        });
+
+        // Permitir que los estilos CSS se apliquen
+        requestAnimationFrame(() => {
+          // Establecer el ancho del track para asegurar que contiene todas las slides
+          track.style.width = `${totalSlides * 100}%`;
+
+          // Asegurar que cada slide ocupe exactamente el viewport
+          slides.forEach((slide) => {
+            slide.style.flex = `0 0 ${viewportWidth}px`;
+            slide.style.minWidth = `${viewportWidth}px`;
+            slide.style.width = `${viewportWidth}px`;
+          });
+
+          // Establecer la posición correcta
+          requestAnimationFrame(() => {
+            const targetScroll = viewportWidth * savedIndex;
+            carousel.scrollTo({
+              left: targetScroll,
+              behavior: 'instant'
+            });
+
+            // Actualizar UI
+            currentIndex = savedIndex;
+            updateUIElements(savedIndex);
+          });
+        });
+      };
+
       // Listener para cambios de pantalla completa
       const handleFullscreenChange = () => {
         const isFullscreen = document.fullscreenElement ||
@@ -1147,19 +1195,41 @@ const validImages = optimizedImages.filter(img => img !== null);
                            document.msFullscreenElement;
 
         if (isFullscreen) {
-          // Re-adjuntar event listeners y recalcular posición
+          console.log('Orientation change in fullscreen detected'); // Debug
+          console.log(`Current index before change: ${currentIndex}`); // Debug
+
+          // Dar tiempo al navegador para actualizar las dimensiones del viewport
           setTimeout(() => {
-            // Recalcular dimensiones y reposicionar
-            updateCarouselPosition();
+            console.log(`New dimensions - Width: ${window.innerWidth}, Height: ${window.innerHeight}`); // Debug
+
+            // Recalcular completamente el carousel manteniendo el índice actual
+            recalculateFullscreenCarousel(true);
 
             // Re-configurar event listeners de scroll si es móvil
             if (window.innerWidth <= 768) {
               // Remover listener anterior si existe
               carousel.removeEventListener('scroll', handleMobileScroll);
-              // Agregar nuevo listener
-              carousel.addEventListener('scroll', handleMobileScroll, { passive: true });
+              // Agregar nuevo listener después de un pequeño delay
+              setTimeout(() => {
+                carousel.addEventListener('scroll', handleMobileScroll, { passive: true });
+              }, 100);
             }
-          }, 300); // Dar tiempo para que el navegador ajuste el layout
+
+            // Verificación adicional del scroll después de un momento
+            setTimeout(() => {
+              const actualScroll = carousel.scrollLeft;
+              const expectedScroll = carousel.offsetWidth * currentIndex;
+              console.log(`Scroll verification - Actual: ${actualScroll}, Expected: ${expectedScroll}`); // Debug
+
+              if (Math.abs(actualScroll - expectedScroll) > 10) {
+                console.log('Correcting scroll position...'); // Debug
+                carousel.scrollTo({
+                  left: expectedScroll,
+                  behavior: 'smooth'
+                });
+              }
+            }, 500);
+          }, 400); // Dar tiempo suficiente para el cambio de orientación
         }
       };
 
@@ -1186,10 +1256,15 @@ const validImages = optimizedImages.filter(img => img !== null);
                              document.mozFullScreenElement ||
                              document.msFullscreenElement;
 
-          // Si estamos en fullscreen, usar updateCarouselPosition para mantener consistencia
-          if (isFullscreen) {
+          // Si estamos en fullscreen y es móvil, recalcular completamente
+          if (isFullscreen && window.innerWidth <= 768) {
+            console.log('Resize in fullscreen mobile detected'); // Debug
+            recalculateFullscreenCarousel(true);
+          } else if (isFullscreen) {
+            // Desktop en fullscreen
             updateCarouselPosition();
           } else {
+            // Modo normal
             updateCarousel(currentIndex);
           }
         }, 250);
