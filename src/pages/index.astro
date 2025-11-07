@@ -51,3 +51,61 @@ import GamifiedAdventures from '../components/sections/GamifiedAdventures.astro'
     }
   }
 </style>
+
+<script>
+  // Manejo de navegación con hash para móviles
+  document.addEventListener('DOMContentLoaded', () => {
+    // Función para hacer scroll a un elemento por su ID
+    function scrollToHash(hash: string) {
+      const targetId = hash.replace('#', '');
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        // Pequeño delay para asegurar que el contenido esté renderizado
+        setTimeout(() => {
+          // En móviles, desactivar temporalmente scroll-snap para permitir el scroll
+          const main = document.querySelector('main');
+          if (main && window.innerWidth <= 768) {
+            const originalScrollSnapType = getComputedStyle(main).scrollSnapType;
+            main.style.scrollSnapType = 'none';
+
+            // Hacer scroll al elemento
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+
+            // Reactivar scroll-snap después del scroll
+            setTimeout(() => {
+              main.style.scrollSnapType = originalScrollSnapType;
+            }, 1000);
+          } else {
+            // En desktop, scroll normal
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }, 100);
+      }
+    }
+
+    // Detectar si hay un hash en la URL al cargar la página
+    if (window.location.hash) {
+      scrollToHash(window.location.hash);
+    }
+
+    // Interceptar clicks en links con hash
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a');
+
+      if (link && link.hash && link.pathname === window.location.pathname) {
+        e.preventDefault();
+        scrollToHash(link.hash);
+        // Actualizar la URL sin recargar
+        history.pushState(null, '', link.hash);
+      }
+    });
+  });
+</script>

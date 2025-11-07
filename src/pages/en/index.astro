@@ -51,3 +51,61 @@ import GamifiedAdventures from '../../components/sections/GamifiedAdventures.ast
     }
   }
 </style>
+
+<script>
+  // Handle hash navigation for mobile devices
+  document.addEventListener('DOMContentLoaded', () => {
+    // Function to scroll to an element by its ID
+    function scrollToHash(hash: string) {
+      const targetId = hash.replace('#', '');
+      const targetElement = document.getElementById(targetId);
+
+      if (targetElement) {
+        // Small delay to ensure content is rendered
+        setTimeout(() => {
+          // On mobile, temporarily disable scroll-snap to allow scrolling
+          const main = document.querySelector('main');
+          if (main && window.innerWidth <= 768) {
+            const originalScrollSnapType = getComputedStyle(main).scrollSnapType;
+            main.style.scrollSnapType = 'none';
+
+            // Scroll to element
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+
+            // Re-enable scroll-snap after scrolling
+            setTimeout(() => {
+              main.style.scrollSnapType = originalScrollSnapType;
+            }, 1000);
+          } else {
+            // On desktop, normal scroll
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }, 100);
+      }
+    }
+
+    // Detect if there's a hash in the URL on page load
+    if (window.location.hash) {
+      scrollToHash(window.location.hash);
+    }
+
+    // Intercept clicks on links with hash
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a');
+
+      if (link && link.hash && link.pathname === window.location.pathname) {
+        e.preventDefault();
+        scrollToHash(link.hash);
+        // Update URL without reloading
+        history.pushState(null, '', link.hash);
+      }
+    });
+  });
+</script>

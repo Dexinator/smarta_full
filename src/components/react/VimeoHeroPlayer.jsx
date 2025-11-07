@@ -574,6 +574,7 @@ const VimeoHeroPlayer = ({
       }`}
       onMouseMove={handleShowControls}
       onTouchStart={handleShowControls}
+      onClick={handleShowControls}
     >
       {/* Video container */}
       <div className={`relative ${isFullscreen ? 'w-full h-full' : 'w-full h-full'}`}>
@@ -590,7 +591,7 @@ const VimeoHeroPlayer = ({
 
         {/* Barra de controles debajo del video (solo cuando NO está en fullscreen) */}
         {!isFullscreen && isReady && (
-          <div className="absolute bottom-0 left-0 right-0 z-[45] bg-gradient-to-t from-black/80 to-transparent p-4">
+          <div className="absolute bottom-0 left-0 right-0 md:bottom-auto md:top-4 md:right-4 md:left-auto md:w-auto z-[45] bg-gradient-to-t md:bg-gradient-to-b from-black/80 to-transparent p-4 md:rounded-xl">
             <div className="flex items-center justify-center gap-4" role="group" aria-label={language === 'es' ? 'Controles de video' : 'Video controls'}>
               {/* Play/Pause */}
               <button

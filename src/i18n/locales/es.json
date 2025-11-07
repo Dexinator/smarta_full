@@ -151,14 +151,17 @@
     "gallery": {
       "title": "Galería de imágenes",
       "description": "Galería de {{count}} imágenes",
+      "galleryLabel": "Galería de imágenes de la aventura. Desliza para navegar.",
+      "imageLabel": "Imagen {{current}} de {{total}}",
       "currentImage": "Imagen {{current}} de {{total}}: {{description}}",
       "previousImage": "Imagen anterior",
       "nextImage": "Imagen siguiente",
       "goToImage": "Ir a imagen {{index}}: {{description}}",
       "playAudio": "Escuchar audio sobre: {{description}}",
       "playVideo": "Ver video sobre: {{description}}",
-      "fullscreen": "Ver galería en pantalla completa",
-      "exitFullscreen": "Salir de pantalla completa de la galería"
+      "fullscreen": "Abrir galería en pantalla completa",
+      "exitFullscreen": "Salir de pantalla completa de la galería",
+      "indicatorsLabel": "Navegación de galería"
     },
     "slider": {
       "previous": "Anterior",

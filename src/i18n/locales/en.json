@@ -151,6 +151,8 @@
     "gallery": {
       "title": "Image gallery",
       "description": "Gallery of {{count}} images",
+      "galleryLabel": "Adventure image gallery. Swipe to navigate.",
+      "imageLabel": "Image {{current}} of {{total}}",
       "currentImage": "Image {{current}} of {{total}}: {{description}}",
       "previousImage": "Previous image",
       "nextImage": "Next image",
@@ -158,7 +160,8 @@
       "playAudio": "Play audio about: {{description}}",
       "playVideo": "Play video about: {{description}}",
       "fullscreen": "View gallery in fullscreen",
-      "exitFullscreen": "Exit gallery fullscreen"
+      "exitFullscreen": "Exit gallery fullscreen",
+      "indicatorsLabel": "Gallery navigation"
     },
     "slider": {
       "previous": "Previous",

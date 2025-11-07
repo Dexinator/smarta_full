@@ -1,6 +1,7 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import MediaModal from './MediaModal';
+import { getTranslations } from '../../i18n/utils';
 
 interface Props {
   images: Array<{
@@ -22,37 +23,33 @@ const { images, orientation, buttonsPosition = 'top-right', language = 'es' } = 
 
 const isLandscape = orientation === 'landscape';
 
-// Textos de accesibilidad bilingües
-const ariaTexts = {
-  es: {
-    galleryLabel: 'Galería de imágenes de la aventura. Desliza para navegar.',
-    imageLabel: (current: number, total: number) => `Imagen ${current} de ${total}`,
-    previousImage: 'Imagen anterior',
-    nextImage: 'Imagen siguiente',
-    goToImage: (index: number, alt: string) => `Ir a imagen ${index}: ${alt}`,
-    playAudio: (alt: string) => `Escuchar audio sobre: ${alt}`,
-    playVideo: (alt: string) => `Ver video sobre: ${alt}`,
-    fullscreen: 'Ver galería en pantalla completa',
-    exitFullscreen: 'Salir de pantalla completa',
-    indicatorsLabel: 'Navegación de galería',
-    currentImage: (current: number, total: number, alt: string) => `Imagen ${current} de ${total}: ${alt}`
-  },
-  en: {
-    galleryLabel: 'Adventure image gallery. Swipe to navigate.',
-    imageLabel: (current: number, total: number) => `Image ${current} of ${total}`,
-    previousImage: 'Previous image',
-    nextImage: 'Next image',
-    goToImage: (index: number, alt: string) => `Go to image ${index}: ${alt}`,
-    playAudio: (alt: string) => `Play audio about: ${alt}`,
-    playVideo: (alt: string) => `Play video about: ${alt}`,
-    fullscreen: 'View gallery in fullscreen',
-    exitFullscreen: 'Exit fullscreen',
-    indicatorsLabel: 'Gallery navigation',
-    currentImage: (current: number, total: number, alt: string) => `Image ${current} of ${total}: ${alt}`
-  }
+// Obtener traducciones de los archivos i18n
+const translations = await getTranslations(language);
+
+// Funciones auxiliares para interpolación de traducciones
+const interpolate = (template: string, values: Record<string, any>) => {
+  return template.replace(/\{\{(\w+)\}\}/g, (_, key) => values[key] ?? '');
 };
 
-const t = ariaTexts[language];
+// Textos de accesibilidad usando las traducciones oficiales
+const t = {
+  galleryLabel: translations.aria.gallery.galleryLabel,
+  imageLabel: (current: number, total: number) =>
+    interpolate(translations.aria.gallery.imageLabel, { current, total }),
+  previousImage: translations.aria.gallery.previousImage,
+  nextImage: translations.aria.gallery.nextImage,
+  goToImage: (index: number, alt: string) =>
+    interpolate(translations.aria.gallery.goToImage, { index, description: alt }),
+  playAudio: (alt: string) =>
+    interpolate(translations.aria.gallery.playAudio, { description: alt }),
+  playVideo: (alt: string) =>
+    interpolate(translations.aria.gallery.playVideo, { description: alt }),
+  fullscreen: translations.aria.gallery.fullscreen,
+  exitFullscreen: translations.aria.gallery.exitFullscreen,
+  indicatorsLabel: translations.aria.gallery.indicatorsLabel,
+  currentImage: (current: number, total: number, alt: string) =>
+    interpolate(translations.aria.gallery.currentImage, { current, total, description: alt })
+};
 
 // Determinar las clases de posición para los botones
 const positionClasses = {
