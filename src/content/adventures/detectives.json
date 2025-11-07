@@ -30,13 +30,13 @@
       },
       {
         "type": "descriptiva",
-        "title": "Audio Descriptivo",
+        "title": "Aventura Descriptivo",
         "link": "/aventuras/detectives/espanol",
         "imageAlt": "Versión descriptiva"
       },
       {
         "type": "subtitulada",
-        "title": "Vídeo LSE",
+        "title": "Aventura LSE",
         "link": "/aventuras/detectives/espanol",
         "imageAlt": "Versión con lengua de señas"
       },

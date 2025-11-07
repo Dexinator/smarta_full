@@ -506,14 +506,9 @@ const VimeoHeroPlayer = ({
       try {
         await requestFullscreen(containerRef.current);
 
-        // Intentar bloquear orientación solo si está soportado
-        if ('orientation' in screen && screen.orientation.lock) {
-          try {
-            await screen.orientation.lock('landscape');
-          } catch (err) {
-            // Silenciar error de orientación
-          }
-        }
+        // NO forzar orientación - permitir que el usuario decida
+        // Los videos verticales (9:16) se ven mejor en portrait
+        // Los usuarios pueden rotar su dispositivo si lo desean
       } catch (err) {
         // Fallback: intentar con el iframe directamente
         if (playerRef.current) {
@@ -533,15 +528,7 @@ const VimeoHeroPlayer = ({
     } else {
       try {
         await exitFullscreen();
-
-        // Desbloquear orientación si está soportado
-        if ('orientation' in screen && screen.orientation.unlock) {
-          try {
-            screen.orientation.unlock();
-          } catch (err) {
-            // Silenciar error de orientación
-          }
-        }
+        // No es necesario desbloquear orientación ya que no la bloqueamos
       } catch (err) {
         console.error('Error al salir de pantalla completa:', err);
       }
@@ -774,7 +761,10 @@ const VimeoHeroPlayer = ({
           justify-content: center !important;
         }
 
-        /* Contenedor para mantener aspect ratio 9:16 (vertical) */
+        /* Contenedor para mantener aspect ratio 9:16 (vertical)
+           NOTA: Los videos son verticales (formato móvil/reel)
+           Por eso NO forzamos orientación horizontal en fullscreen
+           El usuario puede rotar su dispositivo si lo desea */
         .vimeo-hero-container > div {
           position: relative !important;
           width: auto !important;

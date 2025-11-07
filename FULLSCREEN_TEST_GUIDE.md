@@ -98,6 +98,17 @@ Si necesitas debuggear más a fondo:
 
 ## Notas Adicionales
 
-- La orientación se intenta bloquear en landscape al entrar en fullscreen
+- **Orientación libre**: NO se fuerza ninguna orientación al entrar en fullscreen
+  - Los videos son verticales (9:16), diseñados para verse en portrait
+  - El usuario puede rotar su dispositivo libremente según su preferencia
+  - En landscape, el video mantiene su aspect ratio con barras negras a los lados
 - Los controles se auto-ocultan después de 3 segundos en fullscreen
 - El volumen inicia en mute para permitir autoplay en móviles
+
+## Cambio Reciente (Orientación)
+
+Se removió el bloqueo automático de orientación horizontal porque:
+1. Los videos son verticales (formato 9:16 tipo reel/TikTok)
+2. Se ven mejor en orientación portrait (vertical)
+3. Forzar landscape causaba una mala experiencia de usuario
+4. Ahora el usuario tiene control total sobre la orientación

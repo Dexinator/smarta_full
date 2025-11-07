@@ -30,13 +30,13 @@
       },
       {
         "type": "descriptiva",
-        "title": "Audio Descriptivo",
+        "title": "Aventura Descriptiva",
         "link": "/aventuras/urban-escape/espanol",
         "imageAlt": "Versión descriptiva"
       },
       {
         "type": "subtitulada",
-        "title": "Vídeo LSE",
+        "title": "Aventura LSE",
         "link": "/aventuras/urban-escape/espanol",
         "imageAlt": "Versión con lengua de señas"
       },
