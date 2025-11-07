@@ -29,6 +29,18 @@
         "imageAlt": "Versión en lectura fácil"
       },
       {
+        "type": "descriptiva",
+        "title": "Audio Descriptivo",
+        "link": "/aventuras/urban-escape/espanol",
+        "imageAlt": "Versión descriptiva"
+      },
+      {
+        "type": "subtitulada",
+        "title": "Vídeo LSE",
+        "link": "/aventuras/urban-escape/espanol",
+        "imageAlt": "Versión con lengua de señas"
+      },
+      {
         "type": "aventura-eng",
         "title": "Adventure",
         "link": "/aventuras/urban-escape/ingles",

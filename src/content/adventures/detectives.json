@@ -14,17 +14,35 @@
   "adventureCards": {
     "visible": true,
     "sectionTitle": "DETECTIVES EN ACCIÓN",
-    "sectionSubtitle": "Elige tu idioma preferido para vivir esta aventura",
+    "sectionSubtitle": "Todas las versiones incluyen la misma historia emocionante",
     "cards": [
       {
         "type": "aventura-esp",
-        "title": "Aventura en Español",
+        "title": "Aventura",
         "link": "/aventuras/detectives/espanol",
         "imageAlt": "Versión en español"
       },
       {
+        "type": "lectura-facil",
+        "title": "Aventura Lectura Fácil",
+        "link": "/aventuras/detectives/espanol",
+        "imageAlt": "Versión en lectura fácil"
+      },
+      {
+        "type": "descriptiva",
+        "title": "Audio Descriptivo",
+        "link": "/aventuras/detectives/espanol",
+        "imageAlt": "Versión descriptiva"
+      },
+      {
+        "type": "subtitulada",
+        "title": "Vídeo LSE",
+        "link": "/aventuras/detectives/espanol",
+        "imageAlt": "Versión con lengua de señas"
+      },
+      {
         "type": "aventura-eng",
-        "title": "Adventure in English",
+        "title": "Adventure",
         "link": "/aventuras/detectives/ingles",
         "imageAlt": "English version"
       }

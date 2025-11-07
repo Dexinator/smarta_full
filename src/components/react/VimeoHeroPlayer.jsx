@@ -20,6 +20,8 @@ const VimeoHeroPlayer = ({
   const [vimeoSDKReady, setVimeoSDKReady] = useState(false);
   const [liveMessage, setLiveMessage] = useState('');
   const [showFullscreenControls, setShowFullscreenControls] = useState(true);
+  const [isIOS, setIsIOS] = useState(false);
+  const [fullscreenSupported, setFullscreenSupported] = useState(true);
 
   const containerRef = useRef(null);
   const playerRef = useRef(null);
@@ -64,16 +66,37 @@ const VimeoHeroPlayer = ({
   // Detectar cambios en pantalla completa y dispositivo móvil
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+      const userAgent = navigator.userAgent;
+      const isMobileDevice = window.innerWidth <= 768 || /iPhone|iPad|iPod|Android/i.test(userAgent);
+      const isIOSDevice = /iPhone|iPad|iPod/i.test(userAgent) && !window.MSStream;
+
+      setIsMobile(isMobileDevice);
+      setIsIOS(isIOSDevice);
+
+      // Verificar soporte de fullscreen
+      const doc = document;
+      const hasFullscreenSupport = !!(
+        doc.fullscreenEnabled ||
+        doc.webkitFullscreenEnabled ||
+        doc.mozFullScreenEnabled ||
+        doc.msFullscreenEnabled
+      );
+      setFullscreenSupported(hasFullscreenSupport);
     };
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
     const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
+      const fullscreenElement =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement;
+      setIsFullscreen(!!fullscreenElement);
     };
 
+    // Agregar listeners para todos los prefijos de navegador
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
@@ -355,34 +378,168 @@ const VimeoHeroPlayer = ({
     setCurrentTime(newTime);
   };
 
+  // Verificar soporte de fullscreen API
+  const checkFullscreenSupport = () => {
+    const doc = document;
+    return !!(
+      doc.fullscreenEnabled ||
+      doc.webkitFullscreenEnabled ||
+      doc.mozFullScreenEnabled ||
+      doc.msFullscreenEnabled
+    );
+  };
+
+  // Obtener el elemento en fullscreen actual
+  const getFullscreenElement = () => {
+    return (
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    );
+  };
+
+  // Solicitar fullscreen con compatibilidad cross-browser
+  const requestFullscreen = async (element) => {
+    if (element.requestFullscreen) {
+      return element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+      // Safari/iOS
+      return element.webkitRequestFullscreen();
+    } else if (element.webkitEnterFullscreen) {
+      // iOS Safari para elementos de video
+      return element.webkitEnterFullscreen();
+    } else if (element.mozRequestFullScreen) {
+      // Firefox
+      return element.mozRequestFullScreen();
+    } else if (element.msRequestFullscreen) {
+      // IE/Edge
+      return element.msRequestFullscreen();
+    }
+    throw new Error('Fullscreen API no soportada');
+  };
+
+  // Salir de fullscreen con compatibilidad cross-browser
+  const exitFullscreen = async () => {
+    if (document.exitFullscreen) {
+      return document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      // Safari
+      return document.webkitExitFullscreen();
+    } else if (document.webkitCancelFullScreen) {
+      // Safari alternativo
+      return document.webkitCancelFullScreen();
+    } else if (document.mozCancelFullScreen) {
+      // Firefox
+      return document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+      // IE/Edge
+      return document.msExitFullscreen();
+    }
+  };
+
   const toggleFullscreen = async () => {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
     if (!containerRef.current) return;
 
-    if (!document.fullscreenElement) {
-      try {
-        await containerRef.current.requestFullscreen();
+    // Verificar soporte de fullscreen
+    if (!checkFullscreenSupport()) {
+      // Fallback 1: Intentar usar el método nativo de Vimeo Player
+      if (player && player.requestFullscreen) {
+        try {
+          player.requestFullscreen();
+          return;
+        } catch (err) {
+          console.warn('No se pudo usar fullscreen nativo de Vimeo:', err);
+        }
+      }
 
+      // Fallback 2: iOS Safari - intentar fullscreen en el iframe del video
+      if (playerRef.current) {
+        const iframe = playerRef.current.querySelector('iframe');
+        if (iframe) {
+          // Intentar método webkit específico para videos
+          if (iframe.webkitEnterFullscreen) {
+            try {
+              iframe.webkitEnterFullscreen();
+              return;
+            } catch (err) {
+              console.warn('No se pudo activar fullscreen webkit en iOS:', err);
+            }
+          }
+          // Intentar webkitRequestFullscreen
+          if (iframe.webkitRequestFullscreen) {
+            try {
+              iframe.webkitRequestFullscreen();
+              return;
+            } catch (err) {
+              console.warn('No se pudo activar webkitRequestFullscreen:', err);
+            }
+          }
+        }
+      }
+
+      // Si es iOS, abrir en Vimeo directamente
+      if (isIOS) {
+        const videoId = getVimeoVideoId(vimeoId)?.split('?')[0];
+        if (videoId) {
+          window.open(`https://vimeo.com/${videoId}`, '_blank');
+          setLiveMessage(language === 'es'
+            ? 'Abriendo video en Vimeo'
+            : 'Opening video in Vimeo');
+          return;
+        }
+      }
+
+      // Si no hay soporte, mostrar mensaje
+      console.warn('Fullscreen API no soportada en este dispositivo');
+      setLiveMessage(language === 'es'
+        ? 'Pantalla completa no disponible en este navegador'
+        : 'Fullscreen not available in this browser');
+      return;
+    }
+
+    const isCurrentlyFullscreen = getFullscreenElement();
+
+    if (!isCurrentlyFullscreen) {
+      try {
+        await requestFullscreen(containerRef.current);
+
+        // Intentar bloquear orientación solo si está soportado
         if ('orientation' in screen && screen.orientation.lock) {
           try {
-            await screen.orientation.lock('portrait');
+            await screen.orientation.lock('landscape');
           } catch (err) {
-            // Silenciar
+            // Silenciar error de orientación
           }
         }
       } catch (err) {
-        console.error('Error al entrar en pantalla completa:', err);
+        // Fallback: intentar con el iframe directamente
+        if (playerRef.current) {
+          const iframe = playerRef.current.querySelector('iframe');
+          if (iframe) {
+            try {
+              await requestFullscreen(iframe);
+            } catch (fallbackErr) {
+              console.error('Error al entrar en pantalla completa:', fallbackErr);
+              setLiveMessage(language === 'es'
+                ? 'Error al activar pantalla completa'
+                : 'Error entering fullscreen');
+            }
+          }
+        }
       }
     } else {
       try {
-        await document.exitFullscreen();
+        await exitFullscreen();
 
+        // Desbloquear orientación si está soportado
         if ('orientation' in screen && screen.orientation.unlock) {
           try {
             screen.orientation.unlock();
           } catch (err) {
-            // Silenciar
+            // Silenciar error de orientación
           }
         }
       } catch (err) {
@@ -486,15 +643,33 @@ const VimeoHeroPlayer = ({
               </button>
 
               {/* Pantalla completa */}
-              <button
-                onClick={toggleFullscreen}
-                className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
-                aria-label={t.fullscreen}
-              >
-                <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
-                </svg>
-              </button>
+              {isIOS && !fullscreenSupported ? (
+                // Botón alternativo para iOS
+                <a
+                  href={`https://vimeo.com/${getVimeoVideoId(vimeoId)?.split('?')[0]}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0 relative"
+                  aria-label={language === 'es' ? 'Ver video en Vimeo (se abre en nueva pestaña)' : 'View video on Vimeo (opens in new tab)'}
+                >
+                  <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                  {/* Indicador visual de enlace externo */}
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-SM-yellow rounded-full animate-pulse" aria-hidden="true"></span>
+                </a>
+              ) : (
+                // Botón estándar de fullscreen
+                <button
+                  onClick={toggleFullscreen}
+                  className="p-2 text-white hover:text-SM-yellow transition-colors flex-shrink-0"
+                  aria-label={t.fullscreen}
+                >
+                  <svg aria-hidden="true" className="w-8 h-8 md:w-9 md:h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/>
+                  </svg>
+                </button>
+              )}
             </div>
           </div>
         )}
