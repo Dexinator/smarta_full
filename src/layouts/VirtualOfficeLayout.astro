@@ -54,26 +54,116 @@ const t = await getTranslations(lang);
 // Obtener el tema del banner (por defecto blue)
 const bannerTheme = bannerCTA?.bgGradientTheme || 'blue';
 
-// Definir todas las burbujas disponibles con imágenes
+// Definir todas las burbujas disponibles con imágenes y títulos bilingües
 const todasBurbujas = {
-  'MAC José Fuentes': { title: 'MAC José Fuentes', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-arte-contemporaneo', img: imgMacJoseFuentes },
-  'Museo del Grabado': { title: 'Museo del Grabado', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-grabado', img: imgMuseoGrabado },
-  'Espacio Serzo': { title: 'Espacio Serzo', link: 'https://www.turismosantamartadetormes.com/museo/espacio-serzo', img: imgEspacioSerzo },
-  'Espacio Agustín Casillas': { title: 'Espacio Agustín Casillas', link: 'https://www.turismosantamartadetormes.com/museo/espacio-agustin-casillas-escultura', img: imgEspacioAgustin },
-  'Sala Tragaluz': { title: 'Sala Tragaluz', link: 'https://www.turismosantamartadetormes.com/museo/sala-tragaluz', img: imgSalaTragaluz },
-  'Sala Miguel Delibes': { title: 'Sala Miguel Delibes', link: 'https://www.turismosantamartadetormes.com/museo/sala-miguel-delibes', img: imgSalaMiguelDelibes },
-  'Sala Protagonistas': { title: 'Sala Protagonistas', link: 'https://www.turismosantamartadetormes.com/museo/sala-protagonistas', img: imgSalaProtagonistas },
-  'Ruta Murales': { title: 'Ruta Murales', link: 'https://www.turismosantamartadetormes.com/ruta-murales', img: imgRutaMurales },
-  'Arte Emboscado': { title: 'Arte Emboscado', link: 'https://www.turismosantamartadetormes.com/arte-emboscado', img: imgArteEmboscado },
-  'Audioguía Murales': { title: 'Audioguía Murales', link: 'https://murales.santamartaccesible.com', img: imgAudioguiaMurales },
-  'Isla del Soto': { title: 'Isla del Soto', link: 'https://www.turismosantamartadetormes.com/isla-del-soto', img: imgIslaSoto },
-  'Centro de Interpretación': { title: 'Centro de Interpretación', link: 'https://www.turismosantamartadetormes.com/museo/centro-de-interpretacion-isla-del-soto', img: imgCentroInterpretacion },
-  'Audioguía Isla del Soto': { title: 'Audioguía Isla del Soto', link: 'https://soto.santamartaccesible.com/', img: imgAudioguiaIsla },
-  'Museo de la Moto Histórica': { title: 'Museo de la Moto Histórica', link: 'https://www.turismosantamartadetormes.com/museo/museo-de-la-moto-historica', img: imgMuseoMoto },
-  'Ruta Lápices': { title: 'Ruta Lápices', link: 'https://www.turismosantamartadetormes.com/ruta-lapices', img: imgRutaLapices },
-  'Ruta Bichos': { title: 'Ruta Bichos', link: 'https://www.turismosantamartadetormes.com/ruta-bichos-soto', img: imgRutaBichos },
-  'Isla del Soto Encantada': { title: 'Isla del Soto Encantada', link: 'https://www.turismosantamartadetormes.com/museo/espacio-isla-encantada', img: imgIslaEncantada },
-  'Aventuras': { title: 'Aventuras', link: '/#adventures', img: imgAventuras },
+  'MAC José Fuentes': {
+    titleEs: 'MAC José Fuentes',
+    titleEn: 'MAC José Fuentes',
+    link: 'https://www.turismosantamartadetormes.com/museo/museo-de-arte-contemporaneo',
+    img: imgMacJoseFuentes
+  },
+  'Museo del Grabado': {
+    titleEs: 'Museo del Grabado',
+    titleEn: 'Museum of Printmaking',
+    link: 'https://www.turismosantamartadetormes.com/museo/museo-de-grabado',
+    img: imgMuseoGrabado
+  },
+  'Espacio Serzo': {
+    titleEs: 'Espacio Serzo',
+    titleEn: 'Serzo Space',
+    link: 'https://www.turismosantamartadetormes.com/museo/espacio-serzo',
+    img: imgEspacioSerzo
+  },
+  'Espacio Agustín Casillas': {
+    titleEs: 'Espacio Agustín Casillas',
+    titleEn: 'Agustín Casillas Space',
+    link: 'https://www.turismosantamartadetormes.com/museo/espacio-agustin-casillas-escultura',
+    img: imgEspacioAgustin
+  },
+  'Sala Tragaluz': {
+    titleEs: 'Sala Tragaluz',
+    titleEn: 'Tragaluz Gallery',
+    link: 'https://www.turismosantamartadetormes.com/museo/sala-tragaluz',
+    img: imgSalaTragaluz
+  },
+  'Sala Miguel Delibes': {
+    titleEs: 'Sala Miguel Delibes',
+    titleEn: 'Miguel Delibes Gallery',
+    link: 'https://www.turismosantamartadetormes.com/museo/sala-miguel-delibes',
+    img: imgSalaMiguelDelibes
+  },
+  'Sala Protagonistas': {
+    titleEs: 'Sala Protagonistas',
+    titleEn: 'Protagonistas Gallery',
+    link: 'https://www.turismosantamartadetormes.com/museo/sala-protagonistas',
+    img: imgSalaProtagonistas
+  },
+  'Ruta Murales': {
+    titleEs: 'Ruta Murales',
+    titleEn: 'Murals Route',
+    link: 'https://www.turismosantamartadetormes.com/ruta-murales',
+    img: imgRutaMurales
+  },
+  'Arte Emboscado': {
+    titleEs: 'Arte Emboscado',
+    titleEn: 'Emboscado Art',
+    link: 'https://www.turismosantamartadetormes.com/arte-emboscado',
+    img: imgArteEmboscado
+  },
+  'Audioguía Murales': {
+    titleEs: 'Audioguía Murales',
+    titleEn: 'Murals Audio Guide',
+    link: 'https://murales.santamartaccesible.com',
+    img: imgAudioguiaMurales
+  },
+  'Isla del Soto': {
+    titleEs: 'Isla del Soto',
+    titleEn: 'Soto Island',
+    link: 'https://www.turismosantamartadetormes.com/isla-del-soto',
+    img: imgIslaSoto
+  },
+  'Centro de Interpretación': {
+    titleEs: 'Centro de Interpretación',
+    titleEn: 'Interpretation Center',
+    link: 'https://www.turismosantamartadetormes.com/museo/centro-de-interpretacion-isla-del-soto',
+    img: imgCentroInterpretacion
+  },
+  'Audioguía Isla del Soto': {
+    titleEs: 'Audioguía Isla del Soto',
+    titleEn: 'Soto Island Audio Guide',
+    link: 'https://soto.santamartaccesible.com/',
+    img: imgAudioguiaIsla
+  },
+  'Museo de la Moto Histórica': {
+    titleEs: 'Museo de la Moto Histórica',
+    titleEn: 'Historical Motorcycle Museum',
+    link: 'https://www.turismosantamartadetormes.com/museo/museo-de-la-moto-historica',
+    img: imgMuseoMoto
+  },
+  'Ruta Lápices': {
+    titleEs: 'Ruta Lápices',
+    titleEn: 'Pencils Route',
+    link: 'https://www.turismosantamartadetormes.com/ruta-lapices',
+    img: imgRutaLapices
+  },
+  'Ruta Bichos': {
+    titleEs: 'Ruta Bichos',
+    titleEn: 'Bugs Route',
+    link: 'https://www.turismosantamartadetormes.com/ruta-bichos-soto',
+    img: imgRutaBichos
+  },
+  'Isla del Soto Encantada': {
+    titleEs: 'Isla del Soto Encantada',
+    titleEn: 'Enchanted Soto Island',
+    link: 'https://www.turismosantamartadetormes.com/museo/espacio-isla-encantada',
+    img: imgIslaEncantada
+  },
+  'Aventuras': {
+    titleEs: 'Aventuras',
+    titleEn: 'Adventures',
+    link: '/#adventures',
+    img: imgAventuras
+  },
 };
 
 // Filtrar burbujas según configuración (o usar todas si no hay filtro)
@@ -265,7 +355,7 @@ if (lang === 'es') {
                 <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full shadow-lg group-hover:shadow-xl group-active:scale-95 transform transition-all overflow-hidden mb-3">
                   <Image
                     src={burbuja.img}
-                    alt={burbuja.title}
+                    alt={lang === 'es' ? burbuja.titleEs : burbuja.titleEn}
                     width={256}
                     height={256}
                     widths={[96, 128, 192, 256]}
@@ -278,7 +368,7 @@ if (lang === 'es') {
                   />
                 </div>
                 <h3 class="text-sm sm:text-base md:text-lg font-semibold text-slate-900 dark:text-white text-center px-2">
-                  {burbuja.title}
+                  {lang === 'es' ? burbuja.titleEs : burbuja.titleEn}
                 </h3>
               </a>
             );
