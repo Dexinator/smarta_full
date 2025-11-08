@@ -791,6 +791,7 @@ const VimeoHeroPlayer = ({
           left: 0 !important;
           width: 100% !important;
           height: 100% !important;
+          object-fit: contain !important;
         }
 
         /* Controles de video sobre el video - mismo tamaño y posicionamiento que el vídeo */
@@ -864,13 +865,45 @@ const VimeoHeroPlayer = ({
           }
         }
 
-        /* En fullscreen: eliminar restricciones y ocupar todo el espacio */
-        .fixed.inset-0 .vimeo-hero-container > div:first-child {
-          aspect-ratio: unset !important;
+        /* En fullscreen: mantener aspect ratio 9:16 del video vertical */
+        .fixed.inset-0 .vimeo-hero-container {
           width: 100vw !important;
           height: 100vh !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background: black !important;
+        }
+
+        .fixed.inset-0 .vimeo-hero-container > div:first-child {
+          position: relative !important;
+          aspect-ratio: 9 / 16 !important;
           max-width: 100vw !important;
           max-height: 100vh !important;
+          width: auto !important;
+          height: 100vh !important;
+        }
+
+        /* Si la pantalla es más ancha que 9:16, ajustar por altura */
+        @media (min-aspect-ratio: 9/16) {
+          .fixed.inset-0 .vimeo-hero-container > div:first-child {
+            height: 100vh !important;
+            width: auto !important;
+          }
+        }
+
+        /* Si la pantalla es más estrecha que 9:16, ajustar por ancho */
+        @media (max-aspect-ratio: 9/16) {
+          .fixed.inset-0 .vimeo-hero-container > div:first-child {
+            width: 100vw !important;
+            height: auto !important;
+          }
+        }
+
+        /* Asegurar que el iframe en fullscreen también mantenga las proporciones */
+        .fixed.inset-0 .vimeo-hero-container iframe {
+          object-fit: contain !important;
+          background: black !important;
         }
       `}} />
     </div>
