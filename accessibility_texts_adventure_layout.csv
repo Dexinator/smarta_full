@@ -1,0 +1,56 @@
+Componente,Elemento,Tipo,Texto ES,Texto EN,Ubicación en Código
+AdventureContentLayout.astro,Skip Link,aria-label,Saltar al contenido principal,,src/layouts/AdventureContentLayout.astro:81-83
+AdventureContentLayout.astro,Skip Link,aria-label,Saltar a la galería de imágenes,,src/layouts/AdventureContentLayout.astro:85-88
+AdventureContentLayout.astro,Skip Link,aria-label,Saltar al mapa,,src/layouts/AdventureContentLayout.astro:90-93
+AdventureContentLayout.astro,Skip Link,aria-label,Saltar a descarga de folleto,,src/layouts/AdventureContentLayout.astro:95-98
+AdventureContentLayout.astro,Skip Link,aria-label,Saltar a otras aventuras,,src/layouts/AdventureContentLayout.astro:100-103
+AdventureContentLayout.astro,Gallery Section,aria-label,Galería de aventura,Adventure gallery,src/layouts/AdventureContentLayout.astro:116
+AdventureContentLayout.astro,Map Section,aria-label,Mapa de ubicaciones,Location map,src/layouts/AdventureContentLayout.astro:132
+AdventureContentLayout.astro,Download Section,aria-label,Descargar folleto,Download brochure,src/layouts/AdventureContentLayout.astro:150
+ImageGallery.astro,Exit Fullscreen Button,aria-label,Salir de pantalla completa de la galería,Exit fullscreen gallery,translations.aria.gallery.exitFullscreen
+ImageGallery.astro,Gallery Carousel,aria-label,"Galería de imágenes de la aventura. Desliza para navegar.",Adventure image gallery. Swipe to navigate.,translations.aria.gallery.galleryLabel
+ImageGallery.astro,Gallery Carousel,aria-roledescription,carousel,,src/components/adventure/ImageGallery.astro:167
+ImageGallery.astro,Gallery Slide,aria-roledescription,slide,,src/components/adventure/ImageGallery.astro:177
+ImageGallery.astro,Gallery Slide,aria-label,"Imagen {{current}} de {{total}}","Image {{current}} of {{total}}",translations.aria.gallery.imageLabel
+ImageGallery.astro,Image,alt,Texto descriptivo de cada imagen proporcionado en JSON,Descriptive text for each image provided in JSON,config.imageGallery.images[].alt
+ImageGallery.astro,Media Button (Audio),aria-label,"Escuchar audio sobre: {{description}}","Listen to audio about: {{description}}",translations.aria.gallery.playAudio
+ImageGallery.astro,Media Button (Video),aria-label,"Ver video sobre: {{description}}","Watch video about: {{description}}",translations.aria.gallery.playVideo
+ImageGallery.astro,Previous Button,aria-label,Imagen anterior,Previous image,translations.aria.gallery.previousImage
+ImageGallery.astro,Next Button,aria-label,Imagen siguiente,Next image,translations.aria.gallery.nextImage
+ImageGallery.astro,Indicators Container,aria-label,Navegación de galería,Gallery navigation,translations.aria.gallery.indicatorsLabel
+ImageGallery.astro,Indicator Button,role,tab,,src/components/adventure/ImageGallery.astro:276
+ImageGallery.astro,Indicator Button,aria-selected,true/false,,src/components/adventure/ImageGallery.astro:277
+ImageGallery.astro,Indicator Button,aria-label,"Ir a imagen {{index}}: {{description}}","Go to image {{index}}: {{description}}",translations.aria.gallery.goToImage
+ImageGallery.astro,Fullscreen Button,aria-label,Abrir galería en pantalla completa,Open gallery in fullscreen,translations.aria.gallery.fullscreen
+ImageGallery.astro,Live Region,role,status,,src/components/adventure/ImageGallery.astro:300
+ImageGallery.astro,Live Region,aria-live,polite,,src/components/adventure/ImageGallery.astro:300
+ImageGallery.astro,Live Region,aria-atomic,true,,src/components/adventure/ImageGallery.astro:300
+ImageGallery.astro,Live Region,text,"Imagen {{current}} de {{total}}: {{description}}","Image {{current}} of {{total}}: {{description}}",Dynamic announcement
+MapSection.astro,Map Title,text,Paradas,Stops,src/components/adventure/MapSection.astro:41
+MapSection.astro,Map Subtitle,text,Descubre las ubicaciones importantes de tu visita,Discover the important locations for your visit,src/components/adventure/MapSection.astro:44
+MapSection.astro,Location List Title,text (sr-only),Lista de ubicaciones,List of locations,src/components/adventure/MapSection.astro:63
+MapSection.astro,Location Name,text,Nombre de ubicación desde config,Location name from config,config.map.locations[].name
+MapSection.astro,Location Description,text,Descripción de ubicación desde config,Location description from config,config.map.locations[].description
+MapSection.astro,Location Coordinates,text (sr-only),"Coordenadas: lat, lng","Coordinates: lat, lng",src/components/adventure/MapSection.astro:72
+DownloadBrochure.astro,Download Button,aria-label,"{{buttonText}} - Se abre en una nueva pestaña. Puedes descargarlo desde ahí.","{{buttonText}} - Opens in a new tab. You can download it from there.",src/components/adventure/DownloadBrochure.astro:77
+DownloadBrochure.astro,Button Text,text,Ver Folleto (o texto personalizado),Open Brochure (or custom text),config.downloadBrochure.buttonText
+DownloadBrochure.astro,PDF Badge,aria-hidden,true,,src/components/adventure/DownloadBrochure.astro:82
+DownloadBrochure.astro,External Link Icon,aria-hidden,true,,src/components/adventure/DownloadBrochure.astro:89
+DownloadBrochure.astro,External Link Icon,focusable,false,,src/components/adventure/DownloadBrochure.astro:89
+DownloadBrochure.astro,Additional Info,text,"Se abre en una nueva pestaña. Puedes descargarlo desde ahí.","Opens in a new tab. You can download it from there.",src/components/adventure/DownloadBrochure.astro:94
+OtherAdventures.astro,Section Title,text,Vive más experiencias en Santa Marta,Live more experiences in Santa Marta,src/components/adventure/OtherAdventures.astro:143
+OtherAdventures.astro,Section Subtitle,text,Descubre más aventuras disponibles,Discover more available adventures,src/components/adventure/OtherAdventures.astro:146
+OtherAdventures.astro,Adventure Link,aria-label,"Ir a {{adventure.title}}","Go to {{adventure.title}}",src/components/adventure/OtherAdventures.astro:161
+OtherAdventures.astro,Adventure Image,alt,""(vacío - decorativa),""(empty - decorative),src/components/adventure/OtherAdventures.astro:169
+OtherAdventures.astro,Adventure Image,role,presentation,,src/components/adventure/OtherAdventures.astro:170
+OtherAdventures.astro,Adventure Title,text,Título de la aventura desde config,Adventure title from config,config.otherAdventures.adventures[].title
+MediaModal (referenced),Modal Close,aria-label,Cerrar ventana,Close window,translations.aria.modal.close
+MediaModal (referenced),Audio Player,aria-label,Reproductor de audio,Audio player,translations.aria.modal.audioPlayer
+MediaModal (referenced),Video Player,aria-label,Reproductor de video,Video player,translations.aria.modal.videoPlayer
+MediaModal (referenced),Loading,text,Cargando contenido multimedia...,Loading multimedia content...,translations.aria.modal.loading
+MapComponent (referenced),Map Container,aria-label,Mapa interactivo de ubicaciones,Interactive location map,translations.aria.map.title
+MapComponent (referenced),Scroll Lock Button,aria-pressed,true/false,,Dynamic state
+MapComponent (referenced),Scroll Lock Button,aria-label,"Mapa bloqueado/desbloqueado. Haz clic para activar/bloquear zoom con scroll","Map locked/unlocked. Click to enable/lock scroll zoom",translations.aria.map.locked/unlocked
+MapComponent (referenced),Location Marker,aria-label,"Ubicación: {{name}}. {{description}}. Coordenadas: {{coordinates}}","Location: {{name}}. {{description}}. Coordinates: {{coordinates}}",translations.aria.map.location
+MapComponent (referenced),Get Directions,aria-label,"Cómo llegar a {{name}}","How to get to {{name}}",translations.aria.map.howToGet
+Screen Reader Utilities,sr-only class,visibility,Solo visible para lectores de pantalla,Only visible to screen readers,CSS utility class

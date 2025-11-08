@@ -17,7 +17,7 @@
         "buttonText": "Clic aquí para<br>escuchar la Introducción",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/253A2204947671",
+          "url": "https://api.soundcloud.com/tracks/2204947671",
           "label": "Escuchar audiodescripción de la introducción"
         }
       },
@@ -27,7 +27,7 @@
         "buttonText": "1. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/253A2204947683",
+          "url": "https://api.soundcloud.com/tracks/2204947683",
           "label": "Escuchar audiodescripción del Origen de la Villa"
         }
       },
@@ -37,7 +37,7 @@
         "buttonText": "2. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/253A2204947659",
+          "url": "https://api.soundcloud.com/tracks/2204947659",
           "label": "Escuchar audiodescripción de Vestigios del Pasado"
         }
       },
@@ -47,7 +47,7 @@
         "buttonText": "3. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/253A2204947663",
+          "url": "https://api.soundcloud.com/tracks/2204947663",
           "label": "Escuchar audiodescripción de la Patrona"
         }
       },
@@ -57,7 +57,7 @@
         "buttonText": "4. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/253A2204947675",
+          "url": "https://api.soundcloud.com/tracks/2204947675",
           "label": "Escuchar audiodescripción del Ayuntamiento"
         }
       },
@@ -67,7 +67,7 @@
         "buttonText": "5. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/253A2204947667",
+          "url": "https://api.soundcloud.com/tracks/2204947667",
           "label": "Escuchar audiodescripción del Arte"
         }
       },
@@ -77,7 +77,7 @@
         "buttonText": "6. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
-          "url": "https://api.soundcloud.com/tracks/253A2204947679",
+          "url": "https://api.soundcloud.com/tracks/2204947679",
           "label": "Escuchar audiodescripción de la Ruta de los Murales"
         }
       },
