@@ -218,10 +218,10 @@ if (lang === 'es') {
       </section>
     )}
 
-    <!-- Controles móviles del video (justo después de la sección hero, solo móvil) -->
+    <!-- Controles móviles del video (fijos en la parte inferior del viewport, solo móvil) -->
     {hero?.visible && (
-      <div class="w-full bg-black md:hidden -mt-1">
-        <div class="flex justify-center py-4">
+      <div class="fixed bottom-6 left-0 right-0 z-50 md:hidden pointer-events-none">
+        <div class="flex justify-center pointer-events-auto">
           <MobileVideoControls
             language={lang}
             client:load
