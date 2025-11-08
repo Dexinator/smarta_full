@@ -5,6 +5,7 @@ import Header from '../components/ui/Header.astro';
 import Footer from '../components/ui/Footer.astro';
 import MapSection from '../components/adventure/MapSection.astro';
 import VimeoHeroPlayer from '../components/react/VimeoHeroPlayer.jsx';
+import MobileVideoControls from '../components/react/MobileVideoControls.jsx';
 import { getTranslations } from '../i18n/utils';
 
 // Importar componente Image y getImage de Astro para optimización automática
@@ -202,10 +203,7 @@ if (lang === 'es') {
         <div class="absolute inset-0 flex items-center justify-center bg-black">
           <VimeoHeroPlayer
             vimeoId={hero.videoUrl}
-            posterUrl={hero.posterUrl || "/placeholder-video.jpg"}
-            autoplay={true}
-            muted={true}
-            loop={true}
+            language={lang}
             client:load
             className="w-full h-full"
           />
@@ -218,6 +216,16 @@ if (lang === 'es') {
           </h1>
         </div>
       </section>
+    )}
+
+    <!-- Controles móviles del video (fuera del contenedor del video) -->
+    {hero?.visible && (
+      <div class="mobile-controls-container fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 md:hidden">
+        <MobileVideoControls
+          language={lang}
+          client:load
+        />
+      </div>
     )}
 
     <!-- Sección 2: Lectura Fácil -->

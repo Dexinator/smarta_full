@@ -366,6 +366,42 @@ const VimeoHeroPlayer = ({
     }
   };
 
+  // Emitir eventos para controles externos
+  useEffect(() => {
+    const event = new CustomEvent('heroVideoStateChange', {
+      detail: {
+        isPlaying,
+        isMuted,
+        volume,
+        currentTime,
+        duration,
+        isFullscreen,
+        isReady
+      }
+    });
+    window.dispatchEvent(event);
+  }, [isPlaying, isMuted, volume, currentTime, duration, isFullscreen, isReady]);
+
+  // Escuchar comandos externos
+  useEffect(() => {
+    const handleCommand = (e) => {
+      switch(e.detail.command) {
+        case 'playPause':
+          handlePlayPause();
+          break;
+        case 'mute':
+          setIsMuted(!isMuted);
+          break;
+        case 'fullscreen':
+          toggleFullscreen();
+          break;
+      }
+    };
+
+    window.addEventListener('heroVideoCommand', handleCommand);
+    return () => window.removeEventListener('heroVideoCommand', handleCommand);
+  }, [player, isReady, isMuted]);
+
   const handleSeek = (e) => {
     if (!player || !isReady) return;
 
@@ -599,8 +635,8 @@ const VimeoHeroPlayer = ({
             />
           )}
 
-          {/* Barra de controles sobre el video (solo cuando NO está en fullscreen) */}
-          {!isFullscreen && isReady && (
+          {/* Barra de controles sobre el video (solo en DESKTOP cuando NO está en fullscreen) */}
+          {!isFullscreen && isReady && !isMobile && (
             <div className="video-controls-overlay">
               <div className="flex items-center justify-center gap-3 md:gap-4" role="group" aria-label={language === 'es' ? 'Controles de video' : 'Video controls'}>
                 {/* Play/Pause */}

@@ -158,6 +158,26 @@ const validImages = optimizedImages.filter(img => img !== null);
       </svg>
     </button>
 
+    <!-- Mensaje de rotación para landscape en móvil vertical -->
+    {orientation === 'landscape' && (
+      <div class="rotate-device-message hidden fixed inset-0 z-[10002] bg-black/95 flex items-center justify-center">
+        <div class="text-center text-white p-8">
+          <svg class="w-24 h-24 mx-auto mb-4 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          <p class="text-xl font-semibold mb-2">
+            {language === 'en' ? 'Please rotate your device' : 'Por favor, gira tu dispositivo'}
+          </p>
+          <p class="text-sm opacity-80">
+            {language === 'en'
+              ? 'This content is best viewed in landscape mode'
+              : 'Este contenido se ve mejor en modo horizontal'}
+          </p>
+        </div>
+      </div>
+    )}
+
     <!-- Contenedor del Carousel con controles fuera del área scrolleable -->
     <div class="gallery-wrapper relative">
       <!-- Contenedor del Carousel -->
@@ -442,6 +462,7 @@ const validImages = optimizedImages.filter(img => img !== null);
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    background: black !important; /* Asegurar fondo negro siempre */
   }
 
   .fullscreen-active img {
@@ -450,6 +471,20 @@ const validImages = optimizedImages.filter(img => img !== null);
     width: auto !important;
     height: auto !important;
     object-fit: contain !important;
+  }
+
+  /* Fix específico para landscape en fullscreen */
+  .fullscreen-active[data-orientation="landscape"] .gallery-slide > div {
+    background: black !important;
+  }
+
+  .fullscreen-active[data-orientation="landscape"] picture {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: black !important;
   }
 
   /* Específico para móvil en fullscreen */
@@ -597,6 +632,17 @@ const validImages = optimizedImages.filter(img => img !== null);
 
   /* Ajustes específicos para móvil horizontal */
   @media (max-width: 768px) and (orientation: landscape) {
+    /* Asegurar fondo negro para evitar problemas visuales */
+    .fullscreen-active {
+      background: black !important;
+    }
+
+    .fullscreen-active .gallery-carousel,
+    .fullscreen-active .gallery-track,
+    .fullscreen-active .gallery-slide {
+      background: black !important;
+    }
+
     /* En horizontal, reducir el espacio de los controles */
     .fullscreen-active .exit-fullscreen-button {
       top: 0.25rem !important;
@@ -728,6 +774,27 @@ const validImages = optimizedImages.filter(img => img !== null);
   /* Animación suave para indicadores */
   .indicator {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Animación de rotación para el mensaje */
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 4s linear infinite;
+  }
+
+  /* Mostrar mensaje de rotación solo cuando sea necesario */
+  @media (max-width: 768px) and (orientation: portrait) {
+    .fullscreen-active[data-orientation="landscape"] .rotate-device-message {
+      display: flex !important;
+    }
   }
 </style>
 
@@ -1003,6 +1070,26 @@ const validImages = optimizedImages.filter(img => img !== null);
 
           gallery.classList.add('fullscreen-active');
 
+          // Para galerías landscape en móviles, forzar orientación horizontal
+          const orientation = gallery.dataset.orientation;
+          if (orientation === 'landscape' && window.innerWidth <= 768) {
+            // Intentar bloquear orientación a horizontal
+            if (screen.orientation && screen.orientation.lock) {
+              try {
+                await screen.orientation.lock('landscape');
+                console.log('Orientación bloqueada a landscape');
+              } catch (err) {
+                console.log('No se pudo bloquear la orientación:', err);
+                // Intentar con orientación específica si landscape falla
+                try {
+                  await screen.orientation.lock('landscape-primary');
+                } catch (err2) {
+                  console.log('No se pudo bloquear a landscape-primary:', err2);
+                }
+              }
+            }
+          }
+
           // Usar requestAnimationFrame para asegurar que el layout está actualizado
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
@@ -1082,6 +1169,17 @@ const validImages = optimizedImages.filter(img => img !== null);
 
       const exitFullscreen = async () => {
         try {
+          // Primero, desbloquear la orientación si estaba bloqueada
+          const orientation = gallery.dataset.orientation;
+          if (orientation === 'landscape' && screen.orientation && screen.orientation.unlock) {
+            try {
+              screen.orientation.unlock();
+              console.log('Orientación desbloqueada');
+            } catch (err) {
+              console.log('No se pudo desbloquear la orientación:', err);
+            }
+          }
+
           if (document.exitFullscreen) {
             await document.exitFullscreen();
           } else if (document.webkitExitFullscreen) {
@@ -1175,6 +1273,17 @@ const validImages = optimizedImages.filter(img => img !== null);
         if (!isFullscreen) {
           gallery.classList.remove('fullscreen-active');
 
+          // Desbloquear orientación al salir de fullscreen
+          const orientation = gallery.dataset.orientation;
+          if (orientation === 'landscape' && screen.orientation && screen.orientation.unlock) {
+            try {
+              screen.orientation.unlock();
+              console.log('Orientación desbloqueada al salir de fullscreen');
+            } catch (err) {
+              console.log('No se pudo desbloquear orientación:', err);
+            }
+          }
+
           // Re-configurar después de salir de fullscreen
           setTimeout(() => {
             setupMediaButtons();
@@ -1195,9 +1304,28 @@ const validImages = optimizedImages.filter(img => img !== null);
           console.log('Orientation change in fullscreen detected'); // Debug
           console.log(`Current index before change: ${currentIndex}`); // Debug
 
+          const orientation = gallery.dataset.orientation;
+
+          // Para galerías landscape, intentar mantener orientación horizontal
+          if (orientation === 'landscape' && screen.orientation && screen.orientation.lock) {
+            // Verificar orientación actual
+            const currentOrientation = screen.orientation.type;
+            if (currentOrientation.includes('portrait')) {
+              // Si cambió a vertical, intentar volver a horizontal
+              screen.orientation.lock('landscape').catch(err => {
+                console.log('No se pudo mantener orientación landscape:', err);
+              });
+            }
+          }
+
           // Dar tiempo al navegador para actualizar las dimensiones del viewport
           setTimeout(() => {
             console.log(`New dimensions - Width: ${window.innerWidth}, Height: ${window.innerHeight}`); // Debug
+
+            // Forzar recálculo de estilos para evitar fondo negro
+            gallery.style.display = 'none';
+            gallery.offsetHeight; // Force reflow
+            gallery.style.display = '';
 
             // Recalcular completamente el carousel manteniendo el índice actual
             recalculateFullscreenCarousel(true);
