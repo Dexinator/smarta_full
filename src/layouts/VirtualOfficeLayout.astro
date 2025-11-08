@@ -215,17 +215,19 @@ if (lang === 'es') {
             {hero.title}
           </h1>
         </div>
-
-        <!-- Controles móviles del video (justo abajo del video, solo móvil) -->
-        <div class="absolute bottom-0 left-0 right-0 z-50 md:hidden">
-          <div class="flex justify-center pb-4">
-            <MobileVideoControls
-              language={lang}
-              client:load
-            />
-          </div>
-        </div>
       </section>
+    )}
+
+    <!-- Controles móviles del video (justo después de la sección hero, solo móvil) -->
+    {hero?.visible && (
+      <div class="w-full bg-black md:hidden -mt-1">
+        <div class="flex justify-center py-4">
+          <MobileVideoControls
+            language={lang}
+            client:load
+          />
+        </div>
+      </div>
     )}
 
     <!-- Sección 2: Lectura Fácil -->

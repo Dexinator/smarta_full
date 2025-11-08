@@ -971,6 +971,14 @@ const validImages = optimizedImages.filter(img => img !== null);
 
         // Set timer para detectar fin del scroll
         scrollTimer = setTimeout(() => {
+          // IMPORTANTE: Verificar nuevamente si estamos en navegación manual
+          // porque el flag puede haber cambiado durante el timeout
+          if (isManualNavigation) {
+            console.log('Manual navigation still active, skipping index update');
+            isScrolling = false;
+            return;
+          }
+
           isScrolling = false;
 
           // Calcular el índice actual basado en la posición del scroll
@@ -984,6 +992,7 @@ const validImages = optimizedImages.filter(img => img !== null);
           newIndex = Math.max(0, Math.min(newIndex, totalSlides - 1));
 
           if (newIndex !== currentIndex) {
+            console.log(`Scroll handler updating index from ${currentIndex} to ${newIndex}`);
             currentIndex = newIndex;
 
             // Actualizar todos los elementos UI
@@ -1122,12 +1131,12 @@ const validImages = optimizedImages.filter(img => img !== null);
       // Funcionalidad de pantalla completa
       const enterFullscreen = async () => {
         try {
-          // Guardar el índice actual antes de entrar en fullscreen
-          const savedIndex = currentIndex;
-          console.log(`Entering fullscreen from slide ${savedIndex}`);
+          // Usar el índice guardado externamente (fullscreenSavedIndex)
+          // NO leer currentIndex aquí porque puede haber sido modificado por scroll events
+          const savedIndex = fullscreenSavedIndex;
+          console.log(`Entering fullscreen with saved index: ${savedIndex}`);
 
-          // Deshabilitar temporalmente la navegación manual para evitar conflictos
-          isManualNavigation = true;
+          // NO volver a activar isManualNavigation - ya fue activado en el event listener
 
           // Solicitar pantalla completa
           if (gallery.requestFullscreen) {
@@ -1163,15 +1172,16 @@ const validImages = optimizedImages.filter(img => img !== null);
           }
 
           // Esperar a que la rotación se complete si es necesario
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise(resolve => setTimeout(resolve, 150));
 
           // Usar requestAnimationFrame para asegurar que el layout está actualizado
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               setupMediaButtons();
 
-              // Siempre mantener el índice, no importa si es móvil o desktop
+              // Restaurar el índice guardado
               currentIndex = savedIndex;
+              console.log(`Current index restored to: ${currentIndex}`);
 
               if (window.innerWidth <= 768) {
                 // En móvil, usar el ancho del viewport directamente para mayor precisión
@@ -1198,14 +1208,31 @@ const validImages = optimizedImages.filter(img => img !== null);
                 track.style.transform = `translateX(-${savedIndex * 100}%)`;
               }
 
-              // Actualizar indicadores y botones
+              // Actualizar indicadores y botones con el índice guardado
               updateUIElements(savedIndex);
 
+              // Verificación final después de un momento para asegurar que el índice es correcto
+              setTimeout(() => {
+                // Verificar que currentIndex no ha sido modificado
+                if (currentIndex !== savedIndex) {
+                  console.warn(`Index was modified! Restoring from ${currentIndex} to ${savedIndex}`);
+                  currentIndex = savedIndex;
+                  updateUIElements(savedIndex);
+
+                  // Corregir scroll también
+                  if (window.innerWidth <= 768) {
+                    const viewportWidth = window.innerWidth;
+                    carousel.scrollLeft = viewportWidth * savedIndex;
+                  }
+                }
+              }, 300);
+
               // Reactivar navegación después de que todo esté configurado
+              // Usar timeout largo para asegurar que todos los scroll events se procesen primero
               setTimeout(() => {
                 isManualNavigation = false;
-                console.log('Fullscreen setup complete, navigation enabled');
-              }, 500);
+                console.log(`Fullscreen setup complete, navigation enabled. Final index: ${currentIndex}`);
+              }, 1000);
             });
           });
 
@@ -1297,8 +1324,28 @@ const validImages = optimizedImages.filter(img => img !== null);
         }
       };
 
+      // Variable para guardar el índice al entrar en fullscreen (protegida)
+      let fullscreenSavedIndex = 0;
+
       // Event listener para botón de pantalla completa
-      fullscreenButton?.addEventListener('click', enterFullscreen);
+      fullscreenButton?.addEventListener('click', () => {
+        // IMPORTANTE: Guardar el índice ANTES de cualquier otra cosa
+        fullscreenSavedIndex = currentIndex;
+        console.log(`Fullscreen button clicked, saving index: ${fullscreenSavedIndex}`);
+
+        // Cancelar cualquier scroll timer pendiente
+        if (scrollTimer) {
+          clearTimeout(scrollTimer);
+          scrollTimer = null;
+          console.log('Cleared pending scroll timer');
+        }
+
+        // Bloquear navegación INMEDIATAMENTE
+        isManualNavigation = true;
+
+        // Ahora sí, entrar en fullscreen
+        enterFullscreen();
+      });
 
       // Event listener para botón de salir de pantalla completa
       exitFullscreenButton?.addEventListener('click', exitFullscreen);
