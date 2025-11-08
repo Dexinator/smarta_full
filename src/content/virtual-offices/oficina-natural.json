@@ -50,6 +50,51 @@
         "name": "Pasarela desde Plaza Iglesia",
         "description": "Acceso a la Isla del Soto",
         "coordinates": [40.95188025018759, -5.6310139627174065]
+      },
+      {
+        "name": "Zona de Juegos Infantil",
+        "description": "Zona de juegos para niños en la Isla del Soto",
+        "coordinates": [40.95236180430131, -5.631334638361421]
+      },
+      {
+        "name": "Merendero Isla del Soto 1",
+        "description": "Área de picnic y merendero",
+        "coordinates": [40.95254645333534, -5.630554796617594]
+      },
+      {
+        "name": "Merendero Isla del Soto 2",
+        "description": "Área de picnic y merendero",
+        "coordinates": [40.95233686730648, -5.633317078438393]
+      },
+      {
+        "name": "Puesto de Pesca 1",
+        "description": "Zona habilitada para pesca en el río",
+        "coordinates": [40.95274881163165, -5.634369680137865]
+      },
+      {
+        "name": "Puesto de Pesca 2",
+        "description": "Zona habilitada para pesca en el río",
+        "coordinates": [40.953088483089815, -5.629951942905545]
+      },
+      {
+        "name": "Puesto de Pesca 3",
+        "description": "Zona habilitada para pesca en el río",
+        "coordinates": [40.95228627747778, -5.637824127492909]
+      },
+      {
+        "name": "Puesto de Pesca 4",
+        "description": "Zona habilitada para pesca en el río",
+        "coordinates": [40.95298248652032, -5.63531064236013]
+      },
+      {
+        "name": "Zona Juego Mascotas",
+        "description": "Área habilitada para perros y mascotas",
+        "coordinates": [40.953628099408306, -5.638104821247804]
+      },
+      {
+        "name": "Circuito de Trial",
+        "description": "Circuito para bicicletas de trial",
+        "coordinates": [40.95458446212834, -5.638876729153158]
       }
     ]
   },

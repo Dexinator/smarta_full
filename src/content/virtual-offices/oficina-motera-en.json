@@ -24,6 +24,11 @@
         "name": "Historic Motorcycle Museum",
         "description": "Museum with classic motorcycle collection",
         "coordinates": [40.94911306191609, -5.627337563607579]
+      },
+      {
+        "name": "Mural Tribute to Alfonso Serrano",
+        "description": "Mural dedicated to the museum's founder",
+        "coordinates": [40.94960534185012, -5.6286652570004225]
       }
     ]
   },
