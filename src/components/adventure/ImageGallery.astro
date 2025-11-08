@@ -178,7 +178,7 @@ const validImages = optimizedImages.filter(img => img !== null);
               aria-label={t.imageLabel(index + 1, validImages.length)}
             >
               <!-- Contenedor de imagen con aspect ratio -->
-              <div class={`relative ${isLandscape ? 'aspect-video' : 'h-[70vh] flex items-center justify-center'} bg-white dark:bg-slate-900`}>
+              <div class={`relative ${isLandscape ? 'aspect-video' : 'aspect-[9/16]'} bg-white dark:bg-slate-900`}>
                 <picture>
                   <source
                     type="image/webp"
@@ -194,7 +194,7 @@ const validImages = optimizedImages.filter(img => img !== null);
                     alt={image.alt}
                     width={image.optimized.attributes.width}
                     height={image.optimized.attributes.height}
-                    class={isLandscape ? 'w-full h-full object-cover' : 'max-h-[70vh] w-auto object-contain'}
+                    class="w-full h-full object-cover"
                     loading={index === 0 ? 'eager' : 'lazy'}
                     decoding={index === 0 ? 'sync' : 'async'}
                     fetchpriority={index === 0 ? 'high' : 'auto'}
@@ -694,16 +694,14 @@ const validImages = optimizedImages.filter(img => img !== null);
   @media (max-width: 768px) {
     /* Para imágenes portrait en móvil */
     [data-orientation="portrait"] .gallery-slide {
-      max-height: 85vh;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     [data-orientation="portrait"] .aspect-\[9\/16\] {
-      max-height: 85vh;
-      width: auto;
-      margin: 0 auto;
+      width: 100%;
+      height: auto;
     }
 
     /* Para imágenes landscape en móvil */
@@ -717,14 +715,13 @@ const validImages = optimizedImages.filter(img => img !== null);
   /* En dispositivo horizontal (landscape) */
   @media (max-width: 768px) and (orientation: landscape) {
     [data-orientation="portrait"] .aspect-\[9\/16\] {
-      max-height: 90vh;
-      width: auto;
+      width: 100%;
+      height: auto;
     }
 
     [data-orientation="landscape"] .aspect-video {
       width: 100%;
       height: auto;
-      max-height: 90vh;
     }
   }
 
