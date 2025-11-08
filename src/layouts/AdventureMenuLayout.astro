@@ -201,9 +201,14 @@ const badgeTexts = {
               const isEager = index < 4;
               const loading = isEager ? "eager" : "lazy";
 
+              // Añadir query parameter si es tipo descriptiva
+              const cardLink = card.type === 'descriptiva'
+                ? `${card.link}?format=descriptivo`
+                : card.link;
+
               return (
                 <a
-                  href={card.link}
+                  href={cardLink}
                   class="group block h-full bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-xl hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
                   aria-label={`${card.title} - ${badgeText}`}
                 >

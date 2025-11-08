@@ -1,6 +1,7 @@
 ---
 import AdventureContentLayout from '../../../layouts/AdventureContentLayout.astro';
 import adventureConfig from '../../../content/adventures/detectives-espanol.json';
+import NarratorPrompt from '../../../components/react/NarratorPrompt.jsx';
 ---
 
 <AdventureContentLayout
@@ -10,3 +11,6 @@ import adventureConfig from '../../../content/adventures/detectives-espanol.json
   lang="es"
   currentAdventure="detectives"
 />
+
+<!-- Prompt para activar narrador del dispositivo -->
+<NarratorPrompt language="es" client:load />
