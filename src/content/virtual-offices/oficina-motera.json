@@ -28,12 +28,12 @@
     "locations": [
       {
         "name": "Museo de la Moto Histórica",
-        "description": "Museo con colección de motos clásicas",
+        "description": "Colección de motos históricas y deportivas",
         "coordinates": [40.94911306191609, -5.627337563607579]
       },
       {
         "name": "Mural Homenaje a Alfonso Serrano",
-        "description": "Mural dedicado al fundador del museo",
+        "description": "Mural dedicado al coleccionista del museo",
         "coordinates": [40.94960534185012, -5.6286652570004225]
       }
     ]

@@ -28,42 +28,42 @@
     "locations": [
       {
         "name": "Isla del Soto",
-        "description": "Parque natural junto al río Tormes",
+        "description": "Espacio natural junto al río Tormes",
         "coordinates": [40.95264807709702, -5.636532175503943]
       },
       {
         "name": "Centro de Interpretación",
-        "description": "Centro de Interpretación de la Isla del Soto",
+        "description": "Isla del Soto",
         "coordinates": [40.952270516013584, -5.632678987163401]
       },
       {
-        "name": "Pasarela desde La Aldehuela",
+        "name": "Pasarela desde la Aldehuela",
         "description": "Acceso a la Isla del Soto",
         "coordinates": [40.95301270973846, -5.635148155783474]
       },
       {
-        "name": "Pasarela desde Al Fontana",
+        "name": "Pasarela desde la Fontana",
         "description": "Acceso a la Isla del Soto",
         "coordinates": [40.953214853347895, -5.638477865332619]
       },
       {
-        "name": "Pasarela desde Plaza Iglesia",
+        "name": "Pasarela desde la Plaza Iglesia",
         "description": "Acceso a la Isla del Soto",
         "coordinates": [40.95188025018759, -5.6310139627174065]
       },
       {
         "name": "Zona de Juegos Infantil",
-        "description": "Zona de juegos para niños en la Isla del Soto",
+        "description": "Isla del Soto",
         "coordinates": [40.95236180430131, -5.631334638361421]
       },
       {
-        "name": "Merendero Isla del Soto 1",
-        "description": "Área de picnic y merendero",
+        "name": "Merendero 1",
+        "description": "Área de pícnic Isla del soto",
         "coordinates": [40.95254645333534, -5.630554796617594]
       },
       {
-        "name": "Merendero Isla del Soto 2",
-        "description": "Área de picnic y merendero",
+        "name": "Merendero 2",
+        "description": "Área de pícnic Isla del soto",
         "coordinates": [40.95233686730648, -5.633317078438393]
       },
       {
@@ -88,7 +88,7 @@
       },
       {
         "name": "Zona Juego Mascotas",
-        "description": "Área habilitada para perros y mascotas",
+        "description": "Área habilitada para perros",
         "coordinates": [40.953628099408306, -5.638104821247804]
       },
       {

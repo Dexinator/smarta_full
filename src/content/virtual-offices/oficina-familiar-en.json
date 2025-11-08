@@ -22,77 +22,77 @@
     "locations": [
       {
         "name": "Isla del Soto",
-        "description": "Natural park with play areas and picnic spots",
+        "description": "Natural space by the Tormes river",
         "coordinates": [40.95264807709702, -5.636532175503943]
       },
       {
         "name": "Interpretation Center",
-        "description": "Isla del Soto Interpretation Center",
+        "description": "Isla del Soto",
         "coordinates": [40.952270516013584, -5.632678987163401]
       },
       {
         "name": "Enchanted Isla del Soto",
-        "description": "Space for stories and legends",
+        "description": "Exhibition Hall",
         "coordinates": [40.94928204234335, -5.629937204019709]
       },
       {
-        "name": "Alfonso San Casto Football Field",
-        "description": "Municipal football field with mural",
+        "name": "Mural 'Millennial Generation'",
+        "description": "Alfonso San Casto football field",
         "coordinates": [40.94560212487235, -5.625581447785498]
       },
       {
         "name": "Ocean Mural",
-        "description": "Ocean-themed mural",
+        "description": "Murals Route",
         "coordinates": [40.95067441736678, -5.628470781095177]
       },
       {
-        "name": "Pencils Route - Point 1",
-        "description": "Point on the Pencils Route",
+        "name": "Pencils - Point 1",
+        "description": "Pencils Route",
         "coordinates": [40.95322338759185, -5.637900680365301]
       },
       {
-        "name": "Pencils Route - Point 2",
-        "description": "Point on the Pencils Route",
+        "name": "Pencils - Point 2",
+        "description": "Pencils Route",
         "coordinates": [40.95231277691733, -5.635061845552752]
       },
       {
-        "name": "Pencils Route - Point 3",
-        "description": "Point on the Pencils Route",
+        "name": "Pencils - Point 3",
+        "description": "Pencils Route",
         "coordinates": [40.95217546151825, -5.63140644706071]
       },
       {
-        "name": "Pencils Route - Point 4",
-        "description": "Point on the Pencils Route",
+        "name": "Pencils - Point 4",
+        "description": "Pencils Route",
         "coordinates": [40.95105283721266, -5.630730230196973]
       },
       {
-        "name": "Pencils Route - Point 5",
-        "description": "Point on the Pencils Route",
+        "name": "Pencils - Point 5",
+        "description": "Pencils Route",
         "coordinates": [40.95019519719526, -5.633246905053849]
       },
       {
-        "name": "Pencils Route - Point 6",
-        "description": "Point on the Pencils Route",
+        "name": "Pencils - Point 6",
+        "description": "Pencils Route",
         "coordinates": [40.950571018347695, -5.637275498728344]
       },
       {
-        "name": "Bugs Route - Point 1",
-        "description": "Point on the Bugs Route",
+        "name": "Mosquito Sculpture",
+        "description": "Bugs Route",
         "coordinates": [40.949947057698786, -5.632746121861494]
       },
       {
-        "name": "Bugs Route - Point 2",
-        "description": "Point on the Bugs Route",
+        "name": "Butterfly Sculpture",
+        "description": "Bugs Route",
         "coordinates": [40.94925081664999, -5.630784455161196]
       },
       {
-        "name": "Bugs Route - Point 3",
-        "description": "Point on the Bugs Route",
+        "name": "Worm Sculpture",
+        "description": "Bugs Route",
         "coordinates": [40.9502819253369, -5.630401690921166]
       },
       {
-        "name": "Bugs Route - Point 4",
-        "description": "Point on the Bugs Route",
+        "name": "Dragonfly Sculpture",
+        "description": "Bugs Route",
         "coordinates": [40.952267005147846, -5.63286095110753]
       }
     ]

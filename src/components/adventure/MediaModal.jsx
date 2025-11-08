@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import LiveRegion from '../ui/LiveRegion';
+import VimeoPlayerSimple from '../react/VimeoPlayerSimple.jsx';
 
 const MediaModal = ({ language = 'es' }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -194,7 +195,8 @@ const MediaModal = ({ language = 'es' }) => {
     if (mediaType === 'audio') {
       loadSoundCloud();
     } else if (mediaType === 'video') {
-      loadVimeo();
+      // VimeoPlayerSimple maneja su propia carga, solo marcamos como listo
+      setIsLoading(false);
     }
 
     return () => {
@@ -206,13 +208,6 @@ const MediaModal = ({ language = 'es' }) => {
             widgetRef.current.pause();
           } catch (err) {
             console.error('Error pausing SoundCloud:', err);
-          }
-        } else if (mediaType === 'video') {
-          // Vimeo destroy
-          try {
-            widgetRef.current.destroy();
-          } catch (err) {
-            console.error('Error destroying Vimeo player:', err);
           }
         }
         widgetRef.current = null;
@@ -477,47 +472,6 @@ const MediaModal = ({ language = 'es' }) => {
 
   return (
     <>
-      {/* Contenedor Fullscreen - Fuera del modal */}
-      <div
-        ref={fullscreenContainerRef}
-        style={{
-          display: isFullscreen ? 'flex' : 'none',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          backgroundColor: '#000',
-          zIndex: 10003,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        {/* Exit Fullscreen Button */}
-        <button
-          ref={exitFullscreenButtonRef}
-          onClick={exitVideoFullscreen}
-          className="fixed top-4 right-4 z-[10004] bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all duration-300"
-          aria-label={t.exitFullscreen}
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-
-        {/* Contenedor del player para fullscreen */}
-        <div
-          ref={fullscreenPlayerContainerRef}
-          style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        ></div>
-      </div>
-
       {/* Modal Normal */}
       <div
         ref={modalRef}
@@ -576,100 +530,151 @@ const MediaModal = ({ language = 'es' }) => {
 
             {!error && (
               <>
-                {/* Contenedor del player para modo normal */}
-                <div ref={normalPlayerContainerRef} className="mb-6"></div>
+                {/* Renderizar player según el tipo */}
+                {mediaType === 'video' ? (
+                  <>
+                    {/* VimeoPlayerSimple - SIEMPRE montado, cambia posición con CSS */}
+                    <div
+                      ref={fullscreenContainerRef}
+                      style={isFullscreen ? {
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        zIndex: 10003,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        backgroundColor: '#000'
+                      } : {}}
+                    >
+                      {/* Botón de salir de fullscreen - solo visible en fullscreen */}
+                      {isFullscreen && (
+                        <button
+                          ref={exitFullscreenButtonRef}
+                          onClick={exitVideoFullscreen}
+                          className="fixed top-4 right-4 z-[10004] bg-red-600 hover:bg-red-700 text-white p-3 rounded-full transition-all duration-300 shadow-lg"
+                          aria-label={t.exitFullscreen}
+                        >
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      )}
 
-                {/* Custom Controls - only visible when NOT in fullscreen */}
-                {!isLoading && (
-                  <div className="space-y-4">
-                    {/* Progress Bar */}
-                    <div>
-                      <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-2">
-                        <span>{formatTime(currentTime)}</span>
-                        <span>{formatTime(duration)}</span>
-                      </div>
-                      <div
-                        role="slider"
-                        aria-label={t.progress}
-                        aria-valuemin={0}
-                        aria-valuemax={duration}
-                        aria-valuenow={currentTime}
-                        aria-valuetext={t.currentTime(formatTime(currentTime), formatTime(duration))}
-                        tabIndex={0}
-                        className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full cursor-pointer"
-                        onClick={handleSeek}
-                        onKeyDown={(e) => {
-                          if (e.key === 'ArrowLeft') {
-                            const newTime = Math.max(0, currentTime - 5000);
-                            if (mediaType === 'audio') widgetRef.current?.seekTo(newTime);
-                            else widgetRef.current?.setCurrentTime(newTime / 1000);
-                          } else if (e.key === 'ArrowRight') {
-                            const newTime = Math.min(duration, currentTime + 5000);
-                            if (mediaType === 'audio') widgetRef.current?.seekTo(newTime);
-                            else widgetRef.current?.setCurrentTime(newTime / 1000);
-                          }
+                      <VimeoPlayerSimple
+                        videoUrl={mediaUrl}
+                        isPlaying={isPlaying}
+                        setIsPlaying={setIsPlaying}
+                        onVideoEnd={() => {
+                          setIsPlaying(false);
+                          setLiveMessage(t.ended);
                         }}
-                      >
-                        <div
-                          className="h-full bg-SM-blue rounded-full transition-all"
-                          style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-                          aria-hidden="true"
-                        />
-                      </div>
+                        isFullscreen={isFullscreen}
+                        language={language}
+                      />
                     </div>
 
-                    {/* Controls */}
-                    <div className="flex items-center justify-between">
-                      {/* Play/Pause */}
-                      <button
-                        onClick={handlePlayPause}
-                        className="p-3 bg-SM-blue hover:bg-blue-700 text-white rounded-full transition-colors"
-                        aria-label={isPlaying ? t.pause : t.play}
-                        aria-pressed={isPlaying}
-                      >
-                        {isPlaying ? (
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
-                          </svg>
-                        ) : (
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                          </svg>
-                        )}
-                      </button>
-
-                      {/* Volume */}
-                      <div className="flex items-center space-x-2">
-                        <svg className="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                        </svg>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          value={volume}
-                          onChange={handleVolumeChange}
-                          className="w-24 h-1 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer"
-                          aria-label={t.volume}
-                          aria-valuetext={t.volumeLevel(volume)}
-                        />
-                        <span className="text-sm text-slate-600 dark:text-slate-400 w-10" aria-hidden="true">{volume}%</span>
-                      </div>
-
-                      {/* Fullscreen (solo para video) */}
-                      {mediaType === 'video' && (
+                    {/* Botón de fullscreen - solo visible cuando NO está en fullscreen */}
+                    {!isFullscreen && (
+                      <div className="mt-4 flex justify-center">
                         <button
                           onClick={toggleFullscreen}
-                          className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                          className="px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition-colors flex items-center gap-2"
                           aria-label={t.fullscreen}
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
                           </svg>
+                          <span>{t.fullscreen}</span>
                         </button>
-                      )}
-                    </div>
-                  </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  /* Para audio, mantener la lógica existente */
+                  <>
+                    {/* Contenedor del player para modo normal (SoundCloud) */}
+                    <div ref={normalPlayerContainerRef} className="mb-6"></div>
+
+                    {/* Custom Controls para audio - only visible when NOT in fullscreen */}
+                    {!isLoading && (
+                      <div className="space-y-4">
+                        {/* Progress Bar */}
+                        <div>
+                          <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-2">
+                            <span>{formatTime(currentTime)}</span>
+                            <span>{formatTime(duration)}</span>
+                          </div>
+                          <div
+                            role="slider"
+                            aria-label={t.progress}
+                            aria-valuemin={0}
+                            aria-valuemax={duration}
+                            aria-valuenow={currentTime}
+                            aria-valuetext={t.currentTime(formatTime(currentTime), formatTime(duration))}
+                            tabIndex={0}
+                            className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full cursor-pointer"
+                            onClick={handleSeek}
+                            onKeyDown={(e) => {
+                              if (e.key === 'ArrowLeft') {
+                                const newTime = Math.max(0, currentTime - 5000);
+                                widgetRef.current?.seekTo(newTime);
+                              } else if (e.key === 'ArrowRight') {
+                                const newTime = Math.min(duration, currentTime + 5000);
+                                widgetRef.current?.seekTo(newTime);
+                              }
+                            }}
+                          >
+                            <div
+                              className="h-full bg-SM-blue rounded-full transition-all"
+                              style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                              aria-hidden="true"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Controls */}
+                        <div className="flex items-center justify-between">
+                          {/* Play/Pause */}
+                          <button
+                            onClick={handlePlayPause}
+                            className="p-3 bg-SM-blue hover:bg-blue-700 text-white rounded-full transition-colors"
+                            aria-label={isPlaying ? t.pause : t.play}
+                            aria-pressed={isPlaying}
+                          >
+                            {isPlaying ? (
+                              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
+                              </svg>
+                            ) : (
+                              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                              </svg>
+                            )}
+                          </button>
+
+                          {/* Volume */}
+                          <div className="flex items-center space-x-2">
+                            <svg className="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                            </svg>
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              value={volume}
+                              onChange={handleVolumeChange}
+                              className="w-24 h-1 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer"
+                              aria-label={t.volume}
+                              aria-valuetext={t.volumeLevel(volume)}
+                            />
+                            <span className="text-sm text-slate-600 dark:text-slate-400 w-10" aria-hidden="true">{volume}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </>
             )}
