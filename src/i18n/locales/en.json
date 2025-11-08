@@ -47,13 +47,13 @@
   },
   "audioGuides": {
     "title": "Interactive Audio guides",
-    "subtitle": "Discover our routes with fully accessible audio guides",
+    "subtitle": "Discover our routes audio guides",
     "guides": [
       {
         "id": "murals",
         "title": "Mural Route",
         "description": "15 murals telling unique stories of urban art",
-        "features": ["English audio guide", "Easy Read", "Descriptive", "LSE Sign Language"],
+        "features": ["English audio guide", "Spanish audio guide"],
         "duration": "40 min",
         "stops": "20 audios",
         "link": "https://murales.santamartaccesible.com/english"
@@ -62,7 +62,7 @@
         "id": "isla-soto",
         "title": "Soto Island",
         "description": "Nature, history, and biodiversity at the heart of the River Tormes",
-        "features": ["English audio guide", "Easy Read", "Descriptive", "LSE Sign Language"],
+        "features": ["English audio guide", "Spanish audio guide"],
         "duration": "27 min",
         "stops": "10 audios",
         "link": "https://soto.santamartaccesible.com/english"
@@ -159,7 +159,7 @@
       "goToImage": "Go to image {{index}}: {{description}}",
       "playAudio": "Play audio about: {{description}}",
       "playVideo": "Play video about: {{description}}",
-      "fullscreen": "View gallery in fullscreen",
+      "fullscreen": "Tap to open in fullscreen",
       "exitFullscreen": "Exit gallery fullscreen",
       "indicatorsLabel": "Gallery navigation"
     },
