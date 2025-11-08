@@ -68,7 +68,7 @@ const MobileVideoControls = ({
 
   return (
     <div className={`mobile-video-controls ${className}`}>
-      <div className="flex items-center justify-center gap-4 p-3 bg-black/80 backdrop-blur-sm rounded-full">
+      <div className="flex items-center justify-center gap-4 p-3 bg-transparent rounded-full">
         {/* Play/Pause */}
         <button
           onClick={handlePlayPause}

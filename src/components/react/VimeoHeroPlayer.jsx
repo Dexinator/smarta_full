@@ -384,13 +384,27 @@ const VimeoHeroPlayer = ({
 
   // Escuchar comandos externos
   useEffect(() => {
-    const handleCommand = (e) => {
+    const handleCommand = async (e) => {
+      if (!player || !isReady) return;
+
       switch(e.detail.command) {
         case 'playPause':
-          handlePlayPause();
+          // Consultar el estado actual del player directamente
+          try {
+            const playing = await player.getPaused();
+            if (!playing) {
+              // Está reproduciendo, pausar
+              await player.pause();
+            } else {
+              // Está pausado, reproducir
+              await player.play();
+            }
+          } catch (err) {
+            console.error('Error toggling play/pause:', err);
+          }
           break;
         case 'mute':
-          setIsMuted(!isMuted);
+          setIsMuted(prev => !prev);
           break;
         case 'fullscreen':
           toggleFullscreen();
@@ -400,7 +414,8 @@ const VimeoHeroPlayer = ({
 
     window.addEventListener('heroVideoCommand', handleCommand);
     return () => window.removeEventListener('heroVideoCommand', handleCommand);
-  }, [player, isReady, isMuted]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [player, isReady]);
 
   const handleSeek = (e) => {
     if (!player || !isReady) return;

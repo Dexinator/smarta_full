@@ -1124,6 +1124,10 @@ const validImages = optimizedImages.filter(img => img !== null);
         try {
           // Guardar el índice actual antes de entrar en fullscreen
           const savedIndex = currentIndex;
+          console.log(`Entering fullscreen from slide ${savedIndex}`);
+
+          // Deshabilitar temporalmente la navegación manual para evitar conflictos
+          isManualNavigation = true;
 
           // Solicitar pantalla completa
           if (gallery.requestFullscreen) {
@@ -1158,6 +1162,9 @@ const validImages = optimizedImages.filter(img => img !== null);
             }
           }
 
+          // Esperar a que la rotación se complete si es necesario
+          await new Promise(resolve => setTimeout(resolve, 100));
+
           // Usar requestAnimationFrame para asegurar que el layout está actualizado
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
@@ -1167,16 +1174,25 @@ const validImages = optimizedImages.filter(img => img !== null);
               currentIndex = savedIndex;
 
               if (window.innerWidth <= 768) {
-                // En móvil, calcular y establecer la posición de scroll correcta
-                const newSlideWidth = carousel.offsetWidth;
+                // En móvil, usar el ancho del viewport directamente para mayor precisión
+                const viewportWidth = window.innerWidth;
+                const targetScroll = viewportWidth * savedIndex;
 
-                if (newSlideWidth > 0) {
-                  const targetScroll = newSlideWidth * savedIndex;
-                  carousel.scrollTo({
-                    left: targetScroll,
-                    behavior: 'instant' // Usar 'instant' en lugar de 'auto' para evitar animaciones
-                  });
-                }
+                console.log(`Setting scroll position: viewport=${viewportWidth}, index=${savedIndex}, target=${targetScroll}`);
+
+                // Establecer scroll directamente sin animación
+                carousel.scrollLeft = targetScroll;
+
+                // Verificación adicional después de un momento
+                setTimeout(() => {
+                  const actualScroll = carousel.scrollLeft;
+                  console.log(`Scroll verification after fullscreen: actual=${actualScroll}, expected=${targetScroll}`);
+
+                  if (Math.abs(actualScroll - targetScroll) > 10) {
+                    console.log('Correcting scroll position...');
+                    carousel.scrollLeft = targetScroll;
+                  }
+                }, 100);
               } else {
                 // En desktop mantener la posición con transform
                 track.style.transform = `translateX(-${savedIndex * 100}%)`;
@@ -1184,11 +1200,18 @@ const validImages = optimizedImages.filter(img => img !== null);
 
               // Actualizar indicadores y botones
               updateUIElements(savedIndex);
+
+              // Reactivar navegación después de que todo esté configurado
+              setTimeout(() => {
+                isManualNavigation = false;
+                console.log('Fullscreen setup complete, navigation enabled');
+              }, 500);
             });
           });
 
         } catch (err) {
           console.error('Error al entrar en pantalla completa:', err);
+          isManualNavigation = false;
         }
       };
 
@@ -1237,6 +1260,11 @@ const validImages = optimizedImages.filter(img => img !== null);
 
       const exitFullscreen = async () => {
         try {
+          console.log(`Exiting fullscreen from slide ${currentIndex}`);
+
+          // Deshabilitar temporalmente la navegación manual
+          isManualNavigation = true;
+
           // Primero, desbloquear la orientación si estaba bloqueada
           const orientation = gallery.dataset.orientation;
           if (orientation === 'landscape' && screen.orientation && screen.orientation.unlock) {
@@ -1257,8 +1285,15 @@ const validImages = optimizedImages.filter(img => img !== null);
           } else if (document.msExitFullscreen) {
             await document.msExitFullscreen();
           }
+
+          // Reactivar navegación después de salir
+          setTimeout(() => {
+            isManualNavigation = false;
+            console.log('Exit fullscreen complete, navigation enabled');
+          }, 300);
         } catch (err) {
           console.error('Error al salir de pantalla completa:', err);
+          isManualNavigation = false;
         }
       };
 
@@ -1290,6 +1325,8 @@ const validImages = optimizedImages.filter(img => img !== null);
         const savedIndex = maintainIndex ? currentIndex : 0;
         const viewportWidth = window.innerWidth;
 
+        console.log(`Recalculating fullscreen carousel: index=${savedIndex}, viewport=${viewportWidth}`);
+
         // Forzar recálculo del layout
         const originalDisplay = carousel.style.display;
         carousel.style.display = 'none';
@@ -1319,14 +1356,23 @@ const validImages = optimizedImages.filter(img => img !== null);
           // Establecer la posición correcta
           requestAnimationFrame(() => {
             const targetScroll = viewportWidth * savedIndex;
-            carousel.scrollTo({
-              left: targetScroll,
-              behavior: 'instant'
-            });
+            console.log(`Setting scroll to ${targetScroll}`);
+
+            // Establecer directamente sin animación
+            carousel.scrollLeft = targetScroll;
 
             // Actualizar UI
             currentIndex = savedIndex;
             updateUIElements(savedIndex);
+
+            // Verificación adicional
+            setTimeout(() => {
+              const actualScroll = carousel.scrollLeft;
+              if (Math.abs(actualScroll - targetScroll) > 10) {
+                console.log(`Recorrecting scroll: actual=${actualScroll}, expected=${targetScroll}`);
+                carousel.scrollLeft = targetScroll;
+              }
+            }, 50);
           });
         });
       };
@@ -1372,6 +1418,9 @@ const validImages = optimizedImages.filter(img => img !== null);
           console.log('Orientation change in fullscreen detected'); // Debug
           console.log(`Current index before change: ${currentIndex}`); // Debug
 
+          // Deshabilitar temporalmente la navegación durante el recálculo
+          isManualNavigation = true;
+
           const orientation = gallery.dataset.orientation;
 
           // Para galerías landscape, intentar mantener orientación horizontal
@@ -1410,17 +1459,19 @@ const validImages = optimizedImages.filter(img => img !== null);
 
             // Verificación adicional del scroll después de un momento
             setTimeout(() => {
+              const viewportWidth = window.innerWidth;
+              const expectedScroll = viewportWidth * currentIndex;
               const actualScroll = carousel.scrollLeft;
-              const expectedScroll = carousel.offsetWidth * currentIndex;
               console.log(`Scroll verification - Actual: ${actualScroll}, Expected: ${expectedScroll}`); // Debug
 
               if (Math.abs(actualScroll - expectedScroll) > 10) {
                 console.log('Correcting scroll position...'); // Debug
-                carousel.scrollTo({
-                  left: expectedScroll,
-                  behavior: 'smooth'
-                });
+                carousel.scrollLeft = expectedScroll;
               }
+
+              // Reactivar navegación
+              isManualNavigation = false;
+              console.log('Orientation change complete, navigation enabled');
             }, 500);
           }, 400); // Dar tiempo suficiente para el cambio de orientación
         }
