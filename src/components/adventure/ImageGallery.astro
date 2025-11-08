@@ -178,7 +178,7 @@ const validImages = optimizedImages.filter(img => img !== null);
               aria-label={t.imageLabel(index + 1, validImages.length)}
             >
               <!-- Contenedor de imagen con aspect ratio -->
-              <div class={`relative ${isLandscape ? 'aspect-video' : 'aspect-[9/16]'} bg-white dark:bg-slate-900`}>
+              <div class={`relative ${isLandscape ? 'aspect-video' : 'md:h-[70vh] md:flex md:items-center md:justify-center aspect-[9/16] md:aspect-auto'} bg-white dark:bg-slate-900`}>
                 <picture>
                   <source
                     type="image/webp"
@@ -194,7 +194,7 @@ const validImages = optimizedImages.filter(img => img !== null);
                     alt={image.alt}
                     width={image.optimized.attributes.width}
                     height={image.optimized.attributes.height}
-                    class="w-full h-full object-cover"
+                    class={isLandscape ? 'w-full h-full object-cover' : 'w-full h-full object-cover md:max-h-[70vh] md:w-auto md:object-contain'}
                     loading={index === 0 ? 'eager' : 'lazy'}
                     decoding={index === 0 ? 'sync' : 'async'}
                     fetchpriority={index === 0 ? 'high' : 'auto'}
