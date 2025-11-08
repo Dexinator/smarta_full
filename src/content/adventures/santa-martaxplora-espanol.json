@@ -91,32 +91,32 @@
       {
         "coordinates": [40.95071134566318, -5.630797530988721],
         "name": "1. Origen de la Villa",
-        "description": "Descubre el origen histórico de Santa Marta"
+        "description": "Plaza de la Iglesia de Santa Marta"
       },
       {
         "coordinates": [40.950407108105324, -5.630693530399303],
         "name": "2. Vestigios del Pasado",
-        "description": "Restos históricos de la villa"
+        "description": "Panel histórico de la Batalla de los Arapiles"
       },
       {
         "coordinates": [40.95018933304696, -5.630563443270727],
         "name": "3. Patrona de Santa Marta",
-        "description": "Historia de la patrona del pueblo"
+        "description": "Glorieta de la mujer santamartina"
       },
       {
         "coordinates": [40.949150080295105, -5.630790089922149],
         "name": "4. Ayuntamiento",
-        "description": "Centro administrativo y cultural"
+        "description": "Plaza de España"
       },
       {
         "coordinates": [40.949722380367845, -5.629270618554697],
         "name": "5. Arte",
-        "description": "Expresiones artísticas locales"
+        "description": "Mural Doctor Torres Villarroel"
       },
       {
         "coordinates": [40.95001308665347, -5.629439597700798],
         "name": "6. Ruta de los Murales",
-        "description": "Arte urbano y murales de la ciudad"
+        "description": "Mural Carretera Madrid"
       }
     ]
   },

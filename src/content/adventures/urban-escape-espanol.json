@@ -111,42 +111,42 @@
       {
         "coordinates": [40.9522987099381, -5.632480504558067],
         "name": "1. Rueda Aceña",
-        "description": "Primera parada del recorrido urbano"
+        "description": "Primera parada - Isla del Soto"
       },
       {
         "coordinates": [40.95216545611483, -5.631654560552113],
         "name": "2. Pájaro Carpintero 'Wenceslao'",
-        "description": "Arte urbano en forma de pájaro"
+        "description": "Ruta de Arte Emboscado - Isla del Soto"
       },
       {
         "coordinates": [40.951060505421275, -5.630696761001704],
         "name": "3. Lápices de la Farola",
-        "description": "Creatividad urbana iluminada"
+        "description": "Ruta de los Lápices - pasarela"
       },
       {
         "coordinates": [40.949241829940966, -5.630773596802085],
         "name": "4. Mariposa",
-        "description": "Arte natural en la ciudad"
+        "description": "Ruta de los Bichos - Plaza de España"
       },
       {
         "coordinates": [40.94911028258176, -5.630069153210581],
         "name": "5. Mural 'Mujer, Historia y Pueblo'",
-        "description": "Mural histórico y cultural"
+        "description": "Ruta de los murales - junto al Ayuntamiento"
       },
       {
         "coordinates": [40.949181007192294, -5.6291604781419995],
         "name": "6. Garaje",
-        "description": "Arte urbano en espacios cotidianos"
+        "description": "Arte urbano en puertas de garajes"
       },
       {
         "coordinates": [40.95032264396436, -5.627389984130646],
         "name": "7. Bolas de Billar",
-        "description": "Instalación artística lúdica"
+        "description": "Junto a la glorieta de San Blas"
       },
       {
         "coordinates": [40.950672493127634, -5.628455754646255],
         "name": "8. Mural 'Océano'",
-        "description": "Última parada del recorrido artístico"
+        "description": "Última parada - Pasaje Santiago Mirat"
       }
     ]
   },

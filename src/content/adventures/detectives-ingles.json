@@ -111,42 +111,42 @@
       {
         "coordinates": [40.95213693167115, -5.633651711086779],
         "name": "1. Matilda the Ant",
-        "description": "First stop of the adventure"
+        "description": "Emboscado Art – Isla del Soto"
       },
       {
         "coordinates": [40.95223433666433, -5.6328778949975336],
         "name": "2. Blue Dragonfly",
-        "description": "Second stop of the adventure"
+        "description": "Bugs of the Soto – Interpretation Centre"
       },
       {
         "coordinates": [40.95215412080652, -5.631345435687536],
         "name": "3. Pencil and Eraser",
-        "description": "Third stop of the adventure"
+        "description": "Pencil Route – Isla del Soto"
       },
       {
         "coordinates": [40.94966564984236, -5.630538772517705],
         "name": "4. German Shepherd",
-        "description": "Fourth stop of the adventure"
+        "description": "Murals Route – \"No to Abandonment\""
       },
       {
         "coordinates": [40.94926668150299, -5.6299212122517],
         "name": "5. Magic Door",
-        "description": "Fifth stop of the adventure"
+        "description": "\"Enchanted Isla del Soto\" Space"
       },
       {
         "coordinates": [40.949195866626745, -5.628342662692132],
         "name": "6. Crocodile",
-        "description": "Sixth stop of the adventure"
+        "description": "Graffiti on a garaje door"
       },
       {
         "coordinates": [40.94550226294406, -5.62565685440694],
         "name": "7. Maya the Bee",
-        "description": "Seventh stop of the adventure"
+        "description": "Murals Route – \"Millennial Generation\""
       },
       {
         "coordinates": [40.948626398674854, -5.627790205814891],
         "name": "8. Minion Bob",
-        "description": "Last stop of the adventure"
+        "description": "Urban Art – Sociocultural building"
       }
     ]
   },

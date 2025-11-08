@@ -111,42 +111,42 @@
       {
         "coordinates": [40.9522987099381, -5.632480504558067],
         "name": "1. Waterwheel",
-        "description": "First stop of the urban tour"
+        "description": "First Stop – Isla del Soto"
       },
       {
         "coordinates": [40.95216545611483, -5.631654560552113],
         "name": "2. Woodpecker 'Wenceslao'",
-        "description": "Urban art in bird form"
+        "description": "Emboscado Art Route – Isla del Soto"
       },
       {
         "coordinates": [40.951060505421275, -5.630696761001704],
         "name": "3. Lamp Post Pencils",
-        "description": "Illuminated urban creativity"
+        "description": "Pencil Route – Walkways"
       },
       {
         "coordinates": [40.949241829940966, -5.630773596802085],
         "name": "4. Butterfly",
-        "description": "Natural art in the city"
+        "description": "Bugs Route – Plaza de España"
       },
       {
         "coordinates": [40.94911028258176, -5.630069153210581],
         "name": "5. Mural 'Woman, History and People'",
-        "description": "Historical and cultural mural"
+        "description": "Murals Route – Next to the Town Hall"
       },
       {
         "coordinates": [40.949181007192294, -5.6291604781419995],
         "name": "6. Garage",
-        "description": "Urban art in everyday spaces"
+        "description": "Urban art on garage doors"
       },
       {
         "coordinates": [40.95032264396436, -5.627389984130646],
         "name": "7. Pool Balls",
-        "description": "Playful artistic installation"
+        "description": "San Blas Roundabout"
       },
       {
         "coordinates": [40.950672493127634, -5.628455754646255],
         "name": "8. Mural 'Ocean'",
-        "description": "Last stop of the artistic tour"
+        "description": "Final Stop – Santiago Mirat Passage"
       }
     ]
   },
