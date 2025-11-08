@@ -210,24 +210,22 @@ if (lang === 'es') {
         </div>
 
         <!-- Overlay con título -->
-        <div class="absolute inset-0 z-40 flex flex-col items-center justify-center text-white text-center px-4">
+        <div class="absolute inset-0 z-40 flex flex-col items-center justify-center text-white text-center px-4 pointer-events-none">
           <h1 id="hero-title" class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold mb-4 animate-fade-in-up">
             {hero.title}
           </h1>
         </div>
-      </section>
-    )}
 
-    <!-- Controles móviles del video (justo después del vídeo, solo móvil) -->
-    {hero?.visible && (
-      <div class="w-full md:hidden bg-transparent -mt-16">
-        <div class="flex justify-center py-2">
-          <MobileVideoControls
-            language={lang}
-            client:load
-          />
+        <!-- Controles móviles del video (dentro de la sección, solo móvil) -->
+        <div class="md:hidden absolute bottom-4 left-0 right-0 z-50">
+          <div class="flex justify-center">
+            <MobileVideoControls
+              language={lang}
+              client:load
+            />
+          </div>
         </div>
-      </div>
+      </section>
     )}
 
     <!-- Sección 2: Lectura Fácil -->
