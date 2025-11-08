@@ -21,19 +21,14 @@
     "subtitle": "Locations in Santa Marta",
     "locations": [
       {
-        "name": "MAC José Fuentes",
-        "description": "Contemporary Art Museum",
+        "name": "Contemporary Art",
+        "description": "MAC José Fuentes\nSerzo Space\nProtagonistas Hall",
         "coordinates": [40.94903821068262, -5.630767828997082]
       },
       {
         "name": "Engraving Museum",
         "description": "Museum of Engraving and Multiple Work",
         "coordinates": [40.950715570966466, -5.631181309935234]
-      },
-      {
-        "name": "Serzo Space",
-        "description": "Exhibition space",
-        "coordinates": [40.94916213387142, -5.630791420405776]
       },
       {
         "name": "Agustín Casillas Space",

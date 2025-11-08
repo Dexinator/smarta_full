@@ -27,19 +27,14 @@
     "subtitle": "Ubicaciones en Santa Marta",
     "locations": [
       {
-        "name": "MAC José Fuentes",
-        "description": "Museo de Arte Contemporáneo",
+        "name": "Arte Contemporáneo",
+        "description": "MAC José Fuentes\nEspacio Serzo\nSala Protagonistas",
         "coordinates": [40.94903821068262, -5.630767828997082]
       },
       {
         "name": "Museo del Grabado",
         "description": "Museo del Grabado y Obra Múltiple",
         "coordinates": [40.950715570966466, -5.631181309935234]
-      },
-      {
-        "name": "Espacio Serzo",
-        "description": "Espacio de exposiciones",
-        "coordinates": [40.94916213387142, -5.630791420405776]
       },
       {
         "name": "Espacio Agustín Casillas",
