@@ -329,13 +329,12 @@ const VimeoPlayerSimple = ({
   };
 
   return (
-    <div className="w-full">
+    <div className={`${isFullscreen ? 'w-full h-full flex flex-col' : 'w-full'}`}>
       {/* Video container */}
-      <div className="relative w-full bg-black" style={{
-        paddingBottom: isFullscreen ? '0' : '56.25%',
-        height: isFullscreen ? '100%' : '0'
+      <div className={`${isFullscreen ? 'flex-1 relative' : 'relative w-full'} bg-black`} style={{
+        paddingBottom: isFullscreen ? undefined : '56.25%'
       }}>
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+        <div className={`${isFullscreen ? 'absolute inset-0' : 'absolute inset-0'} w-full h-full flex items-center justify-center`}>
           {error ? (
             <div className="flex items-center justify-center h-full bg-slate-900">
               <div className="text-center p-6">
@@ -371,9 +370,9 @@ const VimeoPlayerSimple = ({
         </div>
       </div>
 
-      {/* Controles - solo visibles cuando NO está en fullscreen O cuando isFullscreen=true pero queremos mostrar controles */}
+      {/* Controles - ajustados para fullscreen */}
       {!error && !isLoading && (
-        <div className={isFullscreen ? "w-full px-6 py-4" : "w-full p-6"}>
+        <div className={isFullscreen ? "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-6 py-4" : "w-full p-6"}>
           {/* Barra de progreso */}
           <div className="mb-4">
             <div className={`flex items-center justify-between text-sm mb-2 ${isFullscreen ? 'text-white' : 'text-slate-600 dark:text-slate-400'}`}>
