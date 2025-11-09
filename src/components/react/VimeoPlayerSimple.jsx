@@ -331,10 +331,10 @@ const VimeoPlayerSimple = ({
   return (
     <div className={`${isFullscreen ? 'w-full h-full flex flex-col' : 'w-full'}`}>
       {/* Video container */}
-      <div className={`${isFullscreen ? 'flex-1 relative' : 'relative w-full'} bg-black`} style={{
+      <div className={`${isFullscreen ? 'flex-1 relative flex items-center justify-center' : 'relative w-full'} bg-black`} style={{
         paddingBottom: isFullscreen ? undefined : '56.25%'
       }}>
-        <div className={`${isFullscreen ? 'absolute inset-0' : 'absolute inset-0'} w-full h-full flex items-center justify-center`}>
+        <div className={`${isFullscreen ? 'relative w-full h-full max-w-full max-h-full' : 'absolute inset-0'} flex items-center justify-center`}>
           {error ? (
             <div className="flex items-center justify-center h-full bg-slate-900">
               <div className="text-center p-6">
@@ -364,7 +364,7 @@ const VimeoPlayerSimple = ({
                   </div>
                 </div>
               )}
-              <div ref={playerRef} className="vimeo-container w-full h-full relative" />
+              <div ref={playerRef} className={`vimeo-container ${isFullscreen ? 'fullscreen-video' : ''} w-full h-full relative`} />
             </>
           )}
         </div>
@@ -485,21 +485,43 @@ const VimeoPlayerSimple = ({
           border: none;
         }
 
-        /* Asegurar que el iframe de Vimeo ocupe todo el espacio */
-        .vimeo-container {
-          width: 100% !important;
-          height: 100% !important;
-          position: relative !important;
-        }
+        /* Estilos para el contenedor del vídeo en modo normal */
+        ${!isFullscreen ? `
+          .vimeo-container {
+            width: 100% !important;
+            height: 100% !important;
+            position: relative !important;
+          }
 
-        .vimeo-container iframe,
-        .vimeo-container > div {
-          position: absolute !important;
-          top: 0 !important;
-          left: 0 !important;
-          width: 100% !important;
-          height: 100% !important;
-        }
+          .vimeo-container iframe,
+          .vimeo-container > div {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+          }
+        ` : `
+          /* Estilos para fullscreen - mantener aspect ratio 16:9 */
+          .vimeo-container {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: calc(100vh * 16 / 9) !important;
+            max-height: calc(100vw * 9 / 16) !important;
+            position: relative !important;
+            margin: 0 auto !important;
+          }
+
+          .vimeo-container iframe,
+          .vimeo-container > div {
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            width: 100% !important;
+            height: 100% !important;
+          }
+        `}
       `}} />
     </div>
   );

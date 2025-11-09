@@ -15,6 +15,7 @@ const MediaModal = ({ language = 'es' }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [liveMessage, setLiveMessage] = useState('');
   const [triggerElementRef, setTriggerElementRef] = useState(null);
+  const [showRotateHint, setShowRotateHint] = useState(false);
 
   // Textos bilingües de accesibilidad
   const ariaTexts = {
@@ -35,7 +36,8 @@ const MediaModal = ({ language = 'es' }) => {
       currentTime: (current, total) => `${current} de ${total}`,
       playing: 'Reproduciendo',
       paused: 'Pausado',
-      ended: 'Reproducción finalizada'
+      ended: 'Reproducción finalizada',
+      rotateHint: 'Gira tu dispositivo para una mejor experiencia'
     },
     en: {
       audioPlayer: 'Audio player',
@@ -54,7 +56,8 @@ const MediaModal = ({ language = 'es' }) => {
       currentTime: (current, total) => `${current} of ${total}`,
       playing: 'Playing',
       paused: 'Paused',
-      ended: 'Playback ended'
+      ended: 'Playback ended',
+      rotateHint: 'Rotate your device for a better experience'
     }
   };
 
@@ -127,6 +130,35 @@ const MediaModal = ({ language = 'es' }) => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, isFullscreen]);
+
+  // Detectar cambios de orientación cuando está en fullscreen
+  useEffect(() => {
+    if (!isFullscreen) return;
+
+    const handleOrientationChange = () => {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (isMobile && isPortrait) {
+        setShowRotateHint(true);
+        setTimeout(() => setShowRotateHint(false), 3000);
+      } else {
+        setShowRotateHint(false);
+      }
+    };
+
+    // Escuchar cambios de orientación
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.addEventListener('resize', handleOrientationChange);
+
+    // Verificar orientación inicial
+    handleOrientationChange();
+
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+      window.removeEventListener('resize', handleOrientationChange);
+    };
+  }, [isFullscreen]);
 
   // Cargar el player cuando se abre el modal
   useEffect(() => {
@@ -290,7 +322,7 @@ const MediaModal = ({ language = 'es' }) => {
     }
   };
 
-  const handleClose = () => {
+  const handleClose = async () => {
     setIsOpen(false);
     setMediaType(null);
     setMediaUrl(null);
@@ -298,6 +330,33 @@ const MediaModal = ({ language = 'es' }) => {
     setCurrentTime(0);
     setDuration(0);
     setIsFullscreen(false); // Reset fullscreen state
+
+    // Desbloquear la orientación y salir de fullscreen si es necesario
+    if (screen.orientation && screen.orientation.unlock) {
+      try {
+        screen.orientation.unlock();
+      } catch (err) {
+        console.log('No se pudo desbloquear la orientación:', err);
+      }
+    }
+
+    // Salir del fullscreen nativo si está activo
+    if (document.fullscreenElement || document.webkitFullscreenElement ||
+        document.mozFullScreenElement || document.msFullscreenElement) {
+      try {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          await document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          await document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          await document.msExitFullscreen();
+        }
+      } catch (err) {
+        console.log('Error al salir de fullscreen nativo:', err);
+      }
+    }
 
     // Restaurar el foco al elemento que abrió el modal
     setTimeout(() => {
@@ -362,9 +421,52 @@ const MediaModal = ({ language = 'es' }) => {
     setCurrentTime(newTime);
   };
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = async () => {
     setIsFullscreen(true);
     setLiveMessage(language === 'es' ? 'Entrando en pantalla completa' : 'Entering fullscreen');
+
+    // Detectar si es un dispositivo móvil
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // Intentar rotar la pantalla a horizontal en dispositivos móviles
+    let rotationSuccess = false;
+    if (typeof screen !== 'undefined' && screen.orientation && typeof screen.orientation.lock === 'function') {
+      try {
+        // Primero intentar entrar en fullscreen nativo del navegador
+        const elem = modalRef.current;
+        if (elem) {
+          // Intentar diferentes métodos de fullscreen según el navegador
+          if (elem.requestFullscreen) {
+            await elem.requestFullscreen();
+          } else if (elem.webkitRequestFullscreen) {
+            await elem.webkitRequestFullscreen();
+          } else if (elem.mozRequestFullScreen) {
+            await elem.mozRequestFullScreen();
+          } else if (elem.msRequestFullscreen) {
+            await elem.msRequestFullscreen();
+          }
+        }
+
+        // Luego intentar rotar la pantalla
+        await screen.orientation.lock('landscape');
+        console.log('Pantalla rotada a horizontal');
+        rotationSuccess = true;
+      } catch (err) {
+        console.log('No se pudo rotar la pantalla:', err);
+        // No es un error crítico, el video funcionará sin rotación automática
+      }
+    }
+
+    // Mostrar sugerencia si es móvil y no se pudo rotar automáticamente
+    if (isMobile && !rotationSuccess) {
+      // Verificar si está en orientación vertical
+      const isPortrait = window.innerHeight > window.innerWidth;
+      if (isPortrait) {
+        setShowRotateHint(true);
+        // Ocultar la sugerencia después de 3 segundos
+        setTimeout(() => setShowRotateHint(false), 3000);
+      }
+    }
 
     // Enfocar el botón de salir después de entrar en fullscreen
     setTimeout(() => {
@@ -372,9 +474,38 @@ const MediaModal = ({ language = 'es' }) => {
     }, 100);
   };
 
-  const exitVideoFullscreen = () => {
+  const exitVideoFullscreen = async () => {
     setIsFullscreen(false);
+    setShowRotateHint(false);
     setLiveMessage(language === 'es' ? 'Saliendo de pantalla completa' : 'Exiting fullscreen');
+
+    // Desbloquear la orientación de la pantalla
+    if (screen.orientation && screen.orientation.unlock) {
+      try {
+        screen.orientation.unlock();
+        console.log('Orientación desbloqueada');
+      } catch (err) {
+        console.log('No se pudo desbloquear la orientación:', err);
+      }
+    }
+
+    // Salir del fullscreen nativo si está activo
+    if (document.fullscreenElement || document.webkitFullscreenElement ||
+        document.mozFullScreenElement || document.msFullscreenElement) {
+      try {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          await document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          await document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          await document.msExitFullscreen();
+        }
+      } catch (err) {
+        console.log('Error al salir de fullscreen nativo:', err);
+      }
+    }
 
     // Restaurar el foco al botón de fullscreen
     setTimeout(() => {
@@ -408,25 +539,39 @@ const MediaModal = ({ language = 'es' }) => {
         <div
           className={`modal-content ${
             isFullscreen
-              ? 'fixed inset-0 bg-black flex flex-col'
+              ? 'fixed inset-0 bg-black flex flex-col justify-center'
               : 'bg-white dark:bg-slate-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-auto'
           }`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header - diferente para fullscreen */}
           {isFullscreen ? (
-            <div className="absolute top-0 right-0 z-[10004] p-4">
-              <button
-                ref={exitFullscreenButtonRef}
-                onClick={exitVideoFullscreen}
-                className="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full transition-all duration-300 shadow-lg"
-                aria-label={t.exitFullscreen}
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
+            <>
+              <div className="absolute top-0 right-0 z-[10004] p-4">
+                <button
+                  ref={exitFullscreenButtonRef}
+                  onClick={exitVideoFullscreen}
+                  className="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full transition-all duration-300 shadow-lg"
+                  aria-label={t.exitFullscreen}
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              {/* Sugerencia de rotación */}
+              {showRotateHint && (
+                <div className="absolute top-20 left-0 right-0 z-[10003] flex justify-center animate-fade-in">
+                  <div className="bg-black/80 text-white px-6 py-3 rounded-full flex items-center gap-3">
+                    <svg className="w-6 h-6 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    <span className="text-sm">{t.rotateHint}</span>
+                  </div>
+                </div>
+              )}
+            </>
           ) : (
             <div className="flex justify-end p-4 border-b border-slate-200 dark:border-slate-700">
               <button
@@ -474,9 +619,9 @@ const MediaModal = ({ language = 'es' }) => {
               <>
                 {/* Renderizar player según el tipo */}
                 {mediaType === 'video' ? (
-                  <div className={`${isFullscreen ? 'w-full h-full max-w-[100vw] max-h-[100vh]' : 'w-full'}`}>
+                  <div className={`${isFullscreen ? 'w-full h-full flex flex-col items-center justify-center' : 'w-full'}`}>
                     {/* Contenedor del player */}
-                    <div ref={normalPlayerContainerRef} className={`${isFullscreen ? 'w-full h-full' : ''}`}>
+                    <div ref={normalPlayerContainerRef} className={`${isFullscreen ? 'w-full h-full max-w-[177.78vh] max-h-[56.25vw]' : ''}`}>
                       <VimeoPlayerSimple
                         videoUrl={mediaUrl}
                         isPlaying={isPlaying}
@@ -603,6 +748,24 @@ const MediaModal = ({ language = 'es' }) => {
           atomic={true}
         />
       </div>
+
+      {/* Estilos CSS para animaciones */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.3s ease-out;
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+          animation: spin-slow 2s linear infinite;
+        }
+      `}} />
     </>
   );
 };
