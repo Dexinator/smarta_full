@@ -128,32 +128,6 @@ const MediaModal = ({ language = 'es' }) => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, isFullscreen]);
 
-  // Listener para cambios de fullscreen
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      const isCurrentlyFullscreen = !!(
-        document.fullscreenElement ||
-        document.webkitFullscreenElement ||
-        document.mozFullScreenElement ||
-        document.msFullscreenElement
-      );
-
-      setIsFullscreen(isCurrentlyFullscreen);
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
-    };
-  }, []);
-
   // Cargar el player cuando se abre el modal
   useEffect(() => {
     if (!isOpen || !mediaUrl) return;
@@ -323,6 +297,7 @@ const MediaModal = ({ language = 'es' }) => {
     setIsPlaying(false);
     setCurrentTime(0);
     setDuration(0);
+    setIsFullscreen(false); // Reset fullscreen state
 
     // Restaurar el foco al elemento que abrió el modal
     setTimeout(() => {
@@ -387,44 +362,16 @@ const MediaModal = ({ language = 'es' }) => {
     setCurrentTime(newTime);
   };
 
-  const toggleFullscreen = async () => {
-    if (!fullscreenContainerRef.current) return;
-
-    try {
-      if (!document.fullscreenElement) {
-        // Entrar en modo fullscreen (solo el video)
-        if (fullscreenContainerRef.current.requestFullscreen) {
-          await fullscreenContainerRef.current.requestFullscreen();
-        } else if (fullscreenContainerRef.current.webkitRequestFullscreen) {
-          await fullscreenContainerRef.current.webkitRequestFullscreen();
-        } else if (fullscreenContainerRef.current.mozRequestFullScreen) {
-          await fullscreenContainerRef.current.mozRequestFullScreen();
-        } else if (fullscreenContainerRef.current.msRequestFullscreen) {
-          await fullscreenContainerRef.current.msRequestFullscreen();
-        }
-      } else {
-        // Salir de fullscreen
-        await exitVideoFullscreen();
-      }
-    } catch (err) {
-      console.error('Error toggling fullscreen:', err);
-    }
+  const toggleFullscreen = () => {
+    // Simplemente cambiar el estado - el CSS se encarga del resto
+    setIsFullscreen(true);
+    setLiveMessage(language === 'es' ? 'Entrando en pantalla completa' : 'Entering fullscreen');
   };
 
-  const exitVideoFullscreen = async () => {
-    try {
-      if (document.exitFullscreen) {
-        await document.exitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        await document.webkitExitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        await document.mozCancelFullScreen();
-      } else if (document.msExitFullscreen) {
-        await document.msExitFullscreen();
-      }
-    } catch (err) {
-      console.error('Error exiting fullscreen:', err);
-    }
+  const exitVideoFullscreen = () => {
+    // Salir del modo fullscreen simulado
+    setIsFullscreen(false);
+    setLiveMessage(language === 'es' ? 'Saliendo de pantalla completa' : 'Exiting fullscreen');
   };
 
   const formatTime = (ms) => {
