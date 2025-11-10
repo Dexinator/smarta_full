@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const NarratorPrompt = ({ language = 'es' }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [hasBeenShown, setHasBeenShown] = useState(false);
+  const buttonRef = useRef(null);
+  const modalRef = useRef(null);
+  const previousFocusRef = useRef(null);
 
   const messages = {
     es: {
       title: 'Sugerencia de accesibilidad',
       message: 'Active narrador del dispositivo',
-      button: 'Entendido'
+      button: 'Entendido',
+      closeAriaLabel: 'Cerrar sugerencia de accesibilidad'
     },
     en: {
       title: 'Accessibility suggestion',
       message: 'Enable device narrator',
-      button: 'Understood'
+      button: 'Understood',
+      closeAriaLabel: 'Close accessibility suggestion'
     }
   };
 
@@ -26,20 +31,86 @@ const NarratorPrompt = ({ language = 'es' }) => {
 
     // Solo mostrar si viene del formato descriptivo y no se ha mostrado antes
     if (format === 'descriptivo' && !hasBeenShown) {
+      // Guardar el elemento que tiene el foco actualmente
+      previousFocusRef.current = document.activeElement;
+
       setIsVisible(true);
       setHasBeenShown(true);
 
-      // Auto-cerrar después de 5 segundos si el usuario no interactúa
+      // Auto-cerrar después de 10 segundos (aumentado de 5 a 10)
       const timer = setTimeout(() => {
         setIsVisible(false);
-      }, 5000);
+      }, 10000);
 
       return () => clearTimeout(timer);
     }
   }, [hasBeenShown]);
 
+  // Manejar el focus cuando el modal se muestra
+  useEffect(() => {
+    if (isVisible && buttonRef.current) {
+      // Pequeño delay para asegurar que el DOM esté listo
+      const focusTimer = setTimeout(() => {
+        buttonRef.current?.focus();
+      }, 100);
+
+      return () => clearTimeout(focusTimer);
+    }
+  }, [isVisible]);
+
+  // Manejar tecla Escape y focus trap
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const handleKeyDown = (e) => {
+      // Cerrar con Escape
+      if (e.key === 'Escape') {
+        handleClose();
+        return;
+      }
+
+      // Focus trap - mantener el foco dentro del modal
+      if (e.key === 'Tab') {
+        const focusableElements = modalRef.current?.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+
+        if (!focusableElements || focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        // Si shift+tab en el primer elemento, ir al último
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+        // Si tab en el último elemento, ir al primero
+        else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Prevenir scroll del contenido detrás del modal
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isVisible]);
+
   const handleClose = () => {
     setIsVisible(false);
+
+    // Restaurar el foco al elemento anterior
+    if (previousFocusRef.current) {
+      previousFocusRef.current.focus();
+    }
   };
 
   if (!isVisible) return null;
@@ -50,6 +121,7 @@ const NarratorPrompt = ({ language = 'es' }) => {
       role="dialog"
       aria-modal="true"
       aria-labelledby="narrator-prompt-title"
+      aria-describedby="narrator-prompt-description"
     >
       {/* Overlay con blur */}
       <div
@@ -60,6 +132,7 @@ const NarratorPrompt = ({ language = 'es' }) => {
 
       {/* Modal content */}
       <div
+        ref={modalRef}
         className="relative bg-white dark:bg-slate-800 rounded-xl shadow-2xl max-w-sm w-full p-6 transform transition-all"
         style={{
           animation: 'slideUp 0.3s ease-out'
@@ -91,12 +164,17 @@ const NarratorPrompt = ({ language = 'es' }) => {
             {t.title}
           </h2>
 
-          <p className="text-lg text-slate-600 dark:text-slate-300 mb-6">
+          <p
+            id="narrator-prompt-description"
+            className="text-lg text-slate-600 dark:text-slate-300 mb-6"
+          >
             {t.message}
           </p>
 
           <button
+            ref={buttonRef}
             onClick={handleClose}
+            aria-label={t.closeAriaLabel}
             className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
           >
             {t.button}
