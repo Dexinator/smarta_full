@@ -17,9 +17,12 @@ const VimeoPlayerSimple = ({
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [vimeoSDKReady, setVimeoSDKReady] = useState(false);
+  const [showControls, setShowControls] = useState(true);
 
   const playerRef = useRef(null);
   const playerInstanceRef = useRef(null); // Ref para guardar la instancia del player
+  const controlsTimerRef = useRef(null); // Timer para ocultar controles
+  const videoContainerRef = useRef(null); // Ref para el contenedor del video
 
   // Textos según idioma
   const t = {
@@ -318,6 +321,42 @@ const VimeoPlayerSimple = ({
 
     player.setCurrentTime(newTime);
     setCurrentTime(newTime);
+
+    // Mantener controles visibles después de hacer seek
+    if (isFullscreen) {
+      showControlsTemporarily();
+    }
+  };
+
+  // Handler para botón play/pause con controles
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+
+    // Mantener controles visibles después de interacción
+    if (isFullscreen) {
+      showControlsTemporarily();
+    }
+  };
+
+  // Handler para cambio de volumen
+  const handleVolumeChange = (e) => {
+    setVolume(Number(e.target.value));
+    setIsMuted(false);
+
+    // Mantener controles visibles durante ajuste
+    if (isFullscreen) {
+      showControlsTemporarily();
+    }
+  };
+
+  // Handler para mute/unmute
+  const handleMuteToggle = () => {
+    setIsMuted(!isMuted);
+
+    // Mantener controles visibles después de interacción
+    if (isFullscreen) {
+      showControlsTemporarily();
+    }
   };
 
   // Formatear tiempo
@@ -328,12 +367,108 @@ const VimeoPlayerSimple = ({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Función para mostrar controles y reiniciar temporizador
+  const showControlsTemporarily = () => {
+    // Solo aplicar en fullscreen
+    if (!isFullscreen) return;
+
+    setShowControls(true);
+
+    // Limpiar temporizador anterior
+    if (controlsTimerRef.current) {
+      clearTimeout(controlsTimerRef.current);
+    }
+
+    // Ocultar controles después de 3 segundos de inactividad
+    // Solo ocultar si el video está reproduciéndose
+    controlsTimerRef.current = setTimeout(() => {
+      if (isPlaying) {
+        setShowControls(false);
+      }
+    }, 3000);
+  };
+
+  // Mantener controles visibles cuando el video está pausado
+  useEffect(() => {
+    if (!isFullscreen) return;
+
+    if (!isPlaying) {
+      // Si está pausado, mostrar controles y limpiar temporizador
+      setShowControls(true);
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
+    } else {
+      // Si empieza a reproducir, iniciar temporizador
+      showControlsTemporarily();
+    }
+  }, [isPlaying, isFullscreen]);
+
+  // Efecto para manejar la visibilidad de controles en fullscreen
+  useEffect(() => {
+    if (!isFullscreen) {
+      // En modo normal, siempre mostrar controles
+      setShowControls(true);
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
+      return;
+    }
+
+    // En fullscreen, mostrar controles inicialmente
+    showControlsTemporarily();
+
+    // Cleanup
+    return () => {
+      if (controlsTimerRef.current) {
+        clearTimeout(controlsTimerRef.current);
+      }
+    };
+  }, [isFullscreen]);
+
+  // Efecto para agregar listeners de interacción en fullscreen
+  useEffect(() => {
+    if (!isFullscreen || !videoContainerRef.current) return;
+
+    const container = videoContainerRef.current;
+
+    // Handler para click/touch
+    const handleInteraction = (e) => {
+      // Si el click fue en los controles, no hacer nada (dejar que funcionen)
+      if (e.target.closest('.video-controls')) {
+        return;
+      }
+
+      // Mostrar controles temporalmente
+      showControlsTemporarily();
+    };
+
+    // Agregar listeners para click y touch
+    container.addEventListener('click', handleInteraction);
+    container.addEventListener('touchstart', handleInteraction, { passive: true });
+
+    // También mostrar controles al mover el mouse
+    container.addEventListener('mousemove', showControlsTemporarily);
+
+    // Cleanup
+    return () => {
+      container.removeEventListener('click', handleInteraction);
+      container.removeEventListener('touchstart', handleInteraction);
+      container.removeEventListener('mousemove', showControlsTemporarily);
+    };
+  }, [isFullscreen]);
+
   return (
     <div className={`${isFullscreen ? 'w-full h-full flex flex-col' : 'w-full'}`}>
       {/* Video container */}
-      <div className={`${isFullscreen ? 'flex-1 relative flex items-center justify-center' : 'relative w-full'} bg-black`} style={{
-        paddingBottom: isFullscreen ? undefined : '56.25%'
-      }}>
+      <div
+        ref={videoContainerRef}
+        className={`${isFullscreen ? 'flex-1 relative flex items-center justify-center' : 'relative w-full'} bg-black`}
+        style={{
+          paddingBottom: isFullscreen ? undefined : '56.25%',
+          cursor: isFullscreen && !showControls ? 'none' : 'default'
+        }}
+      >
         <div className={`${isFullscreen ? 'relative w-full h-full max-w-full max-h-full' : 'absolute inset-0'} flex items-center justify-center`}>
           {error ? (
             <div className="flex items-center justify-center h-full bg-slate-900">
@@ -372,7 +507,15 @@ const VimeoPlayerSimple = ({
 
       {/* Controles - ajustados para fullscreen */}
       {!error && !isLoading && (
-        <div className={isFullscreen ? "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-6 py-4" : "w-full p-6"}>
+        <div
+          className={`video-controls transition-all duration-300 ${
+            isFullscreen
+              ? `absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-6 py-4 ${
+                  showControls ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+                }`
+              : 'w-full p-6'
+          }`}
+        >
           {/* Barra de progreso */}
           <div className="mb-4">
             <div className={`flex items-center justify-between text-sm mb-2 ${isFullscreen ? 'text-white' : 'text-slate-600 dark:text-slate-400'}`}>
@@ -394,7 +537,7 @@ const VimeoPlayerSimple = ({
           <div className="flex items-center justify-between">
             {/* Play/Pause */}
             <button
-              onClick={() => setIsPlaying(!isPlaying)}
+              onClick={handlePlayPause}
               disabled={!isReady || isLoading}
               className={`p-3 rounded-full transition-colors ${
                 isFullscreen
@@ -420,7 +563,7 @@ const VimeoPlayerSimple = ({
               isFullscreen ? 'bg-white/10' : 'bg-slate-100 dark:bg-slate-700'
             }`}>
               <button
-                onClick={() => setIsMuted(!isMuted)}
+                onClick={handleMuteToggle}
                 className={`transition-colors ${
                   isFullscreen
                     ? 'text-white hover:text-gray-300'
@@ -445,10 +588,7 @@ const VimeoPlayerSimple = ({
                 min="0"
                 max="100"
                 value={isMuted ? 0 : volume}
-                onChange={(e) => {
-                  setVolume(Number(e.target.value));
-                  setIsMuted(false);
-                }}
+                onChange={handleVolumeChange}
                 className={`w-24 h-1 rounded-lg appearance-none cursor-pointer vimeo-slider ${
                   isFullscreen ? 'bg-white/30' : 'bg-slate-300 dark:bg-slate-600'
                 }`}

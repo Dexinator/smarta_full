@@ -161,7 +161,13 @@
       "playVideo": "Play video about: {{description}}",
       "fullscreen": "Tap to open in fullscreen",
       "exitFullscreen": "Exit gallery fullscreen",
-      "indicatorsLabel": "Gallery navigation"
+      "indicatorsLabel": "Gallery navigation",
+      "navigationIndex": "Adventure stops index",
+      "skipToStop": "Skip to {{stopName}}",
+      "stopsOverview": "This adventure has {{count}} stops",
+      "currentStop": "{{stopName}}",
+      "stopNumber": "Stop {{number}}",
+      "toggleIndex": "Show or hide stops index"
     },
     "slider": {
       "previous": "Previous",

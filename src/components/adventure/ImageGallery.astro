@@ -139,7 +139,49 @@ const optimizedImages = await Promise.all(
 
 // Filtrar imágenes que no se pudieron cargar
 const validImages = optimizedImages.filter(img => img !== null);
+
+// Preparar datos para el índice de navegación
+const stopsData = validImages.map((image, index) => ({
+  index,
+  stopName: image.buttonText || interpolate(t.stopNumber, { number: index + 1 }),
+  alt: image.alt
+}));
 ---
+
+<!-- Índice de Navegación Accesible -->
+<nav class="gallery-navigation-index" aria-label={t.navigationIndex}>
+  <details class="navigation-index-details">
+    <summary class="navigation-index-toggle" aria-label={t.toggleIndex}>
+      <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+      <span>{t.navigationIndex}</span>
+      <svg aria-hidden="true" class="w-5 h-5 ml-2 chevron-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </summary>
+    <div class="navigation-index-content">
+      <p class="navigation-index-overview" aria-live="polite">
+        {interpolate(t.stopsOverview, { count: validImages.length })}
+      </p>
+      <ul class="navigation-index-list" role="list">
+        {stopsData.map((stop) => (
+          <li key={stop.index}>
+            <a
+              href={`#slide-${stop.index}`}
+              class="navigation-index-link"
+              data-slide-index={stop.index}
+              aria-label={interpolate(t.skipToStop, { stopName: stop.stopName })}
+            >
+              <span class="stop-number" aria-hidden="true">{stop.index + 1}</span>
+              <span class="stop-name">{stop.stopName}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </details>
+</nav>
 
 <div class="adventure-gallery-wrapper">
   <div
@@ -191,6 +233,7 @@ const validImages = optimizedImages.filter(img => img !== null);
         <div class="gallery-track flex transition-transform duration-300 ease-in-out">
           {validImages.map((image, index) => (
             <div
+              id={`slide-${index}`}
               class="gallery-slide flex-shrink-0 w-full relative"
               data-slide-index={index}
               role="group"
@@ -324,6 +367,196 @@ const validImages = optimizedImages.filter(img => img !== null);
 <MediaModal language={language} client:load />
 
 <style>
+  /* ===== ESTILOS DEL ÍNDICE DE NAVEGACIÓN ===== */
+  .gallery-navigation-index {
+    margin-bottom: 1.5rem;
+    max-width: 100%;
+  }
+
+  .navigation-index-details {
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: white;
+    transition: all 0.3s ease;
+  }
+
+  .navigation-index-details:hover {
+    border-color: #0072c0;
+    box-shadow: 0 4px 6px -1px rgba(0, 114, 192, 0.1);
+  }
+
+  .navigation-index-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, #0072c0 0%, #005a99 100%);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.125rem;
+    user-select: none;
+    transition: background 0.3s ease;
+    list-style: none;
+  }
+
+  .navigation-index-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .navigation-index-toggle:hover {
+    background: linear-gradient(135deg, #005a99 0%, #004577 100%);
+  }
+
+  .navigation-index-toggle:focus-visible {
+    outline: 3px solid #FBBF24;
+    outline-offset: 2px;
+  }
+
+  .navigation-index-toggle span {
+    display: flex;
+    align-items: center;
+  }
+
+  .chevron-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .navigation-index-details[open] .chevron-icon {
+    transform: rotate(180deg);
+  }
+
+  .navigation-index-content {
+    padding: 1.25rem;
+    background: #f9fafb;
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .navigation-index-overview {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border-left: 4px solid #0072c0;
+    font-size: 0.95rem;
+    color: #374151;
+    border-radius: 0.25rem;
+  }
+
+  .navigation-index-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 640px) {
+    .navigation-index-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .navigation-index-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: #374151;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .navigation-index-link:hover {
+    background: #eff6ff;
+    border-color: #0072c0;
+    color: #0072c0;
+    transform: translateX(4px);
+  }
+
+  .navigation-index-link:focus-visible {
+    outline: 3px solid #FBBF24;
+    outline-offset: 2px;
+    border-color: #0072c0;
+  }
+
+  .navigation-index-link:active {
+    transform: scale(0.98);
+  }
+
+  .stop-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    background: linear-gradient(135deg, #0072c0 0%, #005a99 100%);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+  }
+
+  .navigation-index-link:hover .stop-number {
+    background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    color: #1F2937;
+  }
+
+  .stop-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .navigation-index-details {
+      background: #1f2937;
+      border-color: #374151;
+    }
+
+    .navigation-index-content {
+      background: #111827;
+    }
+
+    .navigation-index-overview {
+      background: #1f2937;
+      color: #d1d5db;
+    }
+
+    .navigation-index-link {
+      background: #1f2937;
+      border-color: #374151;
+      color: #d1d5db;
+    }
+
+    .navigation-index-link:hover {
+      background: #374151;
+      border-color: #0072c0;
+      color: #60a5fa;
+    }
+  }
+
+  /* ===== ESTILOS ORIGINALES ===== */
   /* Contenedor wrapper necesita position relative para las flechas */
   .gallery-wrapper {
     position: relative;
@@ -1273,14 +1506,29 @@ const validImages = optimizedImages.filter(img => img !== null);
         // Anunciar cambio de slide para lectores de pantalla
         const liveRegion = wrapper.querySelector('.gallery-live-region');
         if (liveRegion && slides[index]) {
-          const slideLabel = slides[index].getAttribute('aria-label');
           const img = slides[index].querySelector('img');
           const imgAlt = img ? img.alt : '';
+
+          // Obtener el nombre de la parada desde el índice de navegación
+          const navLink = wrapper.querySelector(`.navigation-index-link[data-slide-index="${index}"]`);
+          const stopNameElement = navLink ? navLink.querySelector('.stop-name') : null;
+          const stopName = stopNameElement ? stopNameElement.textContent.trim() : null;
+
           // Usar el idioma del documento para el anuncio
           const lang = document.documentElement.lang || 'es';
-          const message = lang === 'en'
-            ? `Image ${index + 1} of ${totalSlides}: ${imgAlt}`
-            : `Imagen ${index + 1} de ${totalSlides}: ${imgAlt}`;
+
+          // Construir mensaje mejorado con nombre de parada si está disponible
+          let message;
+          if (stopName) {
+            message = lang === 'en'
+              ? `${stopName}. Image ${index + 1} of ${totalSlides}: ${imgAlt}`
+              : `${stopName}. Imagen ${index + 1} de ${totalSlides}: ${imgAlt}`;
+          } else {
+            message = lang === 'en'
+              ? `Image ${index + 1} of ${totalSlides}: ${imgAlt}`
+              : `Imagen ${index + 1} de ${totalSlides}: ${imgAlt}`;
+          }
+
           liveRegion.textContent = message;
         }
       };
@@ -1559,6 +1807,44 @@ const validImages = optimizedImages.filter(img => img !== null);
             updateCarousel(currentIndex);
           }
         }, 250);
+      });
+
+      // Manejar navegación por índice
+      const navLinks = wrapper.querySelectorAll('.navigation-index-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetIndex = parseInt(link.dataset.slideIndex, 10);
+
+          if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < totalSlides) {
+            // Activar flag de navegación manual
+            isManualNavigation = true;
+            console.log(`Navigation index link clicked, jumping to slide ${targetIndex}`);
+
+            // Si estamos en fullscreen, guardar el índice
+            const isFullscreen = gallery.classList.contains('fullscreen-active');
+            if (isFullscreen) {
+              fullscreenSavedIndex = targetIndex;
+            }
+
+            // Navegar a la slide
+            updateCarousel(targetIndex, true);
+
+            // Cerrar el índice después de navegar (solo si es móvil)
+            if (window.innerWidth <= 768) {
+              const details = wrapper.querySelector('.navigation-index-details');
+              if (details) {
+                details.removeAttribute('open');
+              }
+            }
+
+            // Desactivar navegación manual después de un tiempo
+            setTimeout(() => {
+              isManualNavigation = false;
+              console.log('Manual navigation disabled after index click');
+            }, 800);
+          }
+        });
       });
 
       // Inicializar la primera slide como activa

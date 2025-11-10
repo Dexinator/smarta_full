@@ -161,7 +161,13 @@
       "playVideo": "Ver video sobre: {{description}}",
       "fullscreen": "Abrir galería en pantalla completa",
       "exitFullscreen": "Salir de pantalla completa de la galería",
-      "indicatorsLabel": "Navegación de galería"
+      "indicatorsLabel": "Navegación de galería",
+      "navigationIndex": "Índice de paradas de la aventura",
+      "skipToStop": "Saltar a {{stopName}}",
+      "stopsOverview": "Esta aventura tiene {{count}} paradas",
+      "currentStop": "{{stopName}}",
+      "stopNumber": "Parada {{number}}",
+      "toggleIndex": "Mostrar u ocultar índice de paradas"
     },
     "slider": {
       "previous": "Anterior",
