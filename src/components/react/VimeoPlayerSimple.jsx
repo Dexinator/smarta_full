@@ -431,9 +431,10 @@ const VimeoPlayerSimple = ({
     if (!isFullscreen || !videoContainerRef.current) return;
 
     const container = videoContainerRef.current;
+    let touchStartTime = 0;
 
-    // Handler para click/touch
-    const handleInteraction = (e) => {
+    // Handler para click
+    const handleClick = (e) => {
       // Si el click fue en los controles, no hacer nada (dejar que funcionen)
       if (e.target.closest('.video-controls')) {
         return;
@@ -443,17 +444,40 @@ const VimeoPlayerSimple = ({
       showControlsTemporarily();
     };
 
-    // Agregar listeners para click y touch
-    container.addEventListener('click', handleInteraction);
-    container.addEventListener('touchstart', handleInteraction, { passive: true });
+    // Handler para touch start (guardar tiempo)
+    const handleTouchStart = (e) => {
+      touchStartTime = Date.now();
+    };
 
-    // También mostrar controles al mover el mouse
+    // Handler para touch end
+    const handleTouchEnd = (e) => {
+      // Si el touch fue en los controles, no hacer nada
+      if (e.target.closest('.video-controls')) {
+        return;
+      }
+
+      // Verificar que fue un tap (no un swipe)
+      const touchDuration = Date.now() - touchStartTime;
+      if (touchDuration < 500) {
+        // Prevenir que también se dispare el evento click
+        e.preventDefault();
+
+        // Mostrar controles temporalmente
+        showControlsTemporarily();
+      }
+    };
+
+    // Agregar listeners
+    container.addEventListener('click', handleClick);
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd);
     container.addEventListener('mousemove', showControlsTemporarily);
 
     // Cleanup
     return () => {
-      container.removeEventListener('click', handleInteraction);
-      container.removeEventListener('touchstart', handleInteraction);
+      container.removeEventListener('click', handleClick);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
       container.removeEventListener('mousemove', showControlsTemporarily);
     };
   }, [isFullscreen]);
@@ -466,7 +490,9 @@ const VimeoPlayerSimple = ({
         className={`${isFullscreen ? 'flex-1 relative flex items-center justify-center' : 'relative w-full'} bg-black`}
         style={{
           paddingBottom: isFullscreen ? undefined : '56.25%',
-          cursor: isFullscreen && !showControls ? 'none' : 'default'
+          cursor: isFullscreen && !showControls ? 'none' : 'default',
+          WebkitTapHighlightColor: 'transparent',
+          touchAction: 'manipulation'
         }}
       >
         <div className={`${isFullscreen ? 'relative w-full h-full max-w-full max-h-full' : 'absolute inset-0'} flex items-center justify-center`}>
@@ -499,7 +525,13 @@ const VimeoPlayerSimple = ({
                   </div>
                 </div>
               )}
-              <div ref={playerRef} className={`vimeo-container ${isFullscreen ? 'fullscreen-video' : ''} w-full h-full relative`} />
+              <div
+                ref={playerRef}
+                className={`vimeo-container ${isFullscreen ? 'fullscreen-video' : ''} w-full h-full relative`}
+                style={{
+                  pointerEvents: isFullscreen ? 'none' : 'auto'
+                }}
+              />
             </>
           )}
         </div>
