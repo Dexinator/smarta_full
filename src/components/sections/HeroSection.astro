@@ -1,9 +1,8 @@
 ---
 // Hero Section - Sección principal con navegación
 import { Image } from 'astro:assets';
-import heroImage2 from '../../assets/images/main_page/Sección arriba del todo (2).png';
-import heroImage3 from '../../assets/images/main_page/Sección arriba del todo (3).png';
-import heroImage4 from '../../assets/images/main_page/Sección arriba del todo (4).png';
+import escritorioHomepage from '../../assets/images/main_page/escritorio_homepage.png';
+import telefonoHomepage from '../../assets/images/main_page/telefono_homepage.png';
 import turismoSantaMarta from '../../assets/images/turismo-santa-marta.png';
 import { useTranslations, type Locale } from '../../i18n/utils';
 
@@ -12,7 +11,6 @@ export interface Props {
 }
 
 const { lang = "es" } = Astro.props;
-const heroImages = [heroImage2, heroImage3, heroImage4];
 const t = useTranslations(lang as Locale).hero;
 ---
 
@@ -20,50 +18,40 @@ const t = useTranslations(lang as Locale).hero;
   id="hero"
   class="relative min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-SM-blue via-blue-600 to-blue-800 overflow-hidden"
 >
-  <!-- Imagen de fondo con overlay y carrusel -->
+  <!-- Imagen de fondo con overlay -->
   <div class="absolute inset-0 z-0">
-    <!-- Carrusel de imágenes -->
-    <div class="hero-carousel absolute inset-0" role="presentation" aria-hidden="true">
-      <div class="hero-slide active">
-        <Image
-          src={heroImage2}
-          alt=""
-          role="presentation"
-          loading="eager"
-          quality={90}
-          widths={[640, 768, 1024, 1280, 1920]}
-          sizes="100vw"
-          fit="cover"
-          position="center"
-        />
-      </div>
-      <div class="hero-slide">
-        <Image
-          src={heroImage3}
-          alt=""
-          role="presentation"
-          loading="eager"
-          quality={90}
-          widths={[640, 768, 1024, 1280, 1920]}
-          sizes="100vw"
-          fit="cover"
-          position="center"
-        />
-      </div>
-      <div class="hero-slide">
-        <Image
-          src={heroImage4}
-          alt=""
-          role="presentation"
-          loading="eager"
-          quality={90}
-          widths={[640, 768, 1024, 1280, 1920]}
-          sizes="100vw"
-          fit="cover"
-          position="top"
-        />
-      </div>
+    <!-- Imagen de escritorio (oculta en móvil) -->
+    <div class="hidden md:block absolute inset-0" role="presentation" aria-hidden="true">
+      <Image
+        src={escritorioHomepage}
+        alt=""
+        role="presentation"
+        loading="eager"
+        quality={90}
+        widths={[1024, 1280, 1920]}
+        sizes="100vw"
+        fit="cover"
+        position="center"
+        class="w-full h-full object-cover"
+      />
     </div>
+
+    <!-- Imagen de móvil (oculta en desktop) -->
+    <div class="block md:hidden absolute inset-0" role="presentation" aria-hidden="true">
+      <Image
+        src={telefonoHomepage}
+        alt=""
+        role="presentation"
+        loading="eager"
+        quality={90}
+        widths={[640, 768]}
+        sizes="100vw"
+        fit="cover"
+        position="center"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
     <!-- Overlay encima de las imágenes -->
     <div class="absolute inset-0 bg-black/40 z-10"></div>
   </div>
@@ -169,55 +157,5 @@ const t = useTranslations(lang as Locale).hero;
   .animate-slide-up {
     animation: slide-up 1s ease-out 0.2s both;
   }
-
-  /* Estilos para el carrusel de hero */
-  .hero-carousel {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-  }
-
-  .hero-slide.active {
-    opacity: 1;
-  }
-
-  .hero-slide img,
-  .hero-slide picture,
-  .hero-slide picture img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 </style>
 
-<script>
-  // Carrusel automático para hero
-  document.addEventListener('DOMContentLoaded', () => {
-    const slides = document.querySelectorAll('.hero-slide');
-    let currentSlide = 0;
-
-    function nextSlide() {
-      // Ocultar slide actual
-      slides[currentSlide].classList.remove('active');
-
-      // Siguiente slide
-      currentSlide = (currentSlide + 1) % slides.length;
-
-      // Mostrar siguiente slide
-      slides[currentSlide].classList.add('active');
-    }
-
-    // Cambiar imagen cada 6 segundos (3 imágenes = 18s ciclo completo)
-    setInterval(nextSlide, 6000);
-  });
-</script>
