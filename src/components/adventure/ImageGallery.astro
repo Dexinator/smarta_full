@@ -1424,11 +1424,20 @@ const stopsData = validImages.map((image, index) => ({
           console.log(`Current index restored to: ${currentIndex}`);
 
           // Establecer el scroll INMEDIATAMENTE antes de requestAnimationFrame
-          // para evitar que el layout cause un scroll automático
-          const viewportWidth = window.innerWidth;
-          const targetScroll = viewportWidth * savedIndex;
-          console.log(`Setting initial scroll position: viewport=${viewportWidth}, index=${savedIndex}, target=${targetScroll}`);
+          // IMPORTANTE: Usar offsetWidth del carousel para mayor precisión
+          let slideWidth = carousel.offsetWidth;
+
+          // Si el carousel aún no tiene el tamaño correcto, usar viewport como fallback
+          if (slideWidth === 0) {
+            slideWidth = window.innerWidth;
+            console.warn('Carousel width is 0, using viewport width as fallback');
+          }
+
+          const targetScroll = slideWidth * savedIndex;
+          console.log(`Setting initial scroll position: slideWidth=${slideWidth}, index=${savedIndex}, target=${targetScroll}`);
+          console.log(`Carousel scroll BEFORE setting: ${carousel.scrollLeft}`);
           carousel.scrollLeft = targetScroll;
+          console.log(`Carousel scroll AFTER setting: ${carousel.scrollLeft}`);
 
           // Usar requestAnimationFrame para asegurar que el layout está actualizado
           requestAnimationFrame(() => {
@@ -1436,12 +1445,16 @@ const stopsData = validImages.map((image, index) => ({
               setupMediaButtons();
 
               // Verificar y reestablecer scroll si es necesario
-              const currentScroll = carousel.scrollLeft;
-              console.log(`Current scroll after layout: ${currentScroll}, expected: ${targetScroll}`);
+              // Recalcular slideWidth por si cambió después del layout
+              let verifySlideWidth = carousel.offsetWidth || window.innerWidth;
+              let verifyTargetScroll = verifySlideWidth * savedIndex;
 
-              if (Math.abs(currentScroll - targetScroll) > 10) {
+              const currentScroll = carousel.scrollLeft;
+              console.log(`Current scroll after layout: ${currentScroll}, slideWidth=${verifySlideWidth}, expected=${verifyTargetScroll}`);
+
+              if (Math.abs(currentScroll - verifyTargetScroll) > 10) {
                 console.log('Scroll drifted, correcting...');
-                carousel.scrollLeft = targetScroll;
+                carousel.scrollLeft = verifyTargetScroll;
               }
 
               // Actualizar indicadores y botones con el índice guardado
@@ -1449,12 +1462,16 @@ const stopsData = validImages.map((image, index) => ({
 
               // Verificación adicional después de un momento
               setTimeout(() => {
+                // Recalcular nuevamente por si el layout cambió
+                const checkSlideWidth = carousel.offsetWidth || window.innerWidth;
+                const checkTargetScroll = checkSlideWidth * savedIndex;
                 const actualScroll = carousel.scrollLeft;
-                console.log(`Scroll verification after fullscreen: actual=${actualScroll}, expected=${targetScroll}`);
 
-                if (Math.abs(actualScroll - targetScroll) > 10) {
+                console.log(`Scroll verification after fullscreen: actual=${actualScroll}, slideWidth=${checkSlideWidth}, expected=${checkTargetScroll}`);
+
+                if (Math.abs(actualScroll - checkTargetScroll) > 10) {
                   console.log('Correcting scroll position...');
-                  carousel.scrollLeft = targetScroll;
+                  carousel.scrollLeft = checkTargetScroll;
                 }
 
                 // Verificar que currentIndex no ha sido modificado
@@ -1462,16 +1479,22 @@ const stopsData = validImages.map((image, index) => ({
                   console.warn(`Index was modified! Restoring from ${currentIndex} to ${savedIndex}`);
                   currentIndex = savedIndex;
                   updateUIElements(savedIndex);
-                  carousel.scrollLeft = targetScroll;
+                  carousel.scrollLeft = checkTargetScroll;
                 }
               }, 200);
 
               // Verificación final más tardía
               setTimeout(() => {
-                if (currentIndex !== savedIndex || Math.abs(carousel.scrollLeft - targetScroll) > 10) {
-                  console.warn(`Final correction needed. Index: ${currentIndex} -> ${savedIndex}, Scroll: ${carousel.scrollLeft} -> ${targetScroll}`);
+                const finalSlideWidth = carousel.offsetWidth || window.innerWidth;
+                const finalTargetScroll = finalSlideWidth * savedIndex;
+                const finalActualScroll = carousel.scrollLeft;
+
+                console.log(`Final verification: actualScroll=${finalActualScroll}, slideWidth=${finalSlideWidth}, expectedScroll=${finalTargetScroll}, index=${currentIndex}, savedIndex=${savedIndex}`);
+
+                if (currentIndex !== savedIndex || Math.abs(finalActualScroll - finalTargetScroll) > 10) {
+                  console.warn(`Final correction needed. Index: ${currentIndex} -> ${savedIndex}, Scroll: ${finalActualScroll} -> ${finalTargetScroll}`);
                   currentIndex = savedIndex;
-                  carousel.scrollLeft = targetScroll;
+                  carousel.scrollLeft = finalTargetScroll;
                   updateUIElements(savedIndex);
                 }
               }, 500);
