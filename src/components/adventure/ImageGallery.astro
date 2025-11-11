@@ -1709,11 +1709,17 @@ const stopsData = validImages.map((image, index) => ({
             }
           }
 
-          // Re-configurar después de salir de fullscreen
-          setTimeout(() => {
-            setupMediaButtons();
-            updateCarouselPosition();
-          }, 200);
+          // IMPORTANTE: NO reconfigurar si estamos saliendo temporalmente para el modal
+          // El modal volverá a entrar en fullscreen automáticamente
+          if (!wasInFullscreenBeforeModal) {
+            // Solo reconfigurar si es una salida definitiva de fullscreen
+            setTimeout(() => {
+              setupMediaButtons();
+              updateCarouselPosition();
+            }, 200);
+          } else {
+            console.log('Skipping carousel reposition - exiting temporarily for modal');
+          }
         }
         // Nota: La entrada a fullscreen ya se maneja en enterFullscreen()
       };

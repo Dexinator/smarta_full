@@ -9,16 +9,19 @@
       {
         "src": "sliders/santa_martaxplora_ingles/1.png",
         "alt": "Welcome to Santa MartaXplora",
+        "stopName": "Start",
         "buttonText": "Start"
       },
       {
         "src": "sliders/santa_martaxplora_ingles/2.png",
         "alt": "Stop 1: Origin of the Town",
+        "stopName": "Introduction",
         "buttonText": "Click here to<br>listen to the introduction"
       },
       {
         "src": "sliders/santa_martaxplora_ingles/3.png",
         "alt": "Stop 2: Traces of the Past",
+        "stopName": "Origins of the village",
         "buttonText": "1. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
@@ -29,6 +32,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/4.png",
         "alt": "Stop 3: Patron Saint of Santa Marta",
+        "stopName": "Traces of the past",
         "buttonText": "2. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
@@ -39,6 +43,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/5.png",
         "alt": "Stop 4: Town Hall",
+        "stopName": "Patron Saint of Santa Marta",
         "buttonText": "3. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
@@ -49,6 +54,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/6.png",
         "alt": "Stop 5: Art",
+        "stopName": "Town Hall",
         "buttonText": "4. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
@@ -59,6 +65,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/7.png",
         "alt": "Stop 6: Mural Route",
+        "stopName": "Art",
         "buttonText": "5. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
@@ -69,6 +76,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/8.png",
         "alt": "Additional information",
+        "stopName": "Mural Route",
         "buttonText": "6. Click here to<br>listen to the answer",
         "mediaButton": {
           "type": "audio",
@@ -79,6 +87,7 @@
       {
         "src": "sliders/santa_martaxplora_ingles/9.png",
         "alt": "Congratulations! You've completed Santa MartaXplora",
+        "stopName": "Finish",
         "buttonText": "Finish"
       }
     ]

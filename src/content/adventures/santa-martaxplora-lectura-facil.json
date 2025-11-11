@@ -9,16 +9,19 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/1.png",
         "alt": "Empezamos la aventura",
+        "stopName": "Inicio",
         "buttonText": "Inicio"
       },
       {
         "src": "sliders/santa_martaxplora_lectura_facil/2.png",
         "alt": "Primera parada: Cómo empezó el pueblo",
+        "stopName": "Introducción",
         "buttonText": "Clic aquí para<br>escuchar la introducción"
       },
       {
         "src": "sliders/santa_martaxplora_lectura_facil/3.png",
         "alt": "Segunda parada: Cosas antiguas",
+        "stopName": "Origen de la villa",
         "buttonText": "1. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -29,6 +32,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/4.png",
         "alt": "Tercera parada: Santa Marta",
+        "stopName": "Vestigios del pasado",
         "buttonText": "2. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -39,6 +43,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/5.png",
         "alt": "Cuarta parada: El Ayuntamiento",
+        "stopName": "Patrona de Santa Marta",
         "buttonText": "3. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -49,6 +54,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/6.png",
         "alt": "Quinta parada: Arte bonito",
+        "stopName": "Ayuntamiento",
         "buttonText": "4. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -59,6 +65,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/7.png",
         "alt": "Sexta parada: Dibujos en las paredes",
+        "stopName": "Arte",
         "buttonText": "5. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -69,6 +76,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/8.png",
         "alt": "Más información",
+        "stopName": "Ruta de los murales",
         "buttonText": "6. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -79,6 +87,7 @@
       {
         "src": "sliders/santa_martaxplora_lectura_facil/9.png",
         "alt": "¡Muy bien! Has terminado",
+        "stopName": "Final",
         "buttonText": "Final"
       }
     ]
