@@ -1192,8 +1192,9 @@ const stopsData = validImages.map((image, index) => ({
       let isManualNavigation = false; // Flag para navegación manual con flechas
 
       const handleMobileScroll = () => {
-        // Solo procesar en móvil
-        if (window.innerWidth > 768) return;
+        // Solo procesar en móvil O en modo fullscreen (que siempre usa scroll)
+        const isFullscreen = gallery.classList.contains('fullscreen-active');
+        if (window.innerWidth > 768 && !isFullscreen) return;
 
         // Si estamos navegando manualmente con flechas, ignorar el scroll event temporalmente
         if (isManualNavigation) {
@@ -1250,28 +1251,28 @@ const stopsData = validImages.map((image, index) => ({
         }, 100); // Reducido a 100ms para mejor respuesta
       };
 
-      // Event listener único para scroll en móvil
-      if (window.innerWidth <= 768) {
-        carousel.addEventListener('scroll', handleMobileScroll, { passive: true });
+      // Event listener de scroll - SIEMPRE añadirlo porque se necesita en fullscreen
+      carousel.addEventListener('scroll', handleMobileScroll, { passive: true });
 
-        // También escuchar scrollend si está disponible (mejor soporte en navegadores modernos)
-        if ('onscrollend' in window) {
-          carousel.addEventListener('scrollend', () => {
-            if (window.innerWidth > 768) return;
+      // También escuchar scrollend si está disponible (mejor soporte en navegadores modernos)
+      if ('onscrollend' in window) {
+        carousel.addEventListener('scrollend', () => {
+          // Solo procesar en móvil O en modo fullscreen
+          const isFullscreen = gallery.classList.contains('fullscreen-active');
+          if (window.innerWidth > 768 && !isFullscreen) return;
 
-            const slideWidth = carousel.offsetWidth;
-            const scrollPosition = carousel.scrollLeft;
-            const targetIndex = Math.round(scrollPosition / slideWidth);
+          const slideWidth = carousel.offsetWidth;
+          const scrollPosition = carousel.scrollLeft;
+          const targetIndex = Math.round(scrollPosition / slideWidth);
 
-            // Asegurar que estamos exactamente en una slide
-            if (targetIndex >= 0 && targetIndex < totalSlides) {
-              carousel.scrollTo({
-                left: slideWidth * targetIndex,
-                behavior: 'smooth'
-              });
-            }
-          });
-        }
+          // Asegurar que estamos exactamente en una slide
+          if (targetIndex >= 0 && targetIndex < totalSlides) {
+            carousel.scrollTo({
+              left: slideWidth * targetIndex,
+              behavior: 'smooth'
+            });
+          }
+        });
       }
 
       // Navegación con teclado
