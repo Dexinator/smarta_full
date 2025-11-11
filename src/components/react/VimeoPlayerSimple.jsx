@@ -23,6 +23,7 @@ const VimeoPlayerSimple = ({
   const playerInstanceRef = useRef(null); // Ref para guardar la instancia del player
   const controlsTimerRef = useRef(null); // Timer para ocultar controles
   const videoContainerRef = useRef(null); // Ref para el contenedor del video
+  const isPlayingRef = useRef(isPlaying); // Ref para acceder al valor actual de isPlaying en closures
 
   // Textos según idioma
   const t = {
@@ -100,6 +101,11 @@ const VimeoPlayerSimple = ({
 
     return null;
   };
+
+  // Mantener el ref de isPlaying actualizado
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
 
   // Cargar Vimeo Player SDK
   useEffect(() => {
@@ -382,7 +388,8 @@ const VimeoPlayerSimple = ({
     // Ocultar controles después de 3 segundos de inactividad
     // Solo ocultar si el video está reproduciéndose
     controlsTimerRef.current = setTimeout(() => {
-      if (isPlaying) {
+      // Usar el ref para obtener el valor actual de isPlaying
+      if (isPlayingRef.current) {
         setShowControls(false);
       }
     }, 3000);
