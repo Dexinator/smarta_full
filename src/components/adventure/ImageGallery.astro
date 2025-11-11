@@ -13,6 +13,7 @@ interface Props {
       label: string;
     };
     buttonText?: string;
+    stopName?: string;
   }>;
   orientation: 'landscape' | 'portrait';
   buttonsPosition?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
@@ -149,7 +150,7 @@ const validImages = optimizedImages.filter(img => img !== null);
 // Preparar datos para el índice de navegación
 const stopsData = validImages.map((image, index) => ({
   index,
-  stopName: image.buttonText || interpolate(t.stopNumber, { number: index + 1 }),
+  stopName: image.stopName || image.buttonText || interpolate(t.stopNumber, { number: index + 1 }),
   alt: image.alt
 }));
 ---

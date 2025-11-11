@@ -9,16 +9,19 @@
       {
         "src": "sliders/santa_martaxplora_espanol/1.png",
         "alt": "Bienvenida a Santa MartaXplora",
+        "stopName": "Inicio",
         "buttonText": "Inicio"
       },
       {
         "src": "sliders/santa_martaxplora_espanol/2.png",
         "alt": "Parada 1: Origen de la Villa",
+        "stopName": "Introducción",
         "buttonText": "Clic aquí para<br>escuchar la introducción"
       },
       {
         "src": "sliders/santa_martaxplora_espanol/3.png",
         "alt": "Parada 2: Vestigios del Pasado",
+        "stopName": "Origen de la villa",
         "buttonText": "1. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -29,6 +32,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/4.png",
         "alt": "Parada 3: Patrona de Santa Marta",
+        "stopName": "Vestigios del pasado",
         "buttonText": "2. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -39,6 +43,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/5.png",
         "alt": "Parada 4: Ayuntamiento",
+        "stopName": "Patrona de Santa Marta",
         "buttonText": "3. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -49,6 +54,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/6.png",
         "alt": "Parada 5: Arte",
+        "stopName": "Ayuntamiento",
         "buttonText": "4. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -59,6 +65,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/7.png",
         "alt": "Parada 6: Ruta de los Murales",
+        "stopName": "Arte",
         "buttonText": "5. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -69,6 +76,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/8.png",
         "alt": "Información adicional",
+        "stopName": "Ruta de los murales",
         "buttonText": "6. Clic aquí para<br>escuchar la respuesta",
         "mediaButton": {
           "type": "audio",
@@ -79,6 +87,7 @@
       {
         "src": "sliders/santa_martaxplora_espanol/9.png",
         "alt": "¡Felicidades! Has completado Santa MartaXplora",
+        "stopName": "Final",
         "buttonText": "Final"
       }
     ]
