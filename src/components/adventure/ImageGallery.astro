@@ -1415,58 +1415,62 @@ const stopsData = validImages.map((image, index) => ({
           // Esperar a que la rotación se complete si es necesario
           await new Promise(resolve => setTimeout(resolve, 150));
 
+          // CRÍTICO: Restaurar el índice guardado INMEDIATAMENTE antes de cualquier otra cosa
+          currentIndex = savedIndex;
+          console.log(`Current index restored to: ${currentIndex}`);
+
+          // Establecer el scroll INMEDIATAMENTE antes de requestAnimationFrame
+          // para evitar que el layout cause un scroll automático
+          const viewportWidth = window.innerWidth;
+          const targetScroll = viewportWidth * savedIndex;
+          console.log(`Setting initial scroll position: viewport=${viewportWidth}, index=${savedIndex}, target=${targetScroll}`);
+          carousel.scrollLeft = targetScroll;
+
           // Usar requestAnimationFrame para asegurar que el layout está actualizado
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               setupMediaButtons();
 
-              // Restaurar el índice guardado
-              currentIndex = savedIndex;
-              console.log(`Current index restored to: ${currentIndex}`);
+              // Verificar y reestablecer scroll si es necesario
+              const currentScroll = carousel.scrollLeft;
+              console.log(`Current scroll after layout: ${currentScroll}, expected: ${targetScroll}`);
 
-              if (window.innerWidth <= 768) {
-                // En móvil, usar el ancho del viewport directamente para mayor precisión
-                const viewportWidth = window.innerWidth;
-                const targetScroll = viewportWidth * savedIndex;
-
-                console.log(`Setting scroll position: viewport=${viewportWidth}, index=${savedIndex}, target=${targetScroll}`);
-
-                // Establecer scroll directamente sin animación
+              if (Math.abs(currentScroll - targetScroll) > 10) {
+                console.log('Scroll drifted, correcting...');
                 carousel.scrollLeft = targetScroll;
-
-                // Verificación adicional después de un momento
-                setTimeout(() => {
-                  const actualScroll = carousel.scrollLeft;
-                  console.log(`Scroll verification after fullscreen: actual=${actualScroll}, expected=${targetScroll}`);
-
-                  if (Math.abs(actualScroll - targetScroll) > 10) {
-                    console.log('Correcting scroll position...');
-                    carousel.scrollLeft = targetScroll;
-                  }
-                }, 100);
-              } else {
-                // En desktop mantener la posición con transform
-                track.style.transform = `translateX(-${savedIndex * 100}%)`;
               }
 
               // Actualizar indicadores y botones con el índice guardado
               updateUIElements(savedIndex);
 
-              // Verificación final después de un momento para asegurar que el índice es correcto
+              // Verificación adicional después de un momento
               setTimeout(() => {
+                const actualScroll = carousel.scrollLeft;
+                console.log(`Scroll verification after fullscreen: actual=${actualScroll}, expected=${targetScroll}`);
+
+                if (Math.abs(actualScroll - targetScroll) > 10) {
+                  console.log('Correcting scroll position...');
+                  carousel.scrollLeft = targetScroll;
+                }
+
                 // Verificar que currentIndex no ha sido modificado
                 if (currentIndex !== savedIndex) {
                   console.warn(`Index was modified! Restoring from ${currentIndex} to ${savedIndex}`);
                   currentIndex = savedIndex;
                   updateUIElements(savedIndex);
-
-                  // Corregir scroll también
-                  if (window.innerWidth <= 768) {
-                    const viewportWidth = window.innerWidth;
-                    carousel.scrollLeft = viewportWidth * savedIndex;
-                  }
+                  carousel.scrollLeft = targetScroll;
                 }
-              }, 300);
+              }, 200);
+
+              // Verificación final más tardía
+              setTimeout(() => {
+                if (currentIndex !== savedIndex || Math.abs(carousel.scrollLeft - targetScroll) > 10) {
+                  console.warn(`Final correction needed. Index: ${currentIndex} -> ${savedIndex}, Scroll: ${carousel.scrollLeft} -> ${targetScroll}`);
+                  currentIndex = savedIndex;
+                  carousel.scrollLeft = targetScroll;
+                  updateUIElements(savedIndex);
+                }
+              }, 500);
 
               // Reactivar navegación después de que todo esté configurado
               // Usar timeout largo para asegurar que todos los scroll events se procesen primero
