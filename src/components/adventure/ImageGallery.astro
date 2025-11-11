@@ -1325,7 +1325,11 @@ const stopsData = validImages.map((image, index) => ({
             // Si estamos en pantalla completa, guardar estado y salir
             if (isCurrentlyFullscreen) {
               wasInFullscreenBeforeModal = true;
-              console.log('Exiting fullscreen to show modal'); // Debug
+
+              // CRÍTICO: Actualizar fullscreenSavedIndex al índice actual antes de salir
+              // Esto asegura que al volver de cerrar el modal, volvamos a la imagen correcta
+              fullscreenSavedIndex = currentIndex;
+              console.log(`Exiting fullscreen to show modal. Saving current index: ${fullscreenSavedIndex}`);
 
               try {
                 await exitFullscreen();
