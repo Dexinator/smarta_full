@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    {
+      "source": "/xplora/lectura-facil",
+      "destination": "/aventuras/santa-martaxplora/lectura-facil",
+      "permanent": true
+    },
+    {
+      "source": "/en/xplora",
+      "destination": "/aventuras/santa-martaxplora/ingles",
+      "permanent": true
+    },
+    {
+      "source": "/xplora",
+      "destination": "/aventuras/santa-martaxplora/espanol",
+      "permanent": true
+    }
+  ]
+}
