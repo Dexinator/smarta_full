@@ -14,7 +14,9 @@
       "Bash(for dir in /mnt/c/coding/smarta_full/src/assets/images/adventures/sliders/*/)",
       "Bash(done)",
       "Bash(cd:*)",
-      "Bash(cd /mnt/c/coding/smarta_full/src/assets/docs/adventures:*)"
+      "Bash(cd /mnt/c/coding/smarta_full/src/assets/docs/adventures:*)",
+      "Bash(identify /home/badislap/coding/smarta_full/src/assets/images/financiacion/*.png)",
+      "Bash(file /home/badislap/coding/smarta_full/src/assets/images/financiacion/*.png)"
     ],
     "deny": [],
     "ask": []

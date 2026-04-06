@@ -485,3 +485,27 @@ Refer to these files for detailed information:
 
 ### Recent Commit Patterns
 Commits focus on UI fixes, slider functionality, modal improvements, and brochure text updates. Commit messages are concise and describe the change.
+
+---
+
+## Slack Context
+
+- **Workspace:** Audacetics
+- **MCP Server:** slack-audacetics
+- **Canal(es):** #web-santa-marta-accesible (C09F6BWDT25)
+
+Para revisar conversaciones de Slack sobre este proyecto, usa las herramientas del MCP `slack-audacetics`:
+- `slack_list_channels` para listar canales
+- `slack_get_channel_history` con channel `C09F6BWDT25`
+- `slack_get_thread_replies` para hilos completos
+
+Cuando te pidan revisar tareas o cambios pendientes, lee el historial y extrae action items.
+
+---
+
+## Bitacora de Sesiones
+
+**Negocio:** Audacetics
+**Proyecto:** smarta_full
+
+Al terminar la sesion de trabajo, registra lo realizado usando `/bitacora` o menciona "terminamos" para que se guarde automaticamente en Obsidian (JorgeTrabaja/Audacetics/smarta_full/).
