@@ -15,15 +15,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Development
 ```bash
-npm run dev          # Start dev server at localhost:4321
-npm run build        # Build for production to ./dist/
-npm run preview      # Preview production build locally
+pnpm dev             # Start dev server at localhost:4321
+pnpm build           # Build for production to ./dist/
+pnpm preview         # Preview production build locally
 ```
 
 ### Astro CLI
 ```bash
-npm run astro check  # Type check Astro components
-npm run astro add    # Add integrations
+pnpm astro check     # Type check Astro components
+pnpm astro add       # Add integrations
 ```
 
 ## Architecture

@@ -5,10 +5,10 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN npm ci
+RUN npm install -g pnpm@12.15.0 && pnpm install --frozen-lockfile
 
 # Copy all project files
 COPY . .
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 4321
 
 # Start the development server
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+CMD ["pnpm", "run", "dev", "--host", "0.0.0.0"]
